@@ -98,6 +98,23 @@ const structuredData = {
     <meta name="twitter:image" content={siteSeo.image} />
     <meta name="twitter:image:alt" content={siteSeo.imageAlt} />
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <!-- Google tag (gtag.js) -->
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      window.setTimeout(function () {
+        gtag("js", new Date());
+        gtag("config", "G-BHD5XJN07N");
+
+        var script = document.createElement("script");
+        script.async = true;
+        script.src = "https://www.googletagmanager.com/gtag/js?id=G-BHD5XJN07N";
+        document.head.appendChild(script);
+      }, 2000);
+    </script>
   </head>
   <body>
     {!hideHeader && <AppHeader />}

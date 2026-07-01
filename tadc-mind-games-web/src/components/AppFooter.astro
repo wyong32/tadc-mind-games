@@ -1,4 +1,6 @@
 ---
+import { siteSeo } from "../seo/site";
+
 const navigateLinks = [
   { label: "Home", href: "/" },
   { label: "Walkthrough", href: "/walkthrough" },
@@ -17,6 +19,7 @@ const legalLinks = [
   { label: "About Us", href: "/legal/about-us" },
   { label: "Contact Us", href: "/legal/contact-us" },
 ];
+const currentYear = new Date().getFullYear();
 ---
 
 <footer class="app-footer">
@@ -49,7 +52,7 @@ const legalLinks = [
   </div>
 
   <div class="container app-footer-bottom">
-    <p>Copyright © 2026 TADC Mind Games. All rights reserved.</p>
+    <p>Copyright © {currentYear} {siteSeo.name}. All rights reserved.</p>
   </div>
 </footer>
 

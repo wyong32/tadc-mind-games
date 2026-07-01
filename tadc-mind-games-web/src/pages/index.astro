@@ -296,7 +296,7 @@ const jsonLd = {
       </div>
       <div class="related-games-grid">
         {featuredRelatedGames.map((game) => (
-          <article>
+          <a class="related-game-card" href={`/related-games/${game.addressBar}`}>
             <img src={game.imageUrl} alt={game.imageAlt} width="420" height="236" loading="lazy" />
             <div class="related-game-body">
               <div class="related-game-tags">
@@ -304,9 +304,8 @@ const jsonLd = {
               </div>
               <h3>{game.title}</h3>
               <p>{game.description}</p>
-              <a href={`/related-games/${game.addressBar}`}>View Game</a>
             </div>
-          </article>
+          </a>
         ))}
       </div>
       <a class="related-games-more" href="/related-games">Open full related games list</a>
@@ -1271,10 +1270,19 @@ const jsonLd = {
     gap: 12px;
   }
 
-  .related-games-grid article {
+  .related-games-grid .related-game-card {
+    display: grid;
     overflow: hidden;
     border: 1px solid rgba(246, 184, 62, 0.18);
     background: rgba(248, 240, 231, 0.045);
+    color: inherit;
+    transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+
+  .related-games-grid .related-game-card:hover {
+    border-color: rgba(246, 184, 62, 0.34);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
+    transform: translateY(-2px);
   }
 
   .related-games-grid img {
@@ -1317,14 +1325,6 @@ const jsonLd = {
     color: rgba(248, 240, 231, 0.66);
     font-size: 13px;
     line-height: 1.55;
-  }
-
-  .related-game-body a {
-    color: var(--gold);
-    font-size: 12px;
-    font-weight: 900;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
   }
 
   .related-games-more {

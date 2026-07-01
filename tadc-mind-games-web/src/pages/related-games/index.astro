@@ -73,7 +73,7 @@ const jsonLd = {
             </div>
             <div class="related-list-grid">
               {relatedGames.map((game) => (
-                <article>
+                <a class="related-list-card" href={`/related-games/${game.addressBar}`}>
                   <img src={game.imageUrl} alt={game.imageAlt} width="420" height="236" loading="lazy" />
                   <div class="game-card-body">
                     <h3>{game.title}</h3>
@@ -81,9 +81,8 @@ const jsonLd = {
                       {game.tags.map((tag) => <span>{tag}</span>)}
                     </div>
                     <p>{game.description}</p>
-                    <a href={`/related-games/${game.addressBar}`}>Open game page</a>
                   </div>
-                </article>
+                </a>
               ))}
             </div>
           </section>
@@ -391,7 +390,7 @@ const jsonLd = {
     gap: 12px;
   }
 
-  .related-list-grid article {
+  .related-list-grid .related-list-card {
     display: grid;
     grid-template-columns: 190px minmax(0, 1fr);
     gap: 16px;
@@ -400,6 +399,14 @@ const jsonLd = {
     background:
       linear-gradient(135deg, rgba(84, 216, 238, 0.06), rgba(214, 77, 100, 0.07)),
       rgba(248, 240, 231, 0.045);
+    color: inherit;
+    transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+
+  .related-list-grid .related-list-card:hover {
+    border-color: rgba(246, 184, 62, 0.34);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
+    transform: translateY(-2px);
   }
 
   .related-list-grid img {
@@ -456,7 +463,6 @@ const jsonLd = {
     font-size: 14px;
   }
 
-  .related-list-grid a,
   .quick-pick-grid a {
     width: fit-content;
     color: var(--gold);
@@ -572,7 +578,7 @@ const jsonLd = {
   }
 
   @media (max-width: 768px) {
-    .related-list-grid article {
+    .related-list-grid .related-list-card {
       grid-template-columns: 1fr;
     }
   }
