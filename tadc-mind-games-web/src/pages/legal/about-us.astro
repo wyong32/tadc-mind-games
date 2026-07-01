@@ -1,0 +1,58 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { pageSeo } from "../../seo/pages";
+---
+
+<BaseLayout
+  title={pageSeo.about.title}
+  description={pageSeo.about.description}
+  keywords={pageSeo.about.keywords}
+>
+  <section class="legal-page-section">
+    <div class="container">
+      <article>
+        <p class="legal-kicker">Legal</p>
+        <h1>About TADC Mind Games</h1>
+        <p class="legal-updated">Last updated: June 30, 2026</p>
+
+        <h2>What This Site Is</h2>
+        <p>TADC Mind Games is presented here as an independent H5 game hub focused on online play and route discovery. The site is built for players who want to <a href="/#play">play online</a>, understand route pressure, track endings, compare choice consequences, and follow useful update notes.</p>
+        <p>The site is organized around the way players actually search: <a href="/endings">all endings</a>, <a href="/walkthrough">walkthrough help</a>, Caine choices, Pomni and Kinger route signals, browser play, download notes, and <a href="/updates">current update status</a>.</p>
+
+        <h2>Our Editorial Approach</h2>
+        <p>We organize content around practical player questions: how to start the game, which choices matter, how Caine pressure works, how Pomni and Kinger choices behave, what endings are known, and what to try after a first clear.</p>
+        <p>Because the game is still in development, the site uses version-aware language and avoids presenting fan interpretation as official canon. When a route detail is uncertain, the site frames it as a player-facing route signal rather than a permanent fact.</p>
+        <p>We prefer clear route language over vague speculation. For example, we describe Caine choices as trust, defiance, pressure, and control signals because those labels help players test branches without claiming that they are official route names.</p>
+
+        <h2>What We Cover</h2>
+        <p>The site currently focuses on online play, known endings, <a href="/choices">choice consequences</a>, route planning, browser stability notes, <a href="/related-games">related games</a>, character route notes, and updates. It avoids padding pages with unsupported claims about content that is not currently playable.</p>
+        <p>As the game changes, the site can expand with more route details, updated ending notes, additional troubleshooting, and clearer navigation for returning players.</p>
+
+        <h2>Who This Site Is For</h2>
+        <p>This site is for players who want a spoiler-aware but useful way to understand TADC Mind Games. Some visitors want a first-run plan, some want every ending, and some only need help deciding whether to play in browser or use a downloadable build.</p>
+        <p>The site is also designed for players who enjoy horror visual novels, route experiments, bad endings, fan games, and TADC-inspired projects.</p>
+
+        <h2>Independent Status</h2>
+        <p>This website is not an official TADC Mind Games website. It is not affiliated with PITCHBOX Studios, Glitch Productions, Gooseworx, or The Amazing Digital Circus. The purpose of the site is to help players navigate the game more comfortably.</p>
+        <p>Official news, downloads, creator statements, and canon information should be checked through official channels. This site is a player-facing companion hub, not a replacement for official channels.</p>
+
+        <h2>Corrections and Updates</h2>
+        <p>If route behavior changes, if a page becomes outdated, or if an explanation needs clearer wording, we may revise pages to keep the site useful. Corrections are welcome, especially when they include the page URL and the specific section that needs review.</p>
+
+        <h2>Contact</h2>
+        <p>You can contact the site at wyong@tadcmindgames.org for corrections, copyright questions, content suggestions, or general inquiries. The <a href="/legal/contact-us">contact page</a> explains which details help us review route notes and site issues faster.</p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-page-section { position: relative; isolation: isolate; overflow: hidden; padding-block: clamp(46px, 5.4vw, 78px); background: radial-gradient(circle at 82% 8%, rgba(84, 216, 238, 0.12), transparent 22rem), radial-gradient(circle at 10% 0%, rgba(214, 77, 100, 0.12), transparent 18rem), linear-gradient(135deg, #09060c, #130817 52%, #09060c); }
+  .legal-page-section::before { position: absolute; inset: 0; z-index: -1; content: ""; background: repeating-linear-gradient(90deg, rgba(248, 240, 231, 0.035) 0 1px, transparent 1px 80px), repeating-linear-gradient(0deg, rgba(248, 240, 231, 0.024) 0 1px, transparent 1px 44px); mask-image: linear-gradient(180deg, #000, rgba(0, 0, 0, 0.84), transparent 98%); pointer-events: none; }
+  .legal-page-section .container { position: relative; }
+  .legal-kicker, .legal-updated { color: var(--gold); font-size: 10px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; }
+  .legal-page-section h1 { margin-top: 10px; font-size: clamp(30px, 4.2vw, 52px); line-height: 0.96; text-transform: uppercase; text-shadow: 0 0 22px rgba(214, 77, 100, 0.26), 0 2px 0 rgba(122, 36, 56, 0.44); }
+  .legal-updated { margin-top: 14px; color: rgba(246, 184, 62, 0.76); }
+  .legal-page-section h2 { margin-top: 30px; font-size: clamp(24px, 3vw, 34px); }
+  .legal-page-section p { margin-top: 12px; color: rgba(248, 240, 231, 0.7); }
+</style>

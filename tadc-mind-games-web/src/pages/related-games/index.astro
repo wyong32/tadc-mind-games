@@ -1,0 +1,579 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { relatedGames } from "../../data/relatedGames";
+import { pageSeo } from "../../seo/pages";
+
+const tocItems = [
+  { label: "All Games", href: "#all-games" },
+  { label: "Choice Horror", href: "#choice-horror" },
+  { label: "Quick Picks", href: "#quick-picks" },
+  { label: "FAQ", href: "#related-faq" },
+];
+
+const choiceGames = relatedGames.filter((game) => game.tags.some((tag) => ["Choices", "Bad Endings", "Visual Novel", "Routes"].includes(tag)));
+const quickPicks = relatedGames.filter((game) => game.tags.some((tag) => ["Browser", "Short Game", "Replay"].includes(tag)));
+const listedGameLabel = relatedGames.length === 1 ? "1 game listed" : `${relatedGames.length} games listed`;
+
+const jsonLd = {
+  "@type": "CollectionPage",
+  name: "TADC Mind Games Related Games",
+  description: pageSeo.relatedGames.description,
+  hasPart: relatedGames.map((game) => ({
+    "@type": "VideoGame",
+    name: game.title,
+    url: `https://tadcmindgames.org/related-games/${game.addressBar}`,
+    image: `https://tadcmindgames.org${game.imageUrl}`,
+    description: game.description,
+    genre: game.tags,
+    gamePlatform: "Browser H5",
+  })),
+};
+---
+
+<BaseLayout
+  title={pageSeo.relatedGames.title}
+  description={pageSeo.relatedGames.description}
+  keywords={pageSeo.relatedGames.keywords}
+  jsonLd={jsonLd}
+>
+  <section class="related-list-hero-section">
+    <div class="container">
+      <div class="related-list-hero-content">
+        <div class="inner-hero-copy">
+          <p>Related Games</p>
+          <h1>TADC Mind Games Related Games - Browser Horror Picks</h1>
+          <span>Curated browser horror picks for players who want more <a href="/choices">choice pressure</a>, <a href="/endings">bad endings</a>, circus rooms, glitch spaces, and haunted-stage mood after TADC Mind Games.</span>
+          <div class="inner-hero-tags" aria-label="Related game topics">
+            <strong>Browser horror</strong>
+            <strong>Bad endings</strong>
+            <strong>Choice games</strong>
+          </div>
+        </div>
+        <div class="inner-hero-board" aria-label="Related games preview">
+          <img src="/images/page-05.webp" alt="Related browser horror games preview" width="520" height="292" loading="eager" />
+          <div class="inner-hero-overlay">
+            <small>Next Play List</small>
+            <b>After TADC Mind Games</b>
+            <span>Horror / Circus / Visual Novel</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="related-list-section">
+    <div class="container">
+      <div class="related-list-content">
+        <main class="related-list-main">
+          <section class="all-games-section" id="all-games" aria-labelledby="all-games-heading">
+            <div class="section-head">
+              <p>All Games</p>
+              <h2 id="all-games-heading">Browser horror picks after your route sweep</h2>
+              <span>Finish one <a href="/#play">TADC Mind Games</a> route first, then use this list when you want a short browser horror break.</span>
+            </div>
+            <div class="related-list-grid">
+              {relatedGames.map((game) => (
+                <article>
+                  <img src={game.imageUrl} alt={game.imageAlt} width="420" height="236" loading="lazy" />
+                  <div class="game-card-body">
+                    <h3>{game.title}</h3>
+                    <div class="tag-row">
+                      {game.tags.map((tag) => <span>{tag}</span>)}
+                    </div>
+                    <p>{game.description}</p>
+                    <a href={`/related-games/${game.addressBar}`}>Open game page</a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section class="choice-horror-section" id="choice-horror" aria-labelledby="choice-horror-heading">
+            <div class="section-head">
+              <p>Choice Horror</p>
+              <h2 id="choice-horror-heading">Best matches for endings and route testing</h2>
+              <span>These picks are closest to the <a href="/choices">choice-testing</a> and <a href="/endings">ending-hunting</a> loop on this guide.</span>
+            </div>
+            <div class="compact-game-list">
+              {choiceGames.map((game) => (
+                <a href={`/related-games/${game.addressBar}`}>
+                  <strong>{game.title}</strong>
+                  <span>{game.tags.join(" / ")}</span>
+                  <p>{game.description}</p>
+                </a>
+              ))}
+            </div>
+          </section>
+
+          <section class="quick-picks-section" id="quick-picks" aria-labelledby="quick-picks-heading">
+            <div class="section-head">
+              <p>Quick Picks</p>
+              <h2 id="quick-picks-heading">Fast H5 sessions between endings</h2>
+            </div>
+            <div class="quick-pick-grid">
+              {quickPicks.map((game) => (
+                <article>
+                  <h3>{game.title}</h3>
+                  <p>{game.description}</p>
+                  <a href={`/related-games/${game.addressBar}`}>Play next</a>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section class="related-faq-section" id="related-faq" aria-labelledby="related-faq-heading">
+            <div class="section-head">
+              <p>FAQ</p>
+              <h2 id="related-faq-heading">Related Games FAQ</h2>
+            </div>
+            <div class="related-faq-list">
+              <details open>
+                <summary>Why list related games on a TADC Mind Games H5 site?</summary>
+                <p>Players who finish a route often want another browser horror game while they wait for <a href="/updates">updates</a> or plan another <a href="/endings">ending route</a>.</p>
+              </details>
+              <details>
+                <summary>Are these official TADC games?</summary>
+                <p>No. This page is a related-games directory for similar short horror, choice, circus, glitch, and visual novel experiences.</p>
+              </details>
+              <details>
+                <summary>Why start with The Freak Circus?</summary>
+                <p>The Freak Circus has strong overlap with TADC Mind Games players: circus horror, visual novel pacing, <a href="/characters">character pressure</a>, and a browser-ready player.</p>
+              </details>
+            </div>
+          </section>
+        </main>
+
+        <aside class="related-toc" aria-label="Related games page directory">
+          <p>Directory</p>
+          {tocItems.map((item) => <a href={item.href}>{item.label}</a>)}
+          <div>
+            <strong>{listedGameLabel}</strong>
+            <span>New related games will be added when more playable horror picks are ready.</span>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .related-list-hero-section {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: clamp(46px, 5.4vw, 78px);
+    background:
+      radial-gradient(circle at 82% 8%, rgba(84, 216, 238, 0.15), transparent 22rem),
+      radial-gradient(circle at 12% 0%, rgba(246, 184, 62, 0.1), transparent 18rem),
+      linear-gradient(115deg, rgba(9, 6, 12, 0.98), rgba(32, 8, 24, 0.86), rgba(9, 6, 12, 0.94)),
+      url("/images/bg-02.webp") center / cover no-repeat;
+    border-bottom: 1px solid rgba(246, 184, 62, 0.18);
+  }
+
+  .related-list-hero-section::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: "";
+    background:
+      conic-gradient(from 210deg at 76% 12%, rgba(246, 184, 62, 0.1), transparent 12%, rgba(84, 216, 238, 0.1), transparent 24%),
+      repeating-linear-gradient(90deg, rgba(248, 240, 231, 0.035) 0 1px, transparent 1px 80px),
+      repeating-linear-gradient(0deg, rgba(248, 240, 231, 0.024) 0 1px, transparent 1px 44px);
+    mask-image: linear-gradient(180deg, #000, rgba(0, 0, 0, 0.84), transparent 98%);
+    pointer-events: none;
+  }
+
+  .related-list-hero-content {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 0.74fr) minmax(240px, 0.26fr);
+    align-items: center;
+    gap: 16px;
+    min-height: 188px;
+    max-width: none;
+  }
+
+  .related-list-hero-content p,
+  .section-head p,
+  .related-toc p {
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .related-list-hero-content h1 {
+    grid-column: 1;
+    max-width: 900px;
+    font-size: clamp(30px, 4.2vw, 52px);
+    line-height: 0.96;
+    text-transform: uppercase;
+    text-shadow: 0 0 22px rgba(84, 216, 238, 0.24), 0 2px 0 rgba(122, 36, 56, 0.48);
+  }
+
+  .related-list-hero-content span {
+    grid-column: 1;
+    max-width: 760px;
+    color: rgba(248, 240, 231, 0.74);
+    font-size: 15px;
+  }
+
+  .related-list-hero-content > p {
+    grid-column: 1;
+  }
+
+  .related-list-hero-content::after {
+    display: none;
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    justify-self: end;
+    width: min(100%, 286px);
+    min-height: 152px;
+    padding: 16px 18px;
+    border: 1px solid rgba(84, 216, 238, 0.22);
+    content: "AFTER THE DEMO\A Browser Horror\A Choice Loops\A Circus Themes\A Quick Replays";
+    white-space: pre-line;
+    color: rgba(248, 240, 231, 0.78);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    line-height: 1.75;
+    background:
+      linear-gradient(135deg, rgba(84, 216, 238, 0.08), rgba(214, 77, 100, 0.1)),
+      rgba(5, 3, 8, 0.76);
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%);
+    box-shadow: inset 0 0 28px rgba(84, 216, 238, 0.06), 0 0 30px rgba(214, 77, 100, 0.1);
+  }
+
+  .inner-hero-copy {
+    display: grid;
+    gap: 12px;
+    align-content: center;
+    min-width: 0;
+  }
+
+  .inner-hero-copy p {
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .inner-hero-copy h1 {
+    max-width: 820px;
+    font-size: clamp(30px, 4.2vw, 52px);
+    line-height: 0.96;
+    text-transform: uppercase;
+    text-shadow: 0 0 22px rgba(84, 216, 238, 0.24), 0 2px 0 rgba(122, 36, 56, 0.48);
+  }
+
+  .inner-hero-copy > span {
+    max-width: 630px;
+    color: rgba(248, 240, 231, 0.78);
+    font-size: 15px;
+  }
+
+  .inner-hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .inner-hero-tags strong {
+    padding: 8px 10px;
+    border: 1px solid rgba(246, 184, 62, 0.22);
+    color: rgba(248, 240, 231, 0.82);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(248, 240, 231, 0.045);
+  }
+
+  .inner-hero-board {
+    position: relative;
+    align-self: stretch;
+    min-height: 210px;
+    overflow: hidden;
+    border: 1px solid rgba(246, 184, 62, 0.2);
+    background: rgba(5, 3, 8, 0.72);
+    clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.36), inset 0 0 40px rgba(84, 216, 238, 0.06);
+  }
+
+  .inner-hero-board img {
+    width: 100%;
+    height: 100%;
+    min-height: 210px;
+    object-fit: cover;
+    opacity: 0.46;
+    filter: saturate(1.1) contrast(1.08);
+  }
+
+  .inner-hero-board::before {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background:
+      linear-gradient(90deg, rgba(5, 3, 8, 0.92), rgba(5, 3, 8, 0.2) 46%, rgba(122, 36, 56, 0.18)),
+      repeating-linear-gradient(0deg, rgba(248, 240, 231, 0.04) 0 1px, transparent 1px 18px);
+  }
+
+  .inner-hero-overlay {
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+    display: grid;
+    gap: 5px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(84, 216, 238, 0.28);
+  }
+
+  .inner-hero-overlay small {
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .inner-hero-overlay b {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .inner-hero-overlay span {
+    color: rgba(248, 240, 231, 0.72);
+    font-size: 12px;
+  }
+.related-list-section {
+    padding-block: 68px;
+    background: linear-gradient(135deg, #09060c, #130817 52%, #09060c);
+  }
+
+  .related-list-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .related-list-main {
+    display: grid;
+    gap: 28px;
+  }
+
+  .all-games-section,
+  .choice-horror-section,
+  .quick-picks-section,
+  .related-faq-section {
+    display: grid;
+    gap: 18px;
+  }
+
+  .section-head {
+    display: grid;
+    gap: 8px;
+  }
+
+  .section-head h2 {
+    font-size: clamp(25px, 3vw, 40px);
+  }
+
+  .related-list-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .related-list-grid article {
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr);
+    gap: 16px;
+    padding: 14px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background:
+      linear-gradient(135deg, rgba(84, 216, 238, 0.06), rgba(214, 77, 100, 0.07)),
+      rgba(248, 240, 231, 0.045);
+  }
+
+  .related-list-grid img {
+    width: 100%;
+    height: 100%;
+    min-height: 150px;
+    object-fit: cover;
+  }
+
+  .game-card-body {
+    display: grid;
+    align-content: start;
+    justify-items: start;
+    gap: 9px;
+  }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 7px;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .tag-row span {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    border: 1px solid rgba(84, 216, 238, 0.28);
+    background: rgba(84, 216, 238, 0.06);
+    color: var(--cyan);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    padding: 5px 7px;
+    text-transform: uppercase;
+  }
+
+  .related-list-grid h3,
+  .quick-pick-grid h3 {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 21px;
+  }
+
+  .related-list-grid p,
+  .compact-game-list p,
+  .quick-pick-grid p,
+  .related-faq-list p,
+  .related-toc span {
+    color: rgba(248, 240, 231, 0.66);
+    font-size: 14px;
+  }
+
+  .related-list-grid a,
+  .quick-pick-grid a {
+    width: fit-content;
+    color: var(--gold);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .compact-game-list,
+  .quick-pick-grid,
+  .related-faq-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .compact-game-list a,
+  .quick-pick-grid article,
+  .related-faq-list details,
+  .related-toc {
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background: rgba(248, 240, 231, 0.045);
+    padding: 18px;
+  }
+
+  .compact-game-list a {
+    display: grid;
+    gap: 7px;
+  }
+
+  .compact-game-list strong {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 22px;
+  }
+
+  .compact-game-list span {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .quick-pick-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .related-faq-list summary {
+    color: var(--ink);
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 700;
+  }
+
+  .related-faq-list p {
+    margin-top: 10px;
+  }
+
+  .related-toc {
+    position: sticky;
+    top: 96px;
+    display: grid;
+    gap: 10px;
+  }
+
+  .related-toc a {
+    padding: 10px 12px;
+    border: 1px solid rgba(246, 184, 62, 0.14);
+    color: rgba(248, 240, 231, 0.76);
+    font-size: 13px;
+    font-weight: 900;
+  }
+
+  .related-toc a:hover {
+    border-color: rgba(84, 216, 238, 0.42);
+    color: var(--cyan);
+  }
+
+  .related-toc div {
+    display: grid;
+    gap: 6px;
+    margin-top: 10px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(246, 184, 62, 0.16);
+  }
+
+  .related-toc strong {
+    color: var(--ink);
+  }
+
+  @media (max-width: 1024px) {
+    .related-list-hero-content {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .related-list-hero-content::after {
+      display: none;
+    }
+
+    .related-list-content,
+    .related-list-grid,
+    .quick-pick-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .related-toc {
+      position: static;
+      order: -1;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .related-list-grid article {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

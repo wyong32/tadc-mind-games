@@ -1,0 +1,900 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { pageSeo } from "../seo/pages";
+
+const phases = [
+  {
+    title: "Phase 1: First Room Baseline",
+    risk: "Low",
+    text: "Start with a clean save before the first major conversation branch. Keep one file for Caine-compliant answers and one file for questions or refusal.",
+  },
+  {
+    title: "Phase 2: Caine Pressure Test",
+    risk: "High",
+    text: "Track every option that flatters, trusts, challenges, or delays Caine. These choices are the most likely to push the game toward sudden bad-ending logic.",
+  },
+  {
+    title: "Phase 3: Pomni and Kinger Signals",
+    risk: "Medium",
+    text: "Pomni-related choices tend to read as panic, escape, and empathy checks. Kinger-related choices are best when you want odd clues instead of direct answers.",
+  },
+  {
+    title: "Phase 4: Ending Sweep",
+    risk: "High",
+    text: "Once an ending is reached, return to the choice that felt most dangerous and answer with the opposite mood. That usually reveals the next path faster than replaying randomly.",
+  },
+];
+
+const routeCards = [
+  { title: "Caine Trust Route", mood: "Obedient", text: "Agree with Caine, accept the rules, and avoid sounding suspicious. This path is useful when you want to see how control builds." },
+  { title: "Caine Defiance Route", mood: "Resistant", text: "Question Caine, refuse easy comfort, and choose lines that make the scene feel sharper. Expect faster tension." },
+  { title: "Pomni Support Route", mood: "Anxious", text: "Pick options that stay near Pomni's fear, escape instinct, or emotional reaction. Helpful choices can still create pressure." },
+  { title: "Kinger Clue Route", mood: "Curious", text: "Follow the strange hints, slow down when the room feels off, and choose curiosity over direct escape." },
+];
+
+const buildFacts = [
+  { label: "Current build", value: "First public build" },
+  { label: "Known endings", value: "5 known endings" },
+  { label: "Playable format", value: "Browser, Windows, macOS" },
+  { label: "Visible cast", value: "Caine, Pomni, Kinger" },
+];
+
+const scenePlan = [
+  { beat: "Opening read", action: "Watch who is steering the scene before you pick a tone.", route: "Neutral baseline" },
+  { beat: "First pressure point", action: "Choose either trust or doubt and keep that mood consistent.", route: "Caine branch" },
+  { beat: "Character signal", action: "Move toward Pomni for panic or Kinger for clue-heavy detours.", route: "Character branch" },
+  { beat: "Danger choice", action: "Save before the answer that feels too clean, too kind, or too bold.", route: "Ending trigger" },
+  { beat: "Replay sweep", action: "Return to the last strong branch and reverse only one choice.", route: "New ending hunt" },
+];
+
+const guideChecks = [
+  { label: "Page scope", value: "Current build route planning" },
+  { label: "Player focus", value: "Browser play, route pressure, and ending routes" },
+  { label: "How to use it", value: "Treat route advice as replay guidance, then compare results as new builds arrive." },
+];
+
+const tocItems = [
+  { label: "Start Route", href: "#start-route" },
+  { label: "Build Snapshot", href: "#build-facts-heading" },
+  { label: "Route Notes", href: "#guide-checks-heading" },
+  { label: "Route Plan", href: "#scene-plan-heading" },
+  { label: "Route Shortcuts", href: "#route-cards-heading" },
+  { label: "FAQ", href: "#walkthrough-faq-heading" },
+];
+
+const mistakes = [
+  "Changing too many answers at once and then not knowing which one moved the route.",
+  "Assuming the kindest answer is always the safest answer.",
+  "Skipping Kinger choices because they feel less urgent than Caine or Pomni choices.",
+  "Treating a neutral line as filler when it may be the route's delay or suspicion signal.",
+];
+
+const faqs = [
+  { q: "What is the best first route?", a: "Start with a cautious Caine route. It introduces the game's pressure without forcing you to chase every hidden branch immediately." },
+  { q: "Should I help Pomni whenever possible?", a: "Not always. Pomni choices can be emotional, but panic and escape choices may still lead into danger." },
+  { q: "Is Kinger's route important?", a: "Yes. Kinger choices are useful when you want clues, odd scene changes, and less obvious ending movement." },
+  { q: "When should I leave the walkthrough and use the endings page?", a: "Use the walkthrough for your first clean route and save plan. After you reach one ending, switch to the endings page so you can compare route moods without replaying blindly." },
+];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "TADC Mind Games Walkthrough",
+  dateModified: "2026-06-30",
+  author: { "@type": "Organization", name: "TADC Mind Games Editorial Team" },
+};
+---
+
+<BaseLayout
+  title={pageSeo.walkthrough.title}
+  description={pageSeo.walkthrough.description}
+  keywords={pageSeo.walkthrough.keywords}
+  jsonLd={jsonLd}
+>
+  <section class="walkthrough-hero-section">
+    <div class="container">
+      <div class="walkthrough-hero-content">
+        <div class="inner-hero-copy">
+          <p>Game Walkthrough</p>
+          <h1>TADC Mind Games Walkthrough - Route Guide</h1>
+          <span>Follow TADC Mind Games from the first strange choice to the ending path that catches you off guard.</span>
+          <div class="inner-hero-tags" aria-label="Walkthrough topics">
+            <strong>Route order</strong>
+            <strong>Save points</strong>
+            <strong>Choice pressure</strong>
+          </div>
+        </div>
+        <div class="inner-hero-board" aria-label="Walkthrough route preview">
+          <img src="/images/page-01.webp" alt="Dark route preview for TADC Mind Games walkthrough" width="520" height="292" loading="eager" />
+          <div class="inner-hero-overlay">
+            <small>Route File</small>
+            <b>First Clear Plan</b>
+            <span>Trust / Doubt / Help / Follow</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="walkthrough-section">
+    <div class="container">
+      <div class="walkthrough-content">
+        <article class="walkthrough-main">
+          <h2 id="start-route">Start the game with a route in mind</h2>
+          <p>
+            TADC Mind Games is built around pressure. If you want a clean first clear, pick one mood and stick with it: trust Caine, doubt Caine, help Pomni, follow Kinger, or explore the room when the scene gives you space. Use the <a href="/characters">characters page</a> if you want to compare those route signals before replaying.
+          </p>
+          <p>
+            The fastest way to find new scenes is to replay from the choice that felt uncomfortable, then answer with a different intention. TADC Mind Games reacts best when you treat each option as a route signal rather than random dialogue, and the <a href="/choices">choices page</a> is built for that kind of comparison.
+          </p>
+
+          <section class="build-facts-section" aria-labelledby="build-facts-heading">
+            <div>
+              <p>Build Snapshot</p>
+              <h2 id="build-facts-heading">What is playable right now</h2>
+              <span>TADC Mind Games is a free, fan-made horror visual novel from PITCHBOX Studios. The current public build is small enough to replay quickly, but dense enough that one blind run will miss <a href="/choices">route movement</a>.</span>
+            </div>
+            <img src="/images/play-game.webp" alt="TADC Mind Games preview for walkthrough players" width="360" height="240" loading="lazy" />
+            <dl>
+              {buildFacts.map((fact) => (
+                <div>
+                  <dt>{fact.label}</dt>
+                  <dd>{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+
+          <section class="guide-checks-section" aria-labelledby="guide-checks-heading">
+            <div>
+              <p>Route Notes</p>
+              <h2 id="guide-checks-heading">How this walkthrough keeps routes readable</h2>
+              <span>This page separates playable build details from route-reading advice, so players can replay with a clearer route plan as new builds arrive.</span>
+            </div>
+            <dl>
+              {guideChecks.map((item) => (
+                <div>
+                  <dt>{item.label}</dt>
+                  <dd>{item.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+
+          <div class="phase-list">
+            {phases.map((phase, index) => (
+              <section class="phase-card">
+                <span>{String(index + 1).padStart(2, "0")} · Risk: {phase.risk}</span>
+                <h2>{phase.title}</h2>
+                <p>{phase.text}</p>
+              </section>
+            ))}
+          </div>
+
+          <h2>Simple replay plan</h2>
+          <ul>
+            <li>Try a trusting Caine run when you want to see how far obedience goes.</li>
+            <li>Try a defiant Caine run when you want faster danger and sharper reactions.</li>
+            <li>Choose Pomni when you want the route to lean toward fear, escape, and panic.</li>
+            <li>Choose Kinger when you want stranger clues and a more uncertain path.</li>
+          </ul>
+
+          <h2>Suggested route order</h2>
+          <p>
+            Begin with a cautious neutral route, then choose one character or one attitude per replay. Trust, doubt, help, follow, and delay are the five easiest moods to remember when you are chasing another <a href="/endings">ending</a>.
+          </p>
+
+          <section class="scene-plan-section" aria-labelledby="scene-plan-heading">
+            <h2 id="scene-plan-heading">Scene-by-scene route plan</h2>
+            <div class="scene-plan-table" role="table" aria-label="TADC Mind Games scene route plan">
+              <div class="scene-plan-row is-head" role="row">
+                <span role="columnheader">Scene beat</span>
+                <span role="columnheader">Player action</span>
+                <span role="columnheader">Route use</span>
+              </div>
+              {scenePlan.map((item) => (
+                <div class="scene-plan-row" role="row">
+                  <span role="cell">{item.beat}</span>
+                  <span role="cell">{item.action}</span>
+                  <span role="cell">{item.route}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section class="route-cards-section" aria-labelledby="route-cards-heading">
+            <h2 id="route-cards-heading"><a href="/characters">Character</a> route shortcuts</h2>
+            <div class="route-card-grid">
+              {routeCards.map((route) => (
+                <article>
+                  <span>{route.mood}</span>
+                  <h3>{route.title}</h3>
+                  <p>{route.text}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section class="mistakes-section" aria-labelledby="mistakes-heading">
+            <h2 id="mistakes-heading">Common mistakes that hide endings</h2>
+            <ul>
+              {mistakes.map((mistake) => <li>{mistake}</li>)}
+            </ul>
+          </section>
+
+          <section class="play-links-section" aria-labelledby="play-links-heading">
+            <img src="/images/home-hero.webp" alt="Dark circus stage route atmosphere in TADC Mind Games" width="440" height="260" loading="lazy" />
+            <div>
+              <h2 id="play-links-heading">When the browser build feels unstable</h2>
+              <p>The official game page offers browser play plus Windows and macOS downloads. Browser play is fast for checking one route, while the downloadable build is better for longer <a href="/endings">ending sweeps</a> if audio or visuals stutter.</p>
+              <div>
+                <a href="/#play">Play in browser</a>
+                <a href="https://pitchbox-studios.itch.io/tadc-mind-games" target="_blank" rel="nofollow noopener">Official game page</a>
+                <a href="/updates">Check version updates</a>
+              </div>
+            </div>
+          </section>
+
+          <section class="walkthrough-faq-section" aria-labelledby="walkthrough-faq-heading">
+            <h2 id="walkthrough-faq-heading">Walkthrough FAQ</h2>
+            <div class="walkthrough-faq-list">
+              {faqs.map((item) => (
+                <details>
+                  <summary>{item.q}</summary>
+                  <p>{item.a}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+
+          <div class="next-links">
+            <a href="/choices">Open Choice Matrix</a>
+            <a href="/endings">Track All Endings</a>
+          </div>
+        </article>
+
+        <aside class="walkthrough-toc" aria-label="Walkthrough page directory">
+          <p>On this page</p>
+          {tocItems.map((item) => <a href={item.href}>{item.label}</a>)}
+          <div>
+            <strong>Best first read</strong>
+            <span>Start with route plan, then use <a href="/endings">endings</a> after one clear.</span>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .walkthrough-hero-section {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: clamp(46px, 5.4vw, 78px);
+    background:
+      radial-gradient(circle at 82% 8%, rgba(84, 216, 238, 0.14), transparent 22rem),
+      radial-gradient(circle at 10% 0%, rgba(246, 184, 62, 0.1), transparent 18rem),
+      linear-gradient(112deg, rgba(9, 6, 12, 0.98), rgba(32, 8, 24, 0.86) 50%, rgba(9, 6, 12, 0.94)),
+      url("/images/bg-02.webp") center / cover no-repeat;
+    border-bottom: 1px solid rgba(246, 184, 62, 0.18);
+  }
+
+  .walkthrough-hero-section::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: "";
+    background:
+      linear-gradient(90deg, rgba(84, 216, 238, 0.08), transparent 22%, transparent 76%, rgba(214, 77, 100, 0.1)),
+      repeating-linear-gradient(90deg, rgba(248, 240, 231, 0.035) 0 1px, transparent 1px 80px),
+      repeating-linear-gradient(0deg, rgba(248, 240, 231, 0.024) 0 1px, transparent 1px 44px);
+    mask-image: linear-gradient(180deg, #000, rgba(0, 0, 0, 0.84), transparent 98%);
+    pointer-events: none;
+  }
+
+  .walkthrough-hero-section::after {
+    position: absolute;
+    right: clamp(18px, 7vw, 118px);
+    top: 26px;
+    z-index: -1;
+    width: clamp(150px, 17vw, 260px);
+    height: clamp(82px, 10vw, 150px);
+    border: 1px solid rgba(246, 184, 62, 0.16);
+    content: "";
+    background:
+      linear-gradient(135deg, rgba(246, 184, 62, 0.12), transparent 42%),
+      radial-gradient(circle, rgba(84, 216, 238, 0.2), transparent 62%);
+    clip-path: polygon(0 0, 88% 0, 100% 28%, 100% 100%, 12% 100%, 0 72%);
+    transform: rotate(-2deg);
+    opacity: 0.72;
+    filter: drop-shadow(0 0 28px rgba(84, 216, 238, 0.14));
+  }
+
+  .walkthrough-hero-content,
+  .walkthrough-content {
+    display: grid;
+    gap: 16px;
+  }
+
+  .walkthrough-hero-content {
+    position: relative;
+    grid-template-columns: minmax(0, 0.74fr) minmax(240px, 0.26fr);
+    align-items: center;
+    min-height: 188px;
+    max-width: none;
+  }
+
+  .walkthrough-hero-content p,
+  .phase-card span {
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .walkthrough-hero-content > p,
+  .walkthrough-hero-content h1,
+  .walkthrough-hero-content > span {
+    grid-column: 1;
+  }
+
+  .walkthrough-hero-content h1 {
+    max-width: 900px;
+    font-size: clamp(30px, 4.2vw, 52px);
+    line-height: 0.96;
+    text-transform: uppercase;
+    text-shadow: 0 0 22px rgba(214, 77, 100, 0.3), 0 2px 0 rgba(122, 36, 56, 0.48);
+  }
+
+  .walkthrough-hero-content span {
+    max-width: 650px;
+    color: rgba(248, 240, 231, 0.78);
+    font-size: 15px;
+  }
+
+  .walkthrough-hero-content::after {
+    display: none;
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    justify-self: end;
+    width: min(100%, 286px);
+    min-height: 152px;
+    padding: 16px 18px;
+    border: 1px solid rgba(84, 216, 238, 0.22);
+    content: "ROUTE FILE\A 01  Trust Caine\A 02  Help Pomni\A 03  Follow Kinger\A 04  Unknown Ending";
+    white-space: pre-line;
+    color: rgba(248, 240, 231, 0.78);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    line-height: 1.75;
+    background:
+      linear-gradient(135deg, rgba(84, 216, 238, 0.08), rgba(214, 77, 100, 0.1)),
+      rgba(5, 3, 8, 0.76);
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%);
+    box-shadow: inset 0 0 28px rgba(84, 216, 238, 0.06), 0 0 30px rgba(214, 77, 100, 0.12);
+  }
+
+  .inner-hero-copy {
+    display: grid;
+    gap: 12px;
+    align-content: center;
+    min-width: 0;
+  }
+
+  .inner-hero-copy p {
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .inner-hero-copy h1 {
+    max-width: 820px;
+    font-size: clamp(30px, 4.2vw, 52px);
+    line-height: 0.96;
+    text-transform: uppercase;
+    text-shadow: 0 0 22px rgba(214, 77, 100, 0.3), 0 2px 0 rgba(122, 36, 56, 0.48);
+  }
+
+  .inner-hero-copy > span {
+    max-width: 630px;
+    color: rgba(248, 240, 231, 0.78);
+    font-size: 15px;
+  }
+
+  .inner-hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .inner-hero-tags strong {
+    padding: 8px 10px;
+    border: 1px solid rgba(246, 184, 62, 0.22);
+    color: rgba(248, 240, 231, 0.82);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(248, 240, 231, 0.045);
+  }
+
+  .inner-hero-board {
+    position: relative;
+    align-self: stretch;
+    min-height: 210px;
+    overflow: hidden;
+    border: 1px solid rgba(246, 184, 62, 0.2);
+    background: rgba(5, 3, 8, 0.72);
+    clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.36), inset 0 0 40px rgba(84, 216, 238, 0.06);
+  }
+
+  .inner-hero-board img {
+    width: 100%;
+    height: 100%;
+    min-height: 210px;
+    object-fit: cover;
+    opacity: 0.46;
+    filter: saturate(1.1) contrast(1.08);
+  }
+
+  .inner-hero-board::before {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background:
+      linear-gradient(90deg, rgba(5, 3, 8, 0.92), rgba(5, 3, 8, 0.2) 46%, rgba(122, 36, 56, 0.18)),
+      repeating-linear-gradient(0deg, rgba(248, 240, 231, 0.04) 0 1px, transparent 1px 18px);
+  }
+
+  .inner-hero-overlay {
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+    display: grid;
+    gap: 5px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(84, 216, 238, 0.28);
+  }
+
+  .inner-hero-overlay small {
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .inner-hero-overlay b {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .inner-hero-overlay span {
+    color: rgba(248, 240, 231, 0.72);
+    font-size: 12px;
+  }
+.walkthrough-section {
+    padding-block: 76px;
+    background: linear-gradient(135deg, #09060c, #130817 52%, #09060c);
+  }
+
+  .walkthrough-content {
+    grid-template-columns: minmax(0, 1fr) 280px;
+    align-items: start;
+  }
+
+  .phase-card {
+    border: 1px solid rgba(246, 184, 62, 0.2);
+    background:
+      linear-gradient(135deg, rgba(248, 240, 231, 0.07), rgba(84, 216, 238, 0.04)),
+      rgba(9, 6, 12, 0.7);
+  }
+
+  .walkthrough-main p,
+  .walkthrough-main li {
+    color: rgba(248, 240, 231, 0.68);
+  }
+
+  .walkthrough-main {
+    display: grid;
+    gap: 20px;
+  }
+
+  .walkthrough-main h2 {
+    font-size: clamp(24px, 3vw, 38px);
+  }
+
+  .walkthrough-main h3 {
+    color: var(--cyan);
+    font-family: var(--font-body);
+    font-size: 20px;
+  }
+
+  .build-facts-section {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 260px;
+    gap: 18px;
+    align-items: stretch;
+    padding: 22px;
+    border: 1px solid rgba(246, 184, 62, 0.22);
+    background:
+      radial-gradient(circle at 80% 12%, rgba(84, 216, 238, 0.14), transparent 22rem),
+      rgba(248, 240, 231, 0.05);
+  }
+
+  .build-facts-section > div:first-child p {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .build-facts-section h2 {
+    margin-top: 8px;
+    font-size: clamp(24px, 3vw, 36px);
+  }
+
+  .build-facts-section span {
+    display: block;
+    margin-top: 10px;
+    color: rgba(248, 240, 231, 0.72);
+  }
+
+  .build-facts-section img {
+    width: 100%;
+    height: 100%;
+    min-height: 190px;
+    border: 1px solid rgba(84, 216, 238, 0.22);
+    object-fit: cover;
+  }
+
+  .build-facts-section dl {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0;
+  }
+
+  .build-facts-section dl div {
+    padding: 14px;
+    border: 1px solid rgba(246, 184, 62, 0.16);
+    background: rgba(5, 3, 8, 0.52);
+  }
+
+  .build-facts-section dt {
+    color: rgba(248, 240, 231, 0.5);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .build-facts-section dd {
+    margin: 5px 0 0;
+    color: var(--ink);
+    font-weight: 900;
+  }
+
+  .guide-checks-section {
+    display: grid;
+    grid-template-columns: minmax(0, 0.82fr) minmax(320px, 1.18fr);
+    gap: 18px;
+    align-items: start;
+    padding: 24px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background:
+      linear-gradient(135deg, rgba(84, 216, 238, 0.08), rgba(214, 77, 100, 0.06)),
+      rgba(248, 240, 231, 0.045);
+  }
+
+  .guide-checks-section p {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .guide-checks-section h2 {
+    margin-top: 8px;
+    font-size: clamp(24px, 3vw, 36px);
+  }
+
+  .guide-checks-section span {
+    display: block;
+    margin-top: 10px;
+    color: rgba(248, 240, 231, 0.68);
+  }
+
+  .guide-checks-section dl {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+  }
+
+  .guide-checks-section dl div {
+    padding: 14px;
+    border: 1px solid rgba(84, 216, 238, 0.18);
+    background: rgba(5, 3, 8, 0.3);
+  }
+
+  .guide-checks-section dt {
+    color: var(--cyan);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .guide-checks-section dd {
+    margin: 5px 0 0;
+    color: rgba(248, 240, 231, 0.78);
+    font-size: 14px;
+  }
+
+  .phase-list {
+    display: grid;
+    gap: 14px;
+    margin-block: 18px;
+  }
+
+  .phase-card {
+    padding: 24px;
+  }
+
+  .phase-card h2 {
+    margin-top: 10px;
+    font-size: 24px;
+  }
+
+  .phase-card p {
+    margin-top: 10px;
+  }
+
+  .scene-plan-section,
+  .play-links-section {
+    display: grid;
+    gap: 18px;
+  }
+
+  .scene-plan-table {
+    border: 1px solid rgba(246, 184, 62, 0.2);
+    background: rgba(5, 3, 8, 0.54);
+  }
+
+  .scene-plan-row {
+    display: grid;
+    grid-template-columns: 0.7fr 1.6fr 0.8fr;
+    gap: 14px;
+    padding: 15px 16px;
+    border-bottom: 1px solid rgba(246, 184, 62, 0.12);
+  }
+
+  .scene-plan-row:last-child {
+    border-bottom: 0;
+  }
+
+  .scene-plan-row span {
+    color: rgba(248, 240, 231, 0.72);
+    font-size: 14px;
+  }
+
+  .scene-plan-row span:first-child {
+    color: var(--ink);
+    font-weight: 900;
+  }
+
+  .scene-plan-row.is-head {
+    background: linear-gradient(90deg, rgba(122, 36, 56, 0.62), rgba(84, 216, 238, 0.1));
+  }
+
+  .scene-plan-row.is-head span {
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .play-links-section {
+    grid-template-columns: minmax(0, 0.9fr) minmax(300px, 1.1fr);
+    align-items: center;
+    padding: 22px;
+    border: 1px solid rgba(84, 216, 238, 0.22);
+    background:
+      linear-gradient(135deg, rgba(84, 216, 238, 0.08), rgba(214, 77, 100, 0.08)),
+      rgba(5, 3, 8, 0.62);
+  }
+
+  .route-card-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .route-card-grid article,
+  .walkthrough-faq-list details {
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background: rgba(248, 240, 231, 0.05);
+    padding: 20px;
+  }
+
+  .route-card-grid span {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .route-card-grid h3 {
+    margin-top: 10px;
+  }
+
+  .route-card-grid p {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+  .walkthrough-main ul {
+    display: grid;
+    gap: 10px;
+    padding-left: 20px;
+  }
+
+  .play-links-section {
+    grid-template-columns: 320px minmax(0, 1fr);
+  }
+
+  .play-links-section img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border: 1px solid rgba(246, 184, 62, 0.2);
+    object-fit: cover;
+  }
+
+  .play-links-section div div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .play-links-section a {
+    padding: 11px 14px;
+    border: 1px solid rgba(246, 184, 62, 0.32);
+    color: var(--ink);
+    font-weight: 900;
+  }
+
+  .mistakes-section,
+  .walkthrough-faq-section {
+    display: grid;
+    gap: 16px;
+  }
+
+  .walkthrough-faq-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .walkthrough-faq-list summary {
+    color: var(--ink);
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .walkthrough-faq-list p {
+    margin-top: 10px;
+  }
+
+  .next-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 10px;
+  }
+
+  .next-links a {
+    padding: 12px 18px;
+    border: 1px solid rgba(246, 184, 62, 0.34);
+    background: rgba(246, 184, 62, 0.08);
+    color: var(--ink);
+    font-weight: 900;
+  }
+
+  .walkthrough-toc {
+    position: sticky;
+    top: 96px;
+    display: grid;
+    gap: 10px;
+    padding: 18px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background:
+      radial-gradient(circle at 100% 0, rgba(84, 216, 238, 0.12), transparent 12rem),
+      rgba(248, 240, 231, 0.045);
+  }
+
+  .walkthrough-toc p {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .walkthrough-toc a {
+    padding: 10px 12px;
+    border: 1px solid rgba(246, 184, 62, 0.14);
+    color: rgba(248, 240, 231, 0.76);
+    font-size: 13px;
+    font-weight: 900;
+  }
+
+  .walkthrough-toc a:hover {
+    border-color: rgba(84, 216, 238, 0.42);
+    color: var(--cyan);
+  }
+
+  .walkthrough-toc div {
+    display: grid;
+    gap: 6px;
+    margin-top: 10px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(246, 184, 62, 0.16);
+  }
+
+  .walkthrough-toc strong {
+    color: var(--ink);
+  }
+
+  .walkthrough-toc span {
+    color: rgba(248, 240, 231, 0.62);
+    font-size: 13px;
+  }
+
+  @media (max-width: 1024px) {
+    .walkthrough-hero-content {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .walkthrough-hero-content::after {
+      display: none;
+    }
+
+    .walkthrough-content {
+      grid-template-columns: 1fr;
+    }
+
+    .walkthrough-toc {
+      position: static;
+      order: -1;
+    }
+
+    .route-card-grid,
+    .build-facts-section dl {
+      grid-template-columns: 1fr;
+    }
+
+    .build-facts-section,
+    .guide-checks-section,
+    .play-links-section,
+    .scene-plan-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

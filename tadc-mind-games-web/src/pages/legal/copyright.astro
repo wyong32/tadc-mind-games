@@ -1,0 +1,59 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { pageSeo } from "../../seo/pages";
+---
+
+<BaseLayout
+  title={pageSeo.copyright.title}
+  description={pageSeo.copyright.description}
+  keywords={pageSeo.copyright.keywords}
+>
+  <section class="legal-page-section">
+    <div class="container">
+      <article>
+        <p class="legal-kicker">Legal</p>
+        <h1>TADC Mind Games Copyright Notice</h1>
+        <p class="legal-updated">Last updated: June 30, 2026</p>
+
+        <h2>Site Copyright</h2>
+        <p>Copyright © 2026 TADC Mind Games. All original site text, page structure, layout work, and editorial organization on this site are protected by copyright unless otherwise stated.</p>
+        <p>This includes original page introductions, route explanations, ending tracker organization, player notes, FAQ wording, related-game descriptions, and legal page text created for this website.</p>
+
+        <h2>Fan Site References</h2>
+        <p>This site discusses TADC Mind Games and related topics for commentary, gameplay, and informational purposes. References to game titles, character names, studios, and related properties are used to identify the subject of the <a href="/walkthrough">walkthrough</a>, <a href="/endings">ending page</a>, <a href="/choices">choice page</a>, and character route coverage.</p>
+        <p>Those references do not imply ownership, endorsement, sponsorship, partnership, or official approval. The site exists to help players understand TADC Mind Games and related gameplay topics.</p>
+
+        <h2>No Official Affiliation</h2>
+        <p>TADC Mind Games is independent. This site is not affiliated with PITCHBOX Studios, Glitch Productions, Gooseworx, or The Amazing Digital Circus. Any trademarks, logos, character names, or copyrighted works belong to their respective owners.</p>
+
+        <h2>Images and Media</h2>
+        <p>Some images may be temporary editorial images, screenshots, previews, or references used to describe gameplay topics. If you own rights to material shown on this site and believe it should be removed or credited differently, contact us with enough detail to identify the material.</p>
+        <p>Temporary editorial images may later be replaced as the site improves. When images are used for commentary, identification, or gameplay context, they are intended to support player understanding rather than replace the original work.</p>
+
+        <h2>Reuse of Site Content</h2>
+        <p>You may link to this site and quote brief excerpts with attribution. You may not copy full pages, scrape the site into another project, or republish the content as your own.</p>
+        <p>Do not remove attribution, copy the site's page structure into a competing project, mirror the site without permission, or use the site's written content in bulk-generated pages. Short excerpts are acceptable when they are clearly attributed and used in a reasonable context.</p>
+
+        <h2>Trademarks and Names</h2>
+        <p>Names such as TADC Mind Games, The Amazing Digital Circus, PITCHBOX Studios, Glitch Productions, Gooseworx, and character names are used only to identify the works being discussed. All trademarks and related rights remain with their owners.</p>
+
+        <h2>Correction and Removal Requests</h2>
+        <p>If you believe a page contains material that should be removed, corrected, credited, or revised, please contact us with the exact page URL and a clear explanation. The <a href="/legal/contact-us">Contact Us page</a> lists the details that help us review requests. We review reasonable requests and may update, remove, or add attribution where appropriate.</p>
+
+        <h2>Copyright Contact</h2>
+        <p>For copyright questions or takedown requests, email wyong@tadcmindgames.org. Please include the page URL, a description of the material, your relationship to the rights holder, and the action you are requesting. You can also read more about the site on the <a href="/legal/about-us">About Us page</a>.</p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-page-section { position: relative; isolation: isolate; overflow: hidden; padding-block: clamp(46px, 5.4vw, 78px); background: radial-gradient(circle at 82% 8%, rgba(84, 216, 238, 0.12), transparent 22rem), radial-gradient(circle at 10% 0%, rgba(214, 77, 100, 0.12), transparent 18rem), linear-gradient(135deg, #09060c, #130817 52%, #09060c); }
+  .legal-page-section::before { position: absolute; inset: 0; z-index: -1; content: ""; background: repeating-linear-gradient(90deg, rgba(248, 240, 231, 0.035) 0 1px, transparent 1px 80px), repeating-linear-gradient(0deg, rgba(248, 240, 231, 0.024) 0 1px, transparent 1px 44px); mask-image: linear-gradient(180deg, #000, rgba(0, 0, 0, 0.84), transparent 98%); pointer-events: none; }
+  .legal-page-section .container { position: relative; }
+  .legal-kicker, .legal-updated { color: var(--gold); font-size: 10px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; }
+  .legal-page-section h1 { margin-top: 10px; font-size: clamp(30px, 4.2vw, 52px); line-height: 0.96; text-transform: uppercase; text-shadow: 0 0 22px rgba(214, 77, 100, 0.26), 0 2px 0 rgba(122, 36, 56, 0.44); }
+  .legal-updated { margin-top: 14px; color: rgba(246, 184, 62, 0.76); }
+  .legal-page-section h2 { margin-top: 30px; font-size: clamp(24px, 3vw, 34px); }
+  .legal-page-section p { margin-top: 12px; color: rgba(248, 240, 231, 0.7); }
+</style>

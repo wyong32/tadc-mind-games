@@ -1,0 +1,238 @@
+---
+const navItems = [
+  { label: "Home", href: "/" },
+  { label: "Walkthrough", href: "/walkthrough" },
+  { label: "Endings", href: "/endings" },
+  { label: "Choices", href: "/choices" },
+  { label: "Characters", href: "/characters" },
+  { label: "Related Games", href: "/related-games" },
+  { label: "Updates", href: "/updates" },
+];
+
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+---
+
+<header class="app-header">
+  <div class="container app-header-content">
+    <a class="app-brand" href="/" aria-label="TADC Mind Games home">
+      <img src="/images/logo.svg" alt="" width="40" height="40" loading="eager" />
+      <span>
+        <strong>TADC Mind Games</strong>
+        <small>H5 Game</small>
+      </span>
+    </a>
+
+    <button type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="primary-navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="app-nav" id="primary-navigation" aria-label="Primary navigation">
+      {navItems.map((item) => {
+        const href = item.href.replace(/\/$/, "") || "/";
+        const active = path === href;
+        return <a href={item.href} class:list={[{ "is-active": active }]}>{item.label}</a>;
+      })}
+    </nav>
+  </div>
+</header>
+
+<style>
+  .app-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid rgba(246, 184, 62, 0.18);
+    background:
+      linear-gradient(90deg, rgba(9, 6, 12, 0.9), rgba(42, 12, 28, 0.9), rgba(9, 6, 12, 0.9));
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(16px);
+  }
+
+  .app-header-content {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    min-height: 72px;
+  }
+
+  .app-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-right: auto;
+  }
+
+  .app-brand img {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(246, 184, 62, 0.45);
+    border-radius: 12px;
+    box-shadow: 0 0 22px rgba(214, 77, 100, 0.34);
+    object-fit: cover;
+  }
+
+  .app-brand strong {
+    display: block;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 15px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .app-brand small {
+    display: block;
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .app-header button {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 46px;
+    height: 46px;
+    border: 1px solid rgba(246, 184, 62, 0.26);
+    border-radius: 12px;
+    background: rgba(4, 3, 7, 0.42);
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .app-header button span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    margin-block: 3px;
+    border-radius: 999px;
+    background: currentColor;
+    transition: transform 0.2s var(--ease), opacity 0.2s var(--ease);
+  }
+
+  .app-header button[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .app-header button[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .app-header button[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  .app-nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px;
+    border: 1px solid rgba(246, 184, 62, 0.16);
+    border-radius: 999px;
+    background: rgba(4, 3, 7, 0.34);
+  }
+
+  .app-nav a {
+    padding: 8px 10px;
+    border-radius: 999px;
+    color: rgba(248, 240, 231, 0.72);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    transition: color 0.2s var(--ease), background 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  }
+
+  .app-nav a:hover,
+  .app-nav a.is-active {
+    color: var(--ink);
+    background: linear-gradient(135deg, rgba(122, 36, 56, 0.72), rgba(246, 184, 62, 0.18));
+    box-shadow: inset 0 0 0 1px rgba(246, 184, 62, 0.24);
+  }
+
+  @media (max-width: 1024px) {
+    .app-header-content {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      min-height: auto;
+      padding-block: 12px;
+    }
+
+    .app-header button {
+      display: flex;
+    }
+
+    .app-nav {
+      display: none;
+      grid-column: 1 / -1;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      width: 100%;
+      gap: 8px;
+      padding: 10px;
+      border-radius: 16px;
+    }
+
+    .app-header-content[data-open] .app-nav {
+      display: grid;
+    }
+
+    .app-nav a {
+      display: grid;
+      place-items: center;
+      min-height: 44px;
+      white-space: normal;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .app-brand {
+      gap: 10px;
+    }
+
+    .app-brand img {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+    }
+
+    .app-brand strong {
+      font-size: 13px;
+    }
+
+    .app-brand small {
+      font-size: 9px;
+    }
+
+    .app-header button {
+      width: 44px;
+      height: 44px;
+    }
+
+    .app-nav {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const headerContent = document.querySelector(".app-header-content");
+  const menuButton = document.querySelector(".app-header button");
+  const primaryNav = document.querySelector(".app-nav");
+
+  menuButton?.addEventListener("click", () => {
+    const isOpen = menuButton.getAttribute("aria-expanded") === "true";
+    menuButton.setAttribute("aria-expanded", String(!isOpen));
+    headerContent?.toggleAttribute("data-open", !isOpen);
+  });
+
+  primaryNav?.addEventListener("click", (event) => {
+    if (!(event.target instanceof HTMLAnchorElement)) return;
+    menuButton?.setAttribute("aria-expanded", "false");
+    headerContent?.removeAttribute("data-open");
+  });
+</script>

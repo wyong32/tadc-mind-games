@@ -1,0 +1,520 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { relatedGames } from "../../data/relatedGames";
+
+export function getStaticPaths() {
+  return relatedGames.map((game) => ({
+    params: { slug: game.addressBar },
+    props: { game },
+  }));
+}
+
+const { game } = Astro.props;
+
+const tocItems = [
+  { label: "Game Player", href: "#game-player" },
+  { label: "Why It Fits", href: "#why-tadc-players-like-it" },
+  { label: "Game Setup", href: "#what-the-freak-circus-is-about" },
+  { label: "Cast Notes", href: "#character-and-route-notes" },
+  { label: "Official Links", href: "#official-the-freak-circus-links" },
+];
+
+const jsonLd = {
+  "@type": "VideoGame",
+  name: game.title,
+  url: `https://tadcmindgames.org/related-games/${game.addressBar}`,
+  image: `https://tadcmindgames.org${game.imageUrl}`,
+  description: game.description,
+  genre: game.tags,
+  gamePlatform: "Browser H5",
+  datePublished: game.publishDate,
+  isPartOf: {
+    "@type": "CollectionPage",
+    name: "TADC Mind Games Related Games",
+    url: "https://tadcmindgames.org/related-games",
+  },
+};
+---
+
+<BaseLayout
+  title={game.seo.title}
+  description={game.seo.description}
+  keywords={game.seo.keywords}
+  jsonLd={jsonLd}
+>
+  <section class="related-detail-section">
+    <div class="container related-detail-content">
+      <div class="related-detail-head">
+        <div class="inner-hero-copy">
+          <p>Related Game</p>
+          <h1>{game.title} - Game Like TADC Mind Games</h1>
+          <span>{game.description}</span>
+          <div class="inner-hero-tags" aria-label="Related game tags">
+            {game.tags.slice(0, 3).map((tag) => <strong>{tag}</strong>)}
+          </div>
+        </div>
+        <div class="inner-hero-board" aria-label={`${game.title} preview`}>
+          <img src={game.imageUrl} alt={game.imageAlt} width="520" height="292" loading="eager" />
+          <div class="inner-hero-overlay">
+            <small>Game File</small>
+            <b>{game.title}</b>
+            <span>Browser play and quick notes</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="related-detail-grid">
+        <div class="related-player" id="game-player">
+          <iframe
+            title={`${game.title} browser player`}
+            src={game.iframeSrc}
+            loading="lazy"
+            allow="fullscreen; autoplay; gamepad *"
+            allowfullscreen
+          ></iframe>
+        </div>
+
+        <aside class="related-sidebar">
+          <div class="sidebar-title">
+            <p>Game Dossier</p>
+            <strong>{game.title}</strong>
+            <span>Browser-ready horror visual novel selected for TADC Mind Games players.</span>
+          </div>
+          <nav class="related-detail-toc" aria-label="Related game detail directory">
+            <p>On this page</p>
+            {tocItems.map((item) => <a href={item.href}>{item.label}</a>)}
+          </nav>
+          <div class="related-tags">
+            {game.tags.map((tag) => <span>{tag}</span>)}
+          </div>
+          <dl>
+            <div><dt>Published</dt><dd>{game.publishDate}</dd></div>
+            <div><dt>Play style</dt><dd>Browser H5</dd></div>
+            <div><dt>Best after</dt><dd><a href="/#play">TADC Mind Games</a></dd></div>
+          </dl>
+          <div class="official-links" aria-label="Official The Freak Circus links">
+            <a href="https://thefreakcircus.org/" target="_blank" rel="noopener">Official Site</a>
+            <a href="https://thefreakcircus.org/wiki" target="_blank" rel="noopener">Wiki</a>
+            <a href="https://thefreakcircus.org/download" target="_blank" rel="noopener">Download</a>
+          </div>
+        </aside>
+      </div>
+
+      <article class="related-prose" id="game-details" set:html={game.detailsHtml} />
+
+      <div class="related-links" id="more-games">
+        <a href="/">Back to TADC Mind Games</a>
+        <a href="/related-games">More Related Games</a>
+        <a href="/#play">Play TADC Mind Games</a>
+        <a href="/walkthrough">TADC Mind Games Walkthrough</a>
+        <a href="/endings">All Endings Guide</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .related-detail-section {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: clamp(32px, 4.2vw, 58px);
+    background:
+      radial-gradient(circle at 18% 12%, rgba(246, 184, 62, 0.12), transparent 21rem),
+      radial-gradient(circle at 88% 18%, rgba(214, 77, 100, 0.22), transparent 26rem),
+      linear-gradient(135deg, #08050a 0%, #1a0614 45%, #09060c 100%);
+  }
+
+  .related-detail-section::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: "";
+    background:
+      linear-gradient(90deg, rgba(84, 216, 238, 0.1), transparent 32%, rgba(246, 184, 62, 0.08) 58%, transparent),
+      repeating-linear-gradient(90deg, rgba(248, 240, 231, 0.035) 0 1px, transparent 1px 72px),
+      repeating-linear-gradient(0deg, rgba(248, 240, 231, 0.024) 0 1px, transparent 1px 38px);
+    mask-image: linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0.86) 78%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .related-detail-content {
+    display: grid;
+    gap: 18px;
+  }
+
+  .related-detail-head {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 390px);
+    gap: 18px;
+    align-items: stretch;
+    padding: 16px;
+    border: 1px solid rgba(246, 184, 62, 0.2);
+    background:
+      linear-gradient(135deg, rgba(248, 240, 231, 0.055), rgba(84, 216, 238, 0.025)),
+      rgba(5, 3, 8, 0.68);
+    box-shadow: inset 0 0 40px rgba(84, 216, 238, 0.04), 0 20px 70px rgba(0, 0, 0, 0.28);
+  }
+
+  .related-detail-head::after {
+    position: absolute;
+    right: 18px;
+    bottom: -9px;
+    width: 38%;
+    height: 18px;
+    content: "";
+    background: linear-gradient(90deg, transparent, rgba(84, 216, 238, 0.45), rgba(246, 184, 62, 0.28), transparent);
+    filter: blur(8px);
+    pointer-events: none;
+  }
+
+  .inner-hero-copy {
+    display: grid;
+    align-content: center;
+    gap: 12px;
+    min-width: 0;
+    padding: clamp(8px, 1.4vw, 18px);
+  }
+
+  .inner-hero-copy p,
+  .sidebar-title p,
+  .related-detail-toc p,
+  .related-sidebar dt {
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .inner-hero-copy h1 {
+    max-width: 780px;
+    font-size: clamp(26px, 3.2vw, 44px);
+    line-height: 1;
+    text-transform: uppercase;
+    text-shadow: 0 0 18px rgba(214, 77, 100, 0.24), 0 2px 0 rgba(122, 36, 56, 0.42);
+  }
+
+  .inner-hero-copy > span {
+    max-width: 650px;
+    color: rgba(248, 240, 231, 0.76);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .inner-hero-tags,
+  .related-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+
+  .inner-hero-tags strong,
+  .related-tags span {
+    padding: 7px 9px;
+    border: 1px solid rgba(246, 184, 62, 0.2);
+    color: rgba(248, 240, 231, 0.82);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(248, 240, 231, 0.045);
+  }
+
+  .inner-hero-board {
+    position: relative;
+    min-height: 248px;
+    overflow: hidden;
+    border: 1px solid rgba(246, 184, 62, 0.22);
+    background: #050308;
+    clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+  }
+
+  .inner-hero-board img {
+    width: 100%;
+    height: 100%;
+    min-height: 248px;
+    object-fit: cover;
+    filter: saturate(1.16) contrast(1.08);
+  }
+
+  .inner-hero-board::before {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background:
+      linear-gradient(180deg, rgba(5, 3, 8, 0.08), rgba(5, 3, 8, 0.88)),
+      repeating-linear-gradient(0deg, rgba(248, 240, 231, 0.035) 0 1px, transparent 1px 16px);
+    pointer-events: none;
+  }
+
+  .inner-hero-overlay {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    left: 16px;
+    display: grid;
+    gap: 4px;
+    padding: 12px 14px;
+    border: 1px solid rgba(84, 216, 238, 0.26);
+    background: rgba(5, 3, 8, 0.76);
+    backdrop-filter: blur(10px);
+  }
+
+  .inner-hero-overlay small {
+    color: var(--gold);
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .inner-hero-overlay b {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 21px;
+    line-height: 1;
+  }
+
+  .inner-hero-overlay span {
+    color: rgba(248, 240, 231, 0.7);
+    font-size: 12px;
+  }
+.related-detail-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 330px;
+    gap: 16px;
+    align-items: start;
+  }
+
+  .related-player {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    border: 1px solid rgba(246, 184, 62, 0.24);
+    background: #050308;
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.34), 0 0 26px rgba(214, 77, 100, 0.08);
+  }
+
+  .related-player::before {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    content: "";
+    border: 10px solid rgba(5, 3, 8, 0.2);
+    pointer-events: none;
+  }
+
+  .related-player iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .related-sidebar {
+    position: sticky;
+    top: 92px;
+    display: grid;
+    gap: 13px;
+    padding: 15px;
+    border: 1px solid rgba(246, 184, 62, 0.2);
+    background:
+      linear-gradient(135deg, rgba(84, 216, 238, 0.045), rgba(214, 77, 100, 0.08)),
+      rgba(10, 6, 13, 0.86);
+    box-shadow: inset 0 0 34px rgba(84, 216, 238, 0.035);
+  }
+
+  .sidebar-title {
+    display: grid;
+    gap: 6px;
+    padding: 2px 2px 12px;
+    border-bottom: 1px solid rgba(246, 184, 62, 0.16);
+  }
+
+  .sidebar-title strong {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .sidebar-title span {
+    color: rgba(248, 240, 231, 0.66);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .related-detail-toc {
+    display: grid;
+    gap: 8px;
+  }
+
+  .related-detail-toc a,
+  .official-links a {
+    padding: 9px 10px;
+    border: 1px solid rgba(255, 126, 95, 0.22);
+    color: #ff9a6d;
+    font-size: 12px;
+    font-weight: 900;
+    background: rgba(255, 126, 95, 0.07);
+  }
+
+  .related-detail-toc a:hover,
+  .official-links a:hover {
+    border-color: rgba(255, 203, 97, 0.58);
+    color: #ffd36f;
+    box-shadow: 0 0 18px rgba(255, 126, 95, 0.16);
+  }
+
+  .related-tags span {
+    border-color: rgba(84, 216, 238, 0.26);
+    color: var(--cyan);
+    background: rgba(84, 216, 238, 0.055);
+  }
+
+  .related-sidebar dl {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+  }
+
+  .related-sidebar dl div {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(246, 184, 62, 0.13);
+  }
+
+  .related-sidebar dd {
+    margin: 0;
+    color: var(--ink);
+    font-size: 12px;
+    font-weight: 900;
+    text-align: right;
+  }
+
+  .related-sidebar dd a {
+    color: var(--cyan);
+  }
+
+  .official-links {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 7px;
+    padding-top: 4px;
+  }
+
+  .official-links a {
+    text-align: center;
+  }
+
+  .related-prose {
+    max-width: 980px;
+    padding: 22px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background:
+      linear-gradient(180deg, rgba(248, 240, 231, 0.055), rgba(248, 240, 231, 0.03)),
+      rgba(8, 5, 10, 0.74);
+    color: rgba(248, 240, 231, 0.72);
+  }
+
+  .related-prose :global(h2) {
+    margin-top: 22px;
+    color: var(--ink);
+    font-size: clamp(22px, 2.4vw, 30px);
+    line-height: 1.05;
+  }
+
+  .related-prose :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .related-prose :global(p) {
+    margin-top: 10px;
+    line-height: 1.75;
+  }
+
+  .related-prose :global(ul) {
+    display: grid;
+    gap: 8px;
+    margin-top: 12px;
+    padding-left: 20px;
+  }
+
+  .related-prose :global(li) {
+    color: rgba(248, 240, 231, 0.7);
+    line-height: 1.6;
+  }
+
+  .related-prose :global(a) {
+    color: #ff9a6d;
+    font-weight: 900;
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 203, 97, 0.72);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+    text-shadow: 0 0 14px rgba(255, 126, 95, 0.18);
+  }
+
+  .related-prose :global(a:hover) {
+    color: #ffd36f;
+    text-decoration-color: #ff7e5f;
+  }
+
+  .related-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    max-width: 980px;
+  }
+
+  .related-links a {
+    padding: 10px 13px;
+    border: 1px solid rgba(246, 184, 62, 0.34);
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 900;
+  }
+
+  @media (max-width: 1024px) {
+    .related-detail-head,
+    .related-detail-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .related-sidebar {
+      position: static;
+      order: -1;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .related-detail-section {
+      padding-block: 22px 34px;
+    }
+
+    .related-detail-head,
+    .related-sidebar,
+    .related-prose {
+      padding: 12px;
+    }
+
+    .inner-hero-board {
+      min-height: 210px;
+    }
+
+    .inner-hero-copy h1 {
+      font-size: 25px;
+    }
+
+    .related-player {
+      aspect-ratio: 4 / 3;
+    }
+
+    .official-links {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

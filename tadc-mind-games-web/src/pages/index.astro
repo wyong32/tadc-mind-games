@@ -1,0 +1,1474 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { relatedGames } from "../data/relatedGames";
+import { pageSeo } from "../seo/pages";
+
+const navItems = [
+  { label: "Home", href: "/", cue: "Start", detail: "Play online and scan the route hub" },
+  { label: "Walkthrough", href: "/walkthrough", cue: "Route", detail: "Run order, replay plan, and safe route logic" },
+  { label: "Endings", href: "/endings", cue: "Five", detail: "Known endings and chase order" },
+  { label: "Choices", href: "/choices", cue: "Risk", detail: "Trust, doubt, help, follow, delay" },
+  { label: "Characters", href: "/characters", cue: "Cast", detail: "Caine, Pomni, and Kinger route signals" },
+  { label: "Related Games", href: "/related-games", cue: "More", detail: "Short horror games after TADC Mind Games" },
+  { label: "Updates", href: "/updates", cue: "Build", detail: "Version notes and page status" },
+];
+
+const mainGameTags = ["Fan Made", "Fangame", "Horror", "Indie", "Multiple Endings", "Ren'Py", "Story Rich", "The Amazing Digital Circus", "Visual Novel"];
+
+const quickStart = [
+  { step: "01", title: "Play one blind run", text: "Do not chase everything immediately. Finish one route so the first ending lands properly." },
+  { step: "02", title: "Pick a replay mood", text: "Choose trust, doubt, panic, curiosity, or delay before your next run starts." },
+  { step: "03", title: "Change the sharpest answer", text: "Return to the choice that felt most uncomfortable and answer with the opposite mood." },
+  { step: "04", title: "Track the ending pull", text: "If the scene changes, stay with that mood until the ending path becomes clear." },
+];
+
+const endingPreview = [
+  { name: "Caine Compliance", route: "Trust Caine", danger: "High", cue: "Obedience, praise, controlled answers" },
+  { name: "Caine Defiance", route: "Question Caine", danger: "High", cue: "Suspicion, refusal, direct challenge" },
+  { name: "Pomni Panic", route: "Help Pomni", danger: "Medium", cue: "Escape pressure, fear, emotional support" },
+  { name: "Kinger Clue", route: "Follow Kinger", danger: "Medium", cue: "Odd hints, slower routes, strange room details" },
+  { name: "Mixed Unknown", route: "Blend choices", danger: "Unknown", cue: "Delay, mixed moods, less obvious answers" },
+];
+
+const choicePreview = [
+  { signal: "Trust", result: "Caine control rises", use: "When you want polished danger" },
+  { signal: "Doubt", result: "Defiance pressure rises", use: "When you want sharper reactions" },
+  { signal: "Help", result: "Pomni panic shifts", use: "When you want emotional branches" },
+  { signal: "Follow", result: "Kinger clues appear", use: "When you want strange detours" },
+  { signal: "Delay", result: "Uncertainty builds", use: "When all direct answers feel unsafe" },
+];
+
+const featuredRelatedGames = relatedGames.slice(0, 4);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      name: "TADC Mind Games",
+      url: "https://tadcmindgames.org",
+      description: "Independent TADC Mind Games H5 site for online play, choices, endings, walkthroughs, and updates.",
+    },
+    {
+      "@type": "VideoGame",
+      name: "TADC Mind Games",
+      url: "https://tadcmindgames.org/",
+      image: "https://tadcmindgames.org/images/logo.png",
+      genre: ["Horror", "Visual Novel"],
+      gamePlatform: ["HTML5", "Windows", "macOS"],
+      applicationCategory: "Game",
+      author: { "@type": "Organization", name: "PITCHBOX Studios" },
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={pageSeo.home.title}
+  description={pageSeo.home.description}
+  keywords={pageSeo.home.keywords}
+  jsonLd={jsonLd}
+  hideHeader
+>
+  <section class="play-section" id="play" aria-labelledby="home-title">
+    <div class="play-fx play-fx-a" aria-hidden="true"></div>
+    <div class="play-fx play-fx-b" aria-hidden="true"></div>
+    <div class="container play-content">
+      <div class="play-title-wrap">
+        <p class="play-kicker">Horror Visual Novel · Browser / Windows / macOS</p>
+        <h1 id="home-title">TADC Mind Games</h1>
+        <p class="play-lead">Step into TADC Mind Games, follow the wrong-looking doors, and use the <a href="/walkthrough">route pages</a> when Caine starts making every answer feel unsafe.</p>
+      </div>
+
+      <div class="game-stage" data-game-stage>
+        <div class="game-frame">
+          <iframe
+            title="TADC Mind Games browser game"
+            data-src="https://itch.io/embed-upload/17780938?color=0b0710"
+            src="about:blank"
+            allow="fullscreen; autoplay; gamepad *"
+            allowfullscreen
+            loading="eager"
+          ></iframe>
+
+          <div class="game-mask" data-game-mask>
+            <div class="game-mask-bg" aria-hidden="true"></div>
+            <div class="game-mask-panel">
+              <img src="/images/play-game.webp" alt="TADC Mind Games play preview" width="112" height="112" loading="eager" />
+              <button class="game-play-button" type="button" data-play-button aria-label="Play TADC Mind Games">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M9 7.5v9l7-4.5-7-4.5Z" />
+                </svg>
+                Play Game
+              </button>
+              <p>Start TADC Mind Games.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="game-toolbar">
+          <div class="game-status" aria-hidden="true"></div>
+          <div class="game-actions" aria-label="Game display controls">
+            <button type="button" data-fullscreen aria-label="Fullscreen game frame">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 9V4h5v2H6v3H4Zm11-3V4h5v5h-2V6h-3Zm3 9h2v5h-5v-2h3Zm-12 3h3v2H4v-5h2Z" />
+              </svg>
+            </button>
+            <button type="button" data-web-fullscreen aria-label="Toggle web fullscreen mode">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 5h14v14H5V5Zm2 2v10h10V7H7Zm2 2h6v6H9V9Z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-game-tags" aria-label="TADC Mind Games tags">
+        {mainGameTags.map((tag) => <span>{tag}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="brand-nav-section" aria-labelledby="guide-nav-heading">
+    <div class="container brand-nav-content">
+      <div class="brand-mark">
+        <div class="brand-card">
+          <img src="/images/logo.svg" alt="TADC Mind Games logo" width="72" height="72" loading="lazy" />
+          <div>
+            <p>Game Route Hub</p>
+            <h2 id="guide-nav-heading">Routes, endings, and dangerous choices in one haunted little control room.</h2>
+          </div>
+        </div>
+        <p class="brand-proof">Jump from the game into <a href="/endings">endings</a>, <a href="/choices">choices</a>, walkthrough help, and <a href="/updates">version updates</a> without digging through scattered posts.</p>
+      </div>
+
+      <nav class="home-nav" aria-label="Homepage navigation">
+        {navItems.map((item, index) => (
+          <a href={item.href} class:list={[{ "is-primary": index < 2 }]}>
+            <span>{item.cue}</span>
+            <strong>{item.label}</strong>
+            <em>{item.detail}</em>
+          </a>
+        ))}
+      </nav>
+    </div>
+  </section>
+
+  <section class="quick-start-section" aria-labelledby="quick-start-heading">
+    <div class="container quick-start-content">
+      <div class="section-heading">
+        <p>Quick Start</p>
+        <h2 id="quick-start-heading">A compact route plan for your first four runs.</h2>
+      </div>
+      <div class="quick-start-grid">
+        {quickStart.map((item) => (
+          <article>
+            <span>{item.step}</span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="route-map-section" aria-labelledby="route-map-heading">
+    <div class="container route-map-content">
+      <div class="section-heading">
+        <p>Choice Route Map</p>
+        <h2 id="route-map-heading">Every answer pushes the game toward pressure, panic, trust, or collapse.</h2>
+      </div>
+      <div class="route-board" aria-label="Route map preview">
+        <div class="route-node is-start">Enter the Digital Circus</div>
+        <div class="route-lines">
+          <a href="/choices">Trust Caine</a>
+          <a href="/choices">Question Caine</a>
+          <a href="/choices">Help Pomni</a>
+          <a href="/choices">Follow Kinger</a>
+        </div>
+        <div class="route-node is-end">Ending Path Unknown</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ending-preview-section" aria-labelledby="ending-preview-heading">
+    <div class="container ending-preview-content">
+      <div class="section-heading">
+        <p>Ending Tracker</p>
+        <h2 id="ending-preview-heading">Five routes, five different kinds of bad idea.</h2>
+      </div>
+      <div class="ending-preview-table" role="table" aria-label="TADC Mind Games ending tracker preview">
+        <div class="ending-preview-row is-head" role="row">
+          <span role="columnheader">Ending path</span>
+          <span role="columnheader">Route focus</span>
+          <span role="columnheader">Danger</span>
+          <span role="columnheader">Choice cue</span>
+        </div>
+        {endingPreview.map((ending) => (
+          <a href="/endings" class="ending-preview-row" role="row">
+            <span role="cell">{ending.name}</span>
+            <span role="cell">{ending.route}</span>
+            <span role="cell">{ending.danger}</span>
+            <span role="cell">{ending.cue}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="cast-section" aria-labelledby="cast-heading">
+    <div class="container cast-content">
+      <div class="section-heading">
+        <p>Current Cast</p>
+        <h2 id="cast-heading">Three characters shape most of the danger.</h2>
+      </div>
+      <div class="cast-grid">
+        <article>
+          <div class="cast-portrait">
+            <img src="/images/characters-01.webp" alt="Caine route preview for TADC Mind Games" width="160" height="160" loading="lazy" />
+            <span>Control Route</span>
+          </div>
+          <div class="cast-copy">
+            <h3>Caine</h3>
+            <p>The strongest pressure point in the game. Trusting him, praising him, or pushing back can all send the scene toward different <a href="/endings">outcomes</a>.</p>
+          </div>
+          <div class="cast-links">
+            <a href="/characters#character-notes">Character File</a>
+            <a href="/choices#caine-pressure-heading">Choice Signals</a>
+          </div>
+        </article>
+        <article>
+          <div class="cast-portrait">
+            <img src="/images/characters-02.webp" alt="Pomni route atmosphere for TADC Mind Games" width="160" height="160" loading="lazy" />
+            <span>Panic Route</span>
+          </div>
+          <div class="cast-copy">
+            <h3>Pomni</h3>
+            <p>Pomni choices lean into panic, escape, and emotional pressure. Helping her is not always as simple as choosing the kindest line.</p>
+          </div>
+          <div class="cast-links">
+            <a href="/characters#character-notes">Character File</a>
+            <a href="/walkthrough#route-cards-heading">Route Help</a>
+          </div>
+        </article>
+        <article>
+          <div class="cast-portrait">
+            <img src="/images/characters-03.webp" alt="Kinger clue route background for TADC Mind Games" width="160" height="160" loading="lazy" />
+            <span>Clue Route</span>
+          </div>
+          <div class="cast-copy">
+            <h3>Kinger</h3>
+            <p>Kinger's path is stranger and slower. Follow odd hints, watch the room, and expect clues that feel more unsettling than obvious.</p>
+          </div>
+          <div class="cast-links">
+            <a href="/characters#character-notes">Character File</a>
+            <a href="/endings#ending-tracker-heading">Ending Paths</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="choice-preview-section" aria-labelledby="choice-preview-heading">
+    <div class="container choice-preview-content">
+      <div class="section-heading">
+        <p>Choice Matrix</p>
+        <h2 id="choice-preview-heading">Read the mood before you read the line.</h2>
+      </div>
+      <div class="choice-preview-grid">
+        {choicePreview.map((choice) => (
+          <a href="/choices">
+            <strong>{choice.signal}</strong>
+            <span>{choice.result}</span>
+            <p>{choice.use}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="related-games-section" id="related-games" aria-labelledby="related-games-heading">
+    <div class="container related-games-content">
+      <div class="section-heading">
+        <p>Related Games</p>
+        <h2 id="related-games-heading">More short horror games after TADC Mind Games.</h2>
+      </div>
+      <div class="related-games-grid">
+        {featuredRelatedGames.map((game) => (
+          <article>
+            <img src={game.imageUrl} alt={game.imageAlt} width="420" height="236" loading="lazy" />
+            <div class="related-game-body">
+              <div class="related-game-tags">
+                {game.tags.map((tag) => <span>{tag}</span>)}
+              </div>
+              <h3>{game.title}</h3>
+              <p>{game.description}</p>
+              <a href={`/related-games/${game.addressBar}`}>View Game</a>
+            </div>
+          </article>
+        ))}
+      </div>
+      <a class="related-games-more" href="/related-games">Open full related games list</a>
+    </div>
+  </section>
+
+  <section class="faq-section" aria-labelledby="faq-heading">
+    <div class="container faq-content">
+      <div class="section-heading">
+        <p>FAQ</p>
+        <h2 id="faq-heading">TADC Mind Games questions players ask first</h2>
+      </div>
+      <div class="faq-list">
+        <details open>
+          <summary>Can I play TADC Mind Games online?</summary>
+          <p>Yes. Press Play Game at the top of this page to load TADC Mind Games in the browser without leaving the site.</p>
+        </details>
+        <details>
+          <summary>How many endings are in TADC Mind Games?</summary>
+          <p>The current build has five ending paths to chase. Start with Caine trust, Caine defiance, Pomni support, Kinger curiosity, then experiment with mixed choices.</p>
+        </details>
+        <details>
+          <summary>Which characters appear in the game?</summary>
+          <p>The current visible cast centers on Caine, Pomni, and Kinger. Use the <a href="/characters">TADC Mind Games characters page</a> for route roles, pressure signals, and ending links tied to each character.</p>
+        </details>
+        <details>
+          <summary>Where should I go after my first ending?</summary>
+          <p>Open the <a href="/endings">endings hub</a> if you want another outcome, or use the <a href="/choices">choices page</a> if you remember the exact answer that made the route feel dangerous.</p>
+        </details>
+        <details>
+          <summary>Is this an official TADC site?</summary>
+          <p>No. This is an independent H5 game site for players. TADC Mind Games is a fan-made horror visual novel inspired by The Amazing Digital Circus.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const stage = document.querySelector("[data-game-stage]");
+  const iframe = stage?.querySelector("iframe");
+  const playButton = stage?.querySelector("[data-play-button]");
+  const mask = stage?.querySelector("[data-game-mask]");
+  const statusText = stage?.querySelector("[data-game-status]");
+  const fullscreenButton = stage?.querySelector("[data-fullscreen]");
+  const webFullscreenButton = stage?.querySelector("[data-web-fullscreen]");
+  let loaded = false;
+
+  // 点击后只设置一次 iframe src，后续全屏切换不会重建游戏。
+  const loadGame = () => {
+    if (!iframe || loaded) return;
+    iframe.setAttribute("src", iframe.getAttribute("data-src") || "about:blank");
+    loaded = true;
+    stage?.classList.add("is-playing");
+    mask?.setAttribute("aria-hidden", "true");
+    if (statusText) statusText.textContent = "";
+  };
+
+  playButton?.addEventListener("click", loadGame);
+
+  fullscreenButton?.addEventListener("click", async () => {
+    loadGame();
+    const frame = stage?.querySelector(".game-frame");
+    if (frame && "requestFullscreen" in frame) await frame.requestFullscreen();
+  });
+
+  webFullscreenButton?.addEventListener("click", () => {
+    loadGame();
+    stage?.classList.toggle("is-web-fullscreen");
+    document.body.classList.toggle("is-game-expanded", stage?.classList.contains("is-web-fullscreen"));
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && stage?.classList.contains("is-web-fullscreen")) {
+      stage.classList.remove("is-web-fullscreen");
+      document.body.classList.remove("is-game-expanded");
+    }
+  });
+</script>
+
+<style>
+  :global(body.is-game-expanded) {
+    overflow: hidden;
+  }
+
+  .play-section {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    min-height: 100svh;
+    padding-block: clamp(18px, 3vw, 34px) clamp(28px, 4vw, 48px);
+    background:
+      linear-gradient(180deg, rgba(5, 3, 8, 0.38), rgba(5, 3, 8, 0.78)),
+      url("/images/bg-01.webp") center / cover no-repeat;
+  }
+
+  .play-section::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: "";
+    background:
+      radial-gradient(ellipse at 50% -10%, rgba(246, 184, 62, 0.32), transparent 34rem),
+      linear-gradient(90deg, rgba(84, 216, 238, 0.18), transparent 25%, transparent 72%, rgba(214, 77, 100, 0.22)),
+      repeating-linear-gradient(90deg, rgba(248, 240, 231, 0.05) 0 1px, transparent 1px 96px);
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+
+  .play-section::after {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: "";
+    background:
+      linear-gradient(115deg, transparent 0 18%, rgba(246, 184, 62, 0.12) 19%, transparent 29%),
+      linear-gradient(250deg, transparent 0 55%, rgba(84, 216, 238, 0.1) 56%, transparent 68%);
+    filter: blur(0.3px);
+    opacity: 0.9;
+    pointer-events: none;
+  }
+
+  .play-fx {
+    position: absolute;
+    inset: auto;
+    z-index: -1;
+    width: 36vw;
+    height: 36vw;
+    border-radius: 999px;
+    filter: blur(70px);
+    opacity: 0.42;
+    pointer-events: none;
+  }
+
+  .play-fx-a {
+    top: 5%;
+    left: -9%;
+    background: var(--cyan);
+  }
+
+  .play-fx-b {
+    right: -10%;
+    bottom: 0;
+    background: var(--rose);
+  }
+
+  .play-content {
+    display: grid;
+    gap: clamp(14px, 2.2vw, 24px);
+  }
+
+  .play-title-wrap {
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    max-width: 920px;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .play-kicker {
+    color: var(--gold);
+    font-size: clamp(11px, 1.4vw, 13px);
+    font-weight: 900;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-shadow: 0 0 18px rgba(246, 184, 62, 0.45);
+  }
+
+  .play-title-wrap h1 {
+    font-size: clamp(38px, 5vw, 70px);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    text-shadow:
+      0 4px 0 rgba(122, 36, 56, 0.9),
+      0 0 22px rgba(246, 184, 62, 0.34),
+      0 0 52px rgba(214, 77, 100, 0.42);
+  }
+
+  .play-lead {
+    max-width: 680px;
+    color: rgba(248, 240, 231, 0.82);
+    font-size: clamp(15px, 1.5vw, 18px);
+    line-height: 1.55;
+  }
+
+  .main-game-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: -2px;
+  }
+
+  .main-game-tags span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 34px;
+    padding: 0 14px;
+    border: 1px solid rgba(248, 240, 231, 0.14);
+    border-radius: 999px;
+    background:
+      linear-gradient(180deg, rgba(248, 240, 231, 0.08), rgba(248, 240, 231, 0.03)),
+      rgba(8, 5, 10, 0.62);
+    color: rgba(248, 240, 231, 0.82);
+    font-size: 13px;
+    font-weight: 900;
+    box-shadow: inset 0 0 18px rgba(246, 184, 62, 0.04);
+  }
+
+  .main-game-tags span::before {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: var(--gold);
+    box-shadow: 0 0 12px rgba(246, 184, 62, 0.78);
+    content: "";
+  }
+
+  .game-stage {
+    position: relative;
+    width: min(100%, clamp(700px, 58vw, 980px));
+    margin-inline: auto;
+    padding: clamp(10px, 1.5vw, 18px);
+    border: 1px solid rgba(248, 240, 231, 0.16);
+    border-radius: 24px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+      rgba(8, 4, 11, 0.64);
+    box-shadow:
+      0 28px 90px rgba(0, 0, 0, 0.68),
+      0 0 0 1px rgba(84, 216, 238, 0.13),
+      0 0 60px rgba(214, 77, 100, 0.28);
+    backdrop-filter: blur(18px);
+  }
+
+  .game-stage::before {
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    border-radius: 24px;
+    content: "";
+    background: linear-gradient(120deg, rgba(84, 216, 238, 0.7), transparent 24%, rgba(246, 184, 62, 0.5) 52%, transparent 70%, rgba(214, 77, 100, 0.76));
+    opacity: 0.5;
+  }
+
+  .game-frame {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    border: 1px solid rgba(248, 240, 231, 0.72);
+    border-radius: 18px 18px 4px 4px;
+    background: #030205;
+  }
+
+  .game-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #030205;
+  }
+
+  .game-mask {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: rgba(2, 1, 3, 0.46);
+    transition: opacity 0.38s var(--ease), visibility 0.38s var(--ease);
+  }
+
+  .game-mask-bg {
+    position: absolute;
+    inset: -22px;
+    background:
+      linear-gradient(rgba(5, 2, 7, 0.82), rgba(5, 2, 7, 0.82)),
+      url("/images/play-game.webp") center / cover no-repeat;
+    filter: blur(18px) saturate(1.16);
+    transform: scale(1.08);
+  }
+
+  .game-mask-panel {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    justify-items: center;
+    gap: 18px;
+    width: min(100%, 330px);
+    padding: 30px 24px;
+    border: 1px solid rgba(246, 184, 62, 0.24);
+    border-radius: 28px;
+    background: rgba(10, 5, 12, 0.46);
+    box-shadow: inset 0 0 70px rgba(84, 216, 238, 0.1), 0 0 50px rgba(214, 77, 100, 0.28);
+    backdrop-filter: blur(16px);
+  }
+
+  .game-mask-panel img {
+    width: 96px;
+    height: 96px;
+    border: 2px solid rgba(248, 240, 231, 0.56);
+    border-radius: 22px;
+    box-shadow: 0 0 28px rgba(84, 216, 238, 0.24), 0 0 42px rgba(214, 77, 100, 0.34);
+    object-fit: cover;
+  }
+
+  .game-play-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 54px;
+    padding: 0 28px;
+    border: 1px solid rgba(248, 240, 231, 0.64);
+    border-radius: 999px;
+    background: linear-gradient(135deg, #ffe28a, #ff7a77 48%, #d64d64);
+    color: #22090f;
+    cursor: pointer;
+    font: 900 16px / 1 var(--font-body);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    box-shadow: 0 12px 36px rgba(214, 77, 100, 0.46), 0 0 22px rgba(246, 184, 62, 0.32);
+    transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+  }
+
+  .game-play-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 46px rgba(214, 77, 100, 0.56), 0 0 30px rgba(246, 184, 62, 0.42);
+  }
+
+  .game-play-button svg,
+  .game-actions svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
+
+  .game-mask-panel p {
+    color: rgba(248, 240, 231, 0.7);
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .game-stage.is-playing .game-mask {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .game-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 18px;
+    min-height: 54px;
+    padding: 10px 8px 0;
+  }
+
+  .game-status {
+    display: none;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    color: rgba(248, 240, 231, 0.74);
+    font-size: 13px;
+  }
+
+  .game-status span {
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background: var(--cyan);
+    box-shadow: 0 0 18px var(--cyan);
+  }
+
+  .game-status strong {
+    color: var(--ink);
+  }
+
+  .game-status em {
+    color: rgba(248, 240, 231, 0.52);
+    font-style: normal;
+  }
+
+  .game-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .game-actions button {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 36px;
+    border: 1px solid rgba(248, 240, 231, 0.14);
+    border-radius: 10px;
+    background: rgba(248, 240, 231, 0.08);
+    color: var(--ink);
+    cursor: pointer;
+    transition: color 0.2s var(--ease), border-color 0.2s var(--ease), background 0.2s var(--ease);
+  }
+
+  .game-actions button:hover {
+    border-color: rgba(84, 216, 238, 0.58);
+    background: rgba(84, 216, 238, 0.14);
+    color: var(--cyan);
+  }
+
+  .game-stage.is-web-fullscreen {
+    position: fixed;
+    inset: 14px;
+    z-index: 200;
+    width: auto;
+    max-width: none;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+
+  .game-stage.is-web-fullscreen .game-frame {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+
+  .brand-nav-section,
+  .quick-start-section,
+  .route-map-section,
+  .ending-preview-section,
+  .cast-section,
+  .choice-preview-section,
+  .related-games-section,
+  .faq-section {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(40px, 5vw, 72px);
+  }
+
+  .brand-nav-section {
+    background:
+      radial-gradient(circle at 84% 28%, rgba(84, 216, 238, 0.18), transparent 28rem),
+      radial-gradient(circle at 12% 72%, rgba(246, 184, 62, 0.1), transparent 24rem),
+      linear-gradient(135deg, #0a0610, #1a0717 52%, #09060c);
+    border-block: 1px solid rgba(246, 184, 62, 0.18);
+  }
+
+  .brand-nav-content {
+    display: grid;
+    grid-template-columns: minmax(300px, 0.72fr) minmax(0, 1.28fr);
+    gap: clamp(24px, 4vw, 56px);
+    align-items: center;
+  }
+
+  .brand-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .brand-card img {
+    width: 72px;
+    height: 72px;
+    border: 1px solid rgba(246, 184, 62, 0.55);
+    border-radius: 18px;
+    box-shadow: 0 0 36px rgba(214, 77, 100, 0.35);
+    object-fit: cover;
+  }
+
+  .brand-card p,
+  .section-heading p {
+    color: var(--gold);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .brand-card h2 {
+    margin-top: 8px;
+    max-width: 620px;
+    font-size: clamp(24px, 3vw, 42px);
+  }
+
+  .brand-proof {
+    margin-top: 22px;
+    max-width: 590px;
+    color: rgba(248, 240, 231, 0.65);
+    font-size: 14px;
+  }
+
+  .home-nav {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    padding: 12px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background:
+      linear-gradient(135deg, rgba(248, 240, 231, 0.06), transparent 42%),
+      linear-gradient(90deg, rgba(84, 216, 238, 0.08), rgba(214, 77, 100, 0.08)),
+      rgba(5, 3, 8, 0.58);
+    box-shadow: inset 0 0 40px rgba(84, 216, 238, 0.05), 0 18px 52px rgba(0, 0, 0, 0.28);
+  }
+
+  .home-nav::before {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 96px;
+    height: 1px;
+    content: "";
+    background: linear-gradient(90deg, transparent, rgba(84, 216, 238, 0.72), transparent);
+    box-shadow: 0 0 18px rgba(84, 216, 238, 0.44);
+  }
+
+  .home-nav a {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    align-content: space-between;
+    min-height: 126px;
+    padding: 16px;
+    border: 1px solid rgba(246, 184, 62, 0.2);
+    background:
+      linear-gradient(145deg, rgba(248, 240, 231, 0.075), transparent 52%),
+      rgba(11, 6, 13, 0.68);
+    box-shadow: inset 0 0 0 1px rgba(84, 216, 238, 0.06);
+    transition: transform 0.24s var(--ease), border-color 0.24s var(--ease), background 0.24s var(--ease);
+  }
+
+  .home-nav a.is-primary {
+    background:
+      linear-gradient(135deg, rgba(246, 184, 62, 0.14), transparent 36%),
+      linear-gradient(145deg, rgba(84, 216, 238, 0.12), rgba(214, 77, 100, 0.12)),
+      rgba(11, 6, 13, 0.78);
+  }
+
+  .home-nav a::after {
+    position: absolute;
+    inset: auto -18% -42% 12%;
+    height: 82px;
+    content: "";
+    background: radial-gradient(ellipse, rgba(214, 77, 100, 0.34), transparent 70%);
+    transition: transform 0.24s var(--ease), opacity 0.24s var(--ease);
+  }
+
+  .home-nav a::before {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background:
+      linear-gradient(90deg, transparent 0 18%, rgba(84, 216, 238, 0.12) 19%, transparent 21%),
+      repeating-linear-gradient(0deg, rgba(248, 240, 231, 0.03) 0 1px, transparent 1px 16px);
+    opacity: 0;
+    transition: opacity 0.24s var(--ease);
+  }
+
+  .home-nav a:hover {
+    transform: translateY(-4px);
+    border-color: rgba(84, 216, 238, 0.5);
+    background:
+      linear-gradient(135deg, rgba(84, 216, 238, 0.16), rgba(214, 77, 100, 0.14)),
+      rgba(11, 6, 13, 0.88);
+  }
+
+  .home-nav a:hover::before {
+    opacity: 1;
+  }
+
+  .home-nav a:hover::after {
+    opacity: 0.9;
+    transform: translateY(-8px);
+  }
+
+  .home-nav span,
+  .home-nav em {
+    position: relative;
+    z-index: 1;
+    display: block;
+    color: rgba(246, 184, 62, 0.78);
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .home-nav strong {
+    position: relative;
+    z-index: 1;
+    display: block;
+    margin-block: 14px 10px;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: clamp(18px, 1.6vw, 23px);
+    line-height: 1.08;
+  }
+
+  .home-nav a.is-primary strong {
+    font-size: clamp(18px, 1.6vw, 23px);
+  }
+
+  .home-nav em {
+    color: rgba(248, 240, 231, 0.62);
+    font-weight: 800;
+    letter-spacing: 0;
+    line-height: 1.4;
+    text-transform: none;
+  }
+
+  .quick-start-section {
+    background:
+      radial-gradient(circle at 86% 12%, rgba(214, 77, 100, 0.14), transparent 24rem),
+      linear-gradient(135deg, #09060c, #130817 48%, #09060c);
+  }
+
+  .quick-start-content,
+  .ending-preview-content,
+  .cast-content,
+  .choice-preview-content,
+  .related-games-content,
+  .faq-content {
+    display: grid;
+    gap: clamp(18px, 2.4vw, 28px);
+  }
+
+  .quick-start-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .quick-start-grid article {
+    min-height: 150px;
+    padding: 18px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background:
+      linear-gradient(145deg, rgba(84, 216, 238, 0.06), rgba(214, 77, 100, 0.08)),
+      rgba(8, 4, 11, 0.72);
+  }
+
+  .quick-start-grid span {
+    color: var(--gold);
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .quick-start-grid h3 {
+    margin-top: 12px;
+    color: var(--cyan);
+    font-family: var(--font-body);
+    font-size: 17px;
+  }
+
+  .quick-start-grid p {
+    margin-top: 10px;
+    color: rgba(248, 240, 231, 0.68);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .section-heading {
+    display: grid;
+    gap: 10px;
+    max-width: 740px;
+    margin-bottom: clamp(18px, 2.6vw, 28px);
+  }
+
+  .section-heading h2 {
+    font-size: clamp(24px, 3vw, 38px);
+  }
+
+  .route-map-section {
+    background:
+      linear-gradient(rgba(9, 6, 12, 0.6), rgba(9, 6, 12, 0.6)),
+      url("/images/bg-02.webp") center / cover no-repeat;
+  }
+
+  .ending-preview-section {
+    background:
+      radial-gradient(circle at 18% 12%, rgba(246, 184, 62, 0.12), transparent 24rem),
+      #0b0710;
+  }
+
+  .ending-preview-table {
+    border: 1px solid rgba(246, 184, 62, 0.2);
+    background: rgba(6, 3, 9, 0.62);
+  }
+
+  .ending-preview-row {
+    display: grid;
+    grid-template-columns: 1fr 0.9fr 0.55fr 1.4fr;
+    gap: 16px;
+    align-items: center;
+    padding: 16px 18px;
+    border-bottom: 1px solid rgba(246, 184, 62, 0.12);
+    transition: background 0.2s var(--ease), color 0.2s var(--ease);
+  }
+
+  .ending-preview-row:last-child {
+    border-bottom: 0;
+  }
+
+  .ending-preview-row:hover {
+    background: rgba(84, 216, 238, 0.08);
+  }
+
+  .ending-preview-row span {
+    color: rgba(248, 240, 231, 0.72);
+    font-size: 14px;
+  }
+
+  .ending-preview-row span:first-child {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .ending-preview-row.is-head {
+    background: linear-gradient(90deg, rgba(122, 36, 56, 0.62), rgba(84, 216, 238, 0.12));
+  }
+
+  .ending-preview-row.is-head span,
+  .ending-preview-row.is-head span:first-child {
+    color: var(--gold);
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .route-map-content {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(28px, 5vw, 80px);
+    align-items: center;
+  }
+
+  .route-board {
+    position: relative;
+    display: grid;
+    gap: 18px;
+    padding: clamp(22px, 4vw, 46px);
+    border: 1px solid rgba(84, 216, 238, 0.32);
+    background:
+      linear-gradient(135deg, rgba(84, 216, 238, 0.1), rgba(214, 77, 100, 0.12)),
+      rgba(6, 3, 9, 0.72);
+    box-shadow: 0 0 70px rgba(84, 216, 238, 0.12), inset 0 0 60px rgba(246, 184, 62, 0.06);
+  }
+
+  .route-node,
+  .route-lines a {
+    border: 1px solid rgba(246, 184, 62, 0.28);
+    padding: 15px 18px;
+    color: var(--ink);
+    font-weight: 800;
+    background: rgba(5, 3, 8, 0.64);
+  }
+
+  .route-lines {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    padding-left: clamp(14px, 4vw, 60px);
+  }
+
+  .route-lines a {
+    color: rgba(248, 240, 231, 0.82);
+  }
+
+  .route-lines a:hover {
+    border-color: rgba(84, 216, 238, 0.54);
+    color: var(--cyan);
+  }
+
+  .cast-section {
+    background:
+      radial-gradient(circle at 74% 16%, rgba(84, 216, 238, 0.16), transparent 24rem),
+      radial-gradient(circle at 18% 86%, rgba(246, 184, 62, 0.12), transparent 22rem),
+      linear-gradient(135deg, #09060c, #180814 48%, #09060c);
+  }
+
+  .cast-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .cast-grid article {
+    position: relative;
+    display: grid;
+    grid-template-columns: 118px minmax(0, 1fr);
+    align-content: start;
+    gap: 14px 16px;
+    min-height: 250px;
+    padding: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(246, 184, 62, 0.24);
+    background:
+      linear-gradient(135deg, rgba(84, 216, 238, 0.1), rgba(214, 77, 100, 0.08)),
+      rgba(8, 4, 11, 0.7);
+    box-shadow: inset 0 0 44px rgba(84, 216, 238, 0.045);
+  }
+
+  .cast-grid article::before {
+    position: absolute;
+    inset: 0;
+    content: "";
+    pointer-events: none;
+    background:
+      linear-gradient(100deg, transparent 0 50%, rgba(246, 184, 62, 0.07) 50% 51%, transparent 51%),
+      repeating-linear-gradient(0deg, rgba(248, 240, 231, 0.035) 0 1px, transparent 1px 18px);
+    opacity: 0.7;
+  }
+
+  .cast-portrait,
+  .cast-copy,
+  .cast-links {
+    position: relative;
+    z-index: 1;
+  }
+
+  .cast-portrait {
+    display: grid;
+    gap: 9px;
+    align-content: start;
+  }
+
+  .cast-portrait img {
+    width: 118px;
+    height: 118px;
+    border: 1px solid rgba(246, 184, 62, 0.36);
+    object-fit: cover;
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+    box-shadow: 0 0 30px rgba(214, 77, 100, 0.26);
+  }
+
+  .cast-portrait span {
+    width: fit-content;
+    padding: 5px 7px;
+    border: 1px solid rgba(84, 216, 238, 0.22);
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    line-height: 1;
+    text-transform: uppercase;
+    background: rgba(5, 3, 8, 0.72);
+  }
+
+  .cast-grid h3 {
+    color: var(--ink);
+    font-size: 24px;
+    text-shadow: 0 0 18px rgba(84, 216, 238, 0.14);
+  }
+
+  .cast-copy p,
+  .faq-list p {
+    color: rgba(248, 240, 231, 0.68);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .cast-copy p {
+    margin-top: 10px;
+  }
+
+  .cast-copy p a {
+    color: var(--cyan);
+    font-weight: 800;
+  }
+
+  .cast-links {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-self: end;
+    padding-top: 8px;
+    border-top: 1px solid rgba(246, 184, 62, 0.14);
+  }
+
+  .cast-links a {
+    width: fit-content;
+    padding: 7px 9px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    text-transform: uppercase;
+    background: rgba(248, 240, 231, 0.045);
+  }
+
+  .cast-links a:hover {
+    border-color: rgba(84, 216, 238, 0.42);
+    color: var(--cyan);
+  }
+
+  .choice-preview-section {
+    background:
+      linear-gradient(135deg, #09060c, #14101d 52%, #160817);
+  }
+
+  .choice-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .choice-preview-grid a {
+    min-height: 150px;
+    padding: 18px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background: rgba(248, 240, 231, 0.045);
+    transition: transform 0.2s var(--ease), border-color 0.2s var(--ease);
+  }
+
+  .choice-preview-grid a:hover {
+    transform: translateY(-3px);
+    border-color: rgba(84, 216, 238, 0.45);
+  }
+
+  .choice-preview-grid strong {
+    display: block;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 22px;
+  }
+
+  .choice-preview-grid span {
+    display: block;
+    margin-top: 12px;
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .choice-preview-grid p {
+    margin-top: 10px;
+    color: rgba(248, 240, 231, 0.68);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .related-games-section {
+    background:
+      radial-gradient(circle at 16% 12%, rgba(246, 184, 62, 0.12), transparent 26rem),
+      linear-gradient(135deg, #09060c, #130817 54%, #09060c);
+    border-block: 1px solid rgba(246, 184, 62, 0.14);
+  }
+
+  .related-games-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .related-games-grid article {
+    overflow: hidden;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background: rgba(248, 240, 231, 0.045);
+  }
+
+  .related-games-grid img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    filter: saturate(1.08) contrast(1.04);
+  }
+
+  .related-game-body {
+    display: grid;
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .related-game-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .related-game-tags span {
+    border: 1px solid rgba(84, 216, 238, 0.28);
+    color: var(--cyan);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    padding: 4px 6px;
+    text-transform: uppercase;
+  }
+
+  .related-game-body h3 {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 19px;
+    line-height: 1.15;
+  }
+
+  .related-game-body p {
+    color: rgba(248, 240, 231, 0.66);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .related-game-body a {
+    color: var(--gold);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .related-games-more {
+    width: fit-content;
+    padding: 11px 15px;
+    border: 1px solid rgba(246, 184, 62, 0.34);
+    color: var(--ink);
+    font-size: 13px;
+    font-weight: 900;
+  }
+
+  .faq-section {
+    background:
+      radial-gradient(circle at 84% 24%, rgba(214, 77, 100, 0.16), transparent 30rem),
+      #09060c;
+  }
+
+  .faq-list {
+    display: grid;
+    gap: 10px;
+    max-width: 980px;
+  }
+
+  .faq-list details {
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background: rgba(248, 240, 231, 0.045);
+  }
+
+  .faq-list summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 20px 22px;
+    color: var(--ink);
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    list-style: none;
+  }
+
+  .faq-list summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-list summary::after {
+    color: var(--gold);
+    content: "+";
+    font-family: var(--font-body);
+  }
+
+  .faq-list details[open] summary::after {
+    content: "-";
+  }
+
+  .faq-list p {
+    padding: 0 22px 22px;
+  }
+
+  @media (max-width: 1024px) {
+    .brand-nav-content,
+    .route-map-content {
+      grid-template-columns: 1fr;
+    }
+
+    .home-nav {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cast-grid,
+    .quick-start-grid,
+    .choice-preview-grid,
+    .related-games-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 768px) {
+    .play-section {
+      min-height: 100svh;
+      padding-block: 14px 22px;
+    }
+
+    .game-stage {
+      width: 100%;
+      padding: 8px;
+      border-radius: 18px;
+    }
+
+    .game-frame {
+      height: min(68svh, 560px);
+      min-height: 420px;
+      aspect-ratio: auto;
+    }
+
+    .game-mask-panel p {
+      display: none;
+    }
+
+    .game-toolbar {
+      align-items: center;
+      flex-direction: row;
+      min-height: 46px;
+      padding-top: 8px;
+    }
+
+    .home-nav,
+    .cast-grid,
+    .quick-start-grid,
+    .choice-preview-grid,
+    .related-games-grid,
+    .route-lines {
+      grid-template-columns: 1fr;
+    }
+
+    .cast-grid article {
+      grid-template-columns: 92px minmax(0, 1fr);
+      min-height: auto;
+      padding: 12px;
+    }
+
+    .cast-portrait img {
+      width: 92px;
+      height: 92px;
+    }
+
+    .home-nav a,
+    .home-nav a.is-primary {
+      min-height: 106px;
+    }
+
+    .ending-preview-row {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+
+    .ending-preview-row.is-head {
+      display: none;
+    }
+
+    .brand-card {
+      grid-template-columns: 1fr;
+    }
+  }
+
+</style>

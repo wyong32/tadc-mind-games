@@ -1,0 +1,193 @@
+---
+const navigateLinks = [
+  { label: "Home", href: "/" },
+  { label: "Walkthrough", href: "/walkthrough" },
+  { label: "Endings", href: "/endings" },
+  { label: "Choices", href: "/choices" },
+  { label: "Characters", href: "/characters" },
+  { label: "Related Games", href: "/related-games" },
+  { label: "Updates", href: "/updates" },
+  { label: "Play Online", href: "/#play" },
+];
+
+const legalLinks = [
+  { label: "Privacy Policy", href: "/legal/privacy-policy" },
+  { label: "Terms of Service", href: "/legal/terms-of-service" },
+  { label: "Copyright", href: "/legal/copyright" },
+  { label: "About Us", href: "/legal/about-us" },
+  { label: "Contact Us", href: "/legal/contact-us" },
+];
+---
+
+<footer class="app-footer">
+  <div class="container app-footer-content">
+    <div class="app-footer-brand">
+      <a class="footer-logo" href="/" aria-label="TADC Mind Games home">
+        <img src="/images/logo.svg" alt="" width="48" height="48" loading="lazy" />
+        <span>
+          <strong>TADC Mind Games</strong>
+          <small>H5 game, choices, routes, and endings</small>
+        </span>
+      </a>
+      <p>
+        An independent H5 game site for TADC Mind Games players. Use the site to play online,
+        understand Caine pressure, follow Pomni and Kinger route signals, and track every known ending.
+      </p>
+      <p class="footer-disclaimer">Independent fan site. Not affiliated with PITCHBOX Studios, Glitch Productions, or Gooseworx.</p>
+    </div>
+
+    <div class="app-footer-links">
+      <nav aria-label="Footer navigation">
+        <h2>Navigate</h2>
+        {navigateLinks.map((item) => <a href={item.href}>{item.label}</a>)}
+      </nav>
+      <nav aria-label="Footer legal navigation">
+        <h2>Legal</h2>
+        {legalLinks.map((item) => <a href={item.href}>{item.label}</a>)}
+      </nav>
+    </div>
+  </div>
+
+  <div class="container app-footer-bottom">
+    <p>Copyright © 2026 TADC Mind Games. All rights reserved.</p>
+  </div>
+</footer>
+
+<style>
+  .app-footer {
+    position: relative;
+    overflow: hidden;
+    padding-block: 52px 24px;
+    border-top: 1px solid rgba(246, 184, 62, 0.18);
+    background:
+      radial-gradient(circle at 18% 0%, rgba(84, 216, 238, 0.1), transparent 28rem),
+      radial-gradient(circle at 92% 8%, rgba(214, 77, 100, 0.12), transparent 28rem),
+      linear-gradient(135deg, #09060c, #190916 48%, #0b0710);
+  }
+
+  .app-footer::before {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background-image:
+      linear-gradient(rgba(246, 184, 62, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(246, 184, 62, 0.04) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: linear-gradient(180deg, transparent, #000 30%, #000 82%, transparent);
+    pointer-events: none;
+  }
+
+  .app-footer-content,
+  .app-footer-bottom {
+    position: relative;
+    z-index: 1;
+  }
+
+  .app-footer-content {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.92fr) minmax(420px, 1fr);
+    gap: clamp(34px, 6vw, 96px);
+    align-items: start;
+  }
+
+  .app-footer-brand {
+    display: grid;
+    gap: 16px;
+    max-width: 620px;
+  }
+
+  .footer-logo {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+
+  .footer-logo img {
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgba(246, 184, 62, 0.42);
+    border-radius: 14px;
+    box-shadow: 0 0 28px rgba(214, 77, 100, 0.26);
+    object-fit: cover;
+  }
+
+  .footer-logo strong {
+    display: block;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 19px;
+    line-height: 1.1;
+  }
+
+  .footer-logo small {
+    display: block;
+    margin-top: 5px;
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .app-footer-brand p {
+    color: rgba(248, 240, 231, 0.68);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .footer-disclaimer {
+    padding-top: 12px;
+    border-top: 1px solid rgba(246, 184, 62, 0.16);
+  }
+
+  .app-footer-links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(22px, 4vw, 54px);
+  }
+
+  .app-footer-links nav {
+    display: grid;
+    align-content: start;
+    gap: 9px;
+  }
+
+  .app-footer-links h2 {
+    margin-bottom: 6px;
+    color: var(--gold);
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .app-footer-links a {
+    width: fit-content;
+    color: rgba(248, 240, 231, 0.76);
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .app-footer-links a:hover {
+    color: var(--cyan);
+  }
+
+  .app-footer-bottom {
+    margin-top: 38px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(246, 184, 62, 0.16);
+  }
+
+  .app-footer-bottom p {
+    color: rgba(248, 240, 231, 0.56);
+    font-size: 13px;
+  }
+
+  @media (max-width: 1024px) {
+    .app-footer-content,
+    .app-footer-links {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

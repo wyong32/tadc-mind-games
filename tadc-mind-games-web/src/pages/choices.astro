@@ -1,0 +1,884 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { pageSeo } from "../seo/pages";
+
+const choices = [
+  { signal: "Trust Caine", likely: "Raises Caine control", danger: "High", advice: "Use this when you want the room to feel more controlled, polished, and unsafe." },
+  { signal: "Question Caine", likely: "Raises defiance pressure", danger: "High", advice: "Use this when you want sharper reactions and faster bad-ending tension." },
+  { signal: "Help Pomni", likely: "Raises empathy / panic", danger: "Medium", advice: "Choose this when you want the route to lean toward fear, escape, and emotional pressure." },
+  { signal: "Follow Kinger", likely: "Raises clue route", danger: "Medium", advice: "Choose these when you want stranger hints, slower tension, and less direct answers." },
+  { signal: "Explore / Delay", likely: "Raises uncertainty", danger: "Unknown", advice: "Use this when the direct options all look too obvious or too dangerous." },
+  { signal: "Stay silent", likely: "Raises suspicion", danger: "Medium", advice: "Silence can feel neutral, but in horror scenes it often makes the pause more threatening." },
+  { signal: "Comfort someone", likely: "Softens panic", danger: "Medium", advice: "Comfort can help a character, but it may also keep you close to their fear." },
+  { signal: "Choose the joke", likely: "Breaks tension", danger: "Unknown", advice: "Humor can shift the mood, but it may also annoy the character controlling the scene." },
+];
+
+const moodMeters = [
+  { mood: "Trust", target: "Caine", pressure: "Control", level: "92%" },
+  { mood: "Doubt", target: "Caine", pressure: "Defiance", level: "88%" },
+  { mood: "Panic", target: "Pomni", pressure: "Escape", level: "76%" },
+  { mood: "Curiosity", target: "Kinger", pressure: "Clues", level: "64%" },
+  { mood: "Delay", target: "Room", pressure: "Unknown", level: "58%" },
+];
+
+const characterReads = [
+  { name: "Caine", href: "/characters#character-notes", image: "/images/characters-01.webp", alt: "Caine route choice preview in TADC Mind Games", text: "Caine choices are the clearest control test. Agreement may look clean, but repeated agreement can make the scene feel more trapped." },
+  { name: "Pomni", href: "/walkthrough#route-cards-heading", image: "/images/characters-02.webp", alt: "Pomni route choice atmosphere in TADC Mind Games", text: "Pomni choices are emotional route signals. Comfort, fear, and escape can all move the scene even when the answer sounds kind." },
+  { name: "Kinger", href: "/endings#ending-tracker-heading", image: "/images/characters-03.webp", alt: "Kinger clue choice atmosphere in TADC Mind Games", text: "Kinger choices reward patience. The strange answer is often more useful than the direct answer when you are hunting hidden movement." },
+];
+
+const choiceMethod = [
+  { label: "Signal first", text: "Each answer is grouped by what it does to the scene mood before it is judged as safe or risky." },
+  { label: "One change per replay", text: "This site recommends changing one strong answer at a time so the route movement stays readable." },
+  { label: "Canon boundary", text: "Character labels describe route behavior in the fan game, not official The Amazing Digital Circus canon." },
+];
+
+const tocItems = [
+  { label: "How Choices Work", href: "#choice-reading" },
+  { label: "Method", href: "#choice-method-heading" },
+  { label: "Mood Meter", href: "#mood-meter-heading" },
+  { label: "Choice Matrix", href: "#choice-matrix" },
+  { label: "Caine Pressure", href: "#caine-pressure-heading" },
+  { label: "Character Signals", href: "#character-read-heading" },
+  { label: "FAQ", href: "#choice-faq-heading" },
+];
+
+const routeRecipes = [
+  { title: "Safer first clear", steps: ["Avoid direct defiance early.", "Support Pomni without rushing escape.", "Follow Kinger only when the scene slows down."] },
+  { title: "Bad-ending push", steps: ["Challenge Caine repeatedly.", "Pick the answer that sounds too bold.", "Ignore the safer emotional option."] },
+  { title: "Hidden-path hunt", steps: ["Delay when possible.", "Follow odd clues.", "Mix one Caine answer with one character-focused answer."] },
+];
+
+const caineSignals = [
+  { label: "Trust", text: "Agreement, praise, and rule-following help you test whether Caine control is rising." },
+  { label: "Doubt", text: "Questions, refusal, and suspicion are the fastest way to test defiance pressure." },
+  { label: "Silence", text: "Quiet answers can still feel risky because they make the scene pause around Caine's control." },
+  { label: "Humor", text: "Jokes can break tension, but they may also clash with the character currently steering the room." },
+];
+
+const choiceFaqs = [
+  { q: "Are there safe choices?", a: "Some choices feel safer, but TADC Mind Games is designed around pressure. Safe usually means slower danger, not no danger." },
+  { q: "Should I always trust Caine?", a: "Only if you are chasing the control-heavy route. Trust can be useful, but repeated trust is rarely comfortable." },
+  { q: "Do Pomni and Kinger choices matter?", a: "Yes. Pomni pulls the route toward panic and escape, while Kinger is better for clues and odd detours." },
+  { q: "Is Caine evil in TADC Mind Games?", a: "Players often frame Caine as evil because his choices feel controlling and dangerous. For the choices page, the important part is route behavior: trust Caine and question Caine should be tested as separate paths." },
+];
+
+const jsonLd = {
+  "@type": "Article",
+  headline: "TADC Mind Games Choices - Consequences and Route Signals",
+  description: pageSeo.choices.description,
+  dateModified: "2026-07-01",
+  author: { "@type": "Organization", name: "TADC Mind Games Editorial Team" },
+};
+---
+
+<BaseLayout
+  title={pageSeo.choices.title}
+  description={pageSeo.choices.description}
+  keywords={pageSeo.choices.keywords}
+  jsonLd={jsonLd}
+>
+  <section class="choices-hero-section">
+    <div class="container">
+      <div class="choices-hero-content">
+        <div class="inner-hero-copy">
+          <p>Choice Consequence Map</p>
+          <h1>TADC Mind Games Choices - Consequences and Route Signals</h1>
+          <span>Read each answer by mood: trust, doubt, panic, curiosity, or danger.</span>
+          <div class="inner-hero-tags" aria-label="Choice guide topics">
+            <strong>Caine pressure</strong>
+            <strong>Pomni panic</strong>
+            <strong>Kinger clues</strong>
+          </div>
+        </div>
+        <div class="inner-hero-board" aria-label="Choice matrix preview">
+          <img src="/images/page-03.webp" alt="Choice matrix preview for TADC Mind Games" width="520" height="292" loading="eager" />
+          <div class="inner-hero-overlay">
+            <small>Signal Matrix</small>
+            <b>Choice Mood Reader</b>
+            <span>Trust / Delay / Explore / Refuse</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="choices-section">
+    <div class="container">
+      <div class="choices-content">
+        <main class="choices-main">
+        <article class="choices-intro">
+          <h2 id="choice-reading">How to read choices in TADC Mind Games</h2>
+          <p>
+            TADC Mind Games works best when you stop treating each option as a simple good or bad answer. In a horror visual novel, a polite answer can be dangerous if it strengthens Caine's control, and a brave answer can be dangerous if it escalates pressure too early. Read the <a href="/walkthrough">walkthrough</a> first if you need a clean route order.
+          </p>
+        </article>
+
+        <section class="choice-method-section" aria-labelledby="choice-method-heading">
+          <div class="section-title-block">
+            <p>Choice Method</p>
+            <h2 id="choice-method-heading">Why this page reads choices by signal instead of morality</h2>
+          </div>
+          <div class="choice-method-grid">
+            {choiceMethod.map((item) => (
+              <article>
+                <h3>{item.label}</h3>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section class="mood-meter-section" aria-labelledby="mood-meter-heading">
+          <div>
+            <p>Route Mood Meter</p>
+            <h2 id="mood-meter-heading">Track what each answer feels like before you click it</h2>
+            <span>The game is easier to solve when you label answers by emotional pressure. A choice can sound harmless while still pulling the scene toward a <a href="/endings">bad ending</a>.</span>
+          </div>
+          <div class="mood-meter-list">
+            {moodMeters.map((item) => (
+              <article style={`--meter:${item.level}`}>
+                <div>
+                  <strong>{item.mood}</strong>
+                  <span>{item.target} · {item.pressure}</span>
+                </div>
+                <i aria-hidden="true"></i>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <div class="choice-table" id="choice-matrix" role="table" aria-label="TADC Mind Games choice consequence matrix">
+          <div role="row" class="choice-row is-head">
+            <span role="columnheader">Choice signal</span>
+            <span role="columnheader">Likely route effect</span>
+            <span role="columnheader">Danger</span>
+                <span role="columnheader">Route advice</span>
+          </div>
+          {choices.map((choice) => (
+            <div role="row" class="choice-row">
+              <span role="cell">{choice.signal}</span>
+              <span role="cell">{choice.likely}</span>
+              <span role="cell">{choice.danger}</span>
+              <span role="cell">{choice.advice}</span>
+            </div>
+          ))}
+        </div>
+
+        <div class="choice-notes">
+          <section>
+            <h2>Caine route choices</h2>
+            <p>Split <a href="/characters">Caine</a> decisions into trust and defiance branches. Agreement, flattery, and obedience should be tested separately from suspicion, silence, refusal, or direct challenge.</p>
+          </section>
+          <section>
+            <h2>Pomni route choices</h2>
+            <p>Pomni choices often feel emotional rather than mechanical. Comfort, escape, panic, and direct help can all pull the scene in different directions.</p>
+          </section>
+          <section>
+            <h2>Kinger route choices</h2>
+            <p>Kinger branches are useful for clue tracking. If a clue appears, note whether it affects a later decision or only adds context.</p>
+          </section>
+        </div>
+
+        <section class="caine-pressure-section" aria-labelledby="caine-pressure-heading">
+          <div>
+            <p>Caine Pressure</p>
+            <h2 id="caine-pressure-heading">Why players search for evil Caine routes</h2>
+            <span>Players often describe Caine as evil because his route creates the clearest control pressure. Treat that as a useful route label, not an official canon claim, then compare his role on the <a href="/characters">characters page</a>.</span>
+          </div>
+          <div class="caine-signal-grid">
+            {caineSignals.map((item) => (
+              <article>
+                <strong>{item.label}</strong>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section class="character-read-section" aria-labelledby="character-read-heading">
+          <div class="section-title-block">
+            <p>Character Signals</p>
+            <h2 id="character-read-heading">How Caine, Pomni, and Kinger choices behave</h2>
+            <span>Use this section with the <a href="/characters">character page</a> when you want to separate route personality from ending outcome.</span>
+          </div>
+          <div class="character-read-grid">
+            {characterReads.map((item) => (
+              <article>
+                <img src={item.image} alt={item.alt} width="360" height="220" loading="lazy" />
+                <div>
+                  <h3><a href={item.href}>{item.name}</a></h3>
+                  <p>{item.text}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section class="recipe-section" aria-labelledby="recipe-heading">
+          <h2 id="recipe-heading">Choice recipes for your next replay</h2>
+          <p>After testing a recipe, open the <a href="/endings">endings page</a> to check whether the <a href="/walkthrough">route mood</a> matches a known ending path.</p>
+          <div class="recipe-grid">
+            {routeRecipes.map((recipe) => (
+              <article>
+                <h3>{recipe.title}</h3>
+                <ul>
+                  {recipe.steps.map((step) => <li>{step}</li>)}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section class="choice-faq-section" aria-labelledby="choice-faq-heading">
+          <h2 id="choice-faq-heading">Choices FAQ</h2>
+          <div class="choice-faq-list">
+            {choiceFaqs.map((item) => (
+              <details>
+                <summary>{item.q}</summary>
+                <p>{item.a}</p>
+              </details>
+            ))}
+            </div>
+          </section>
+        </main>
+
+        <aside class="choices-toc" aria-label="Choices page directory">
+          <p>On this page</p>
+          {tocItems.map((item) => <a href={item.href}>{item.label}</a>)}
+          <div>
+            <strong>Quick rule</strong>
+            <span>Read mood first, then read the answer.</span>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .choices-hero-section {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: clamp(46px, 5.4vw, 78px);
+    background:
+      radial-gradient(circle at 82% 8%, rgba(84, 216, 238, 0.15), transparent 22rem),
+      radial-gradient(circle at 14% 0%, rgba(246, 184, 62, 0.1), transparent 18rem),
+      linear-gradient(115deg, rgba(9, 6, 12, 0.98), rgba(32, 8, 24, 0.86), rgba(9, 6, 12, 0.94)),
+      url("/images/bg-02.webp") center / cover no-repeat;
+    border-bottom: 1px solid rgba(246, 184, 62, 0.18);
+  }
+
+  .choices-hero-section::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: "";
+    background:
+      conic-gradient(from 220deg at 76% 12%, rgba(246, 184, 62, 0.1), transparent 12%, rgba(84, 216, 238, 0.1), transparent 26%),
+      repeating-linear-gradient(90deg, rgba(248, 240, 231, 0.035) 0 1px, transparent 1px 80px),
+      repeating-linear-gradient(0deg, rgba(248, 240, 231, 0.024) 0 1px, transparent 1px 44px);
+    mask-image: linear-gradient(180deg, #000, rgba(0, 0, 0, 0.84), transparent 98%);
+    pointer-events: none;
+  }
+
+  .choices-hero-section::after {
+    position: absolute;
+    right: clamp(18px, 7vw, 118px);
+    top: 26px;
+    z-index: -1;
+    width: clamp(150px, 17vw, 260px);
+    height: clamp(82px, 10vw, 150px);
+    border: 1px solid rgba(84, 216, 238, 0.16);
+    content: "";
+    background:
+      radial-gradient(circle, rgba(84, 216, 238, 0.18), transparent 62%),
+      linear-gradient(135deg, rgba(246, 184, 62, 0.12), rgba(214, 77, 100, 0.12));
+    clip-path: polygon(0 0, 88% 0, 100% 28%, 100% 100%, 12% 100%, 0 72%);
+    transform: rotate(2deg);
+    opacity: 0.72;
+    filter: drop-shadow(0 0 28px rgba(84, 216, 238, 0.14));
+  }
+
+  .choices-hero-content,
+  .choices-content {
+    display: grid;
+    gap: 16px;
+  }
+
+  .choices-hero-content {
+    position: relative;
+    grid-template-columns: minmax(0, 0.74fr) minmax(240px, 0.26fr);
+    align-items: center;
+    min-height: 188px;
+    max-width: none;
+  }
+
+  .choices-hero-content p {
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .choices-hero-content h1 {
+    grid-column: 1;
+    max-width: 900px;
+    font-size: clamp(30px, 4.2vw, 52px);
+    line-height: 0.96;
+    text-transform: uppercase;
+    text-shadow: 0 0 22px rgba(84, 216, 238, 0.24), 0 2px 0 rgba(122, 36, 56, 0.48);
+  }
+
+  .choices-hero-content span {
+    grid-column: 1;
+    max-width: 720px;
+    color: rgba(248, 240, 231, 0.78);
+    font-size: 15px;
+  }
+
+  .choices-hero-content > p {
+    grid-column: 1;
+  }
+
+  .choices-hero-content::after {
+    display: none;
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    justify-self: end;
+    width: min(100%, 286px);
+    min-height: 152px;
+    padding: 16px 18px;
+    border: 1px solid rgba(84, 216, 238, 0.22);
+    content: "CHOICE SIGNAL\A Trust  Doubt\A Help   Delay\A Follow Observe\A Save Before Risk";
+    white-space: pre-line;
+    color: rgba(248, 240, 231, 0.78);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    line-height: 1.75;
+    background:
+      linear-gradient(135deg, rgba(84, 216, 238, 0.08), rgba(246, 184, 62, 0.07)),
+      rgba(5, 3, 8, 0.76);
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%);
+    box-shadow: inset 0 0 28px rgba(84, 216, 238, 0.06), 0 0 30px rgba(84, 216, 238, 0.1);
+  }
+
+  .inner-hero-copy {
+    display: grid;
+    gap: 12px;
+    align-content: center;
+    min-width: 0;
+  }
+
+  .inner-hero-copy p {
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .inner-hero-copy h1 {
+    max-width: 820px;
+    font-size: clamp(30px, 4.2vw, 52px);
+    line-height: 0.96;
+    text-transform: uppercase;
+    text-shadow: 0 0 22px rgba(84, 216, 238, 0.24), 0 2px 0 rgba(122, 36, 56, 0.48);
+  }
+
+  .inner-hero-copy > span {
+    max-width: 630px;
+    color: rgba(248, 240, 231, 0.78);
+    font-size: 15px;
+  }
+
+  .inner-hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .inner-hero-tags strong {
+    padding: 8px 10px;
+    border: 1px solid rgba(246, 184, 62, 0.22);
+    color: rgba(248, 240, 231, 0.82);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(248, 240, 231, 0.045);
+  }
+
+  .inner-hero-board {
+    position: relative;
+    align-self: stretch;
+    min-height: 210px;
+    overflow: hidden;
+    border: 1px solid rgba(246, 184, 62, 0.2);
+    background: rgba(5, 3, 8, 0.72);
+    clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.36), inset 0 0 40px rgba(84, 216, 238, 0.06);
+  }
+
+  .inner-hero-board img {
+    width: 100%;
+    height: 100%;
+    min-height: 210px;
+    object-fit: cover;
+    opacity: 0.46;
+    filter: saturate(1.1) contrast(1.08);
+  }
+
+  .inner-hero-board::before {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background:
+      linear-gradient(90deg, rgba(5, 3, 8, 0.92), rgba(5, 3, 8, 0.2) 46%, rgba(122, 36, 56, 0.18)),
+      repeating-linear-gradient(0deg, rgba(248, 240, 231, 0.04) 0 1px, transparent 1px 18px);
+  }
+
+  .inner-hero-overlay {
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+    display: grid;
+    gap: 5px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(84, 216, 238, 0.28);
+  }
+
+  .inner-hero-overlay small {
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .inner-hero-overlay b {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .inner-hero-overlay span {
+    color: rgba(248, 240, 231, 0.72);
+    font-size: 12px;
+  }
+
+  .choices-section {
+    padding-block: 76px;
+    background: linear-gradient(135deg, #09060c, #12101c 48%, #160817);
+  }
+
+  .choices-content {
+    grid-template-columns: minmax(0, 1fr) 280px;
+    align-items: start;
+  }
+
+  .choices-main {
+    display: grid;
+    gap: 26px;
+  }
+
+  .choices-intro {
+    max-width: 860px;
+  }
+
+  .choices-intro h2,
+  .choice-method-section h2,
+  .choice-notes h2,
+  .recipe-section h2,
+  .choice-faq-section h2 {
+    font-size: clamp(25px, 3vw, 40px);
+  }
+
+  .choices-intro p,
+  .choice-method-grid p,
+  .choice-notes p,
+  .choice-faq-list p,
+  .recipe-grid li,
+  .mood-meter-section span {
+    margin-top: 12px;
+    color: rgba(248, 240, 231, 0.68);
+  }
+
+  .choice-method-section {
+    display: grid;
+    gap: 16px;
+  }
+
+  .choice-method-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .choice-method-grid article {
+    padding: 20px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background:
+      linear-gradient(135deg, rgba(84, 216, 238, 0.06), rgba(214, 77, 100, 0.05)),
+      rgba(248, 240, 231, 0.045);
+  }
+
+  .choice-method-grid h3 {
+    color: var(--cyan);
+    font-family: var(--font-body);
+    font-size: 18px;
+  }
+
+  .mood-meter-section {
+    display: grid;
+    grid-template-columns: minmax(0, 0.86fr) minmax(320px, 1.14fr);
+    gap: 20px;
+    align-items: center;
+    padding: 24px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background:
+      radial-gradient(circle at 82% 18%, rgba(84, 216, 238, 0.14), transparent 24rem),
+      rgba(248, 240, 231, 0.045);
+  }
+
+  .mood-meter-section p,
+  .caine-pressure-section p,
+  .section-title-block p {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .mood-meter-section h2,
+  .caine-pressure-section h2,
+  .section-title-block h2 {
+    margin-top: 8px;
+    font-size: clamp(24px, 3vw, 38px);
+  }
+
+  .mood-meter-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .mood-meter-list article {
+    display: grid;
+    gap: 9px;
+    padding: 14px;
+    border: 1px solid rgba(84, 216, 238, 0.18);
+    background: rgba(5, 3, 8, 0.58);
+  }
+
+  .mood-meter-list article div {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+  }
+
+  .mood-meter-list strong {
+    color: var(--ink);
+  }
+
+  .mood-meter-list article span {
+    margin: 0;
+    color: rgba(248, 240, 231, 0.58);
+    font-size: 13px;
+  }
+
+  .mood-meter-list i {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(248, 240, 231, 0.1);
+  }
+
+  .mood-meter-list i::before {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: var(--meter);
+    content: "";
+    background: linear-gradient(90deg, var(--cyan), var(--gold), var(--rose));
+    box-shadow: 0 0 18px rgba(84, 216, 238, 0.38);
+  }
+
+  .choice-table {
+    border: 1px solid rgba(246, 184, 62, 0.2);
+    background: rgba(6, 3, 9, 0.6);
+  }
+
+  .choice-row {
+    display: grid;
+    grid-template-columns: 0.8fr 1fr 0.5fr 1.5fr;
+    gap: 16px;
+    padding: 18px 20px;
+    border-bottom: 1px solid rgba(246, 184, 62, 0.14);
+  }
+
+  .choice-row:last-child {
+    border-bottom: 0;
+  }
+
+  .choice-row span {
+    color: rgba(248, 240, 231, 0.72);
+  }
+
+  .choice-row span:first-child {
+    color: var(--ink);
+    font-weight: 900;
+  }
+
+  .choice-row.is-head {
+    background: linear-gradient(90deg, rgba(122, 36, 56, 0.62), rgba(84, 216, 238, 0.12));
+  }
+
+  .choice-row.is-head span {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .choice-notes {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .choice-notes section {
+    padding: 24px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background: rgba(248, 240, 231, 0.05);
+  }
+
+  .caine-pressure-section,
+  .character-read-section {
+    display: grid;
+    gap: 18px;
+    padding: 24px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background: rgba(248, 240, 231, 0.045);
+  }
+
+  .caine-pressure-section {
+    grid-template-columns: minmax(0, 0.82fr) minmax(320px, 1.18fr);
+    align-items: center;
+  }
+
+  .caine-pressure-section span {
+    display: block;
+    margin-top: 10px;
+    color: rgba(248, 240, 231, 0.68);
+  }
+
+  .caine-signal-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .caine-signal-grid article {
+    padding: 16px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background: rgba(5, 3, 8, 0.52);
+  }
+
+  .caine-signal-grid strong {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 20px;
+  }
+
+  .caine-signal-grid p {
+    margin-top: 8px;
+    color: rgba(248, 240, 231, 0.66);
+    font-size: 14px;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .character-read-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .character-read-grid article {
+    overflow: hidden;
+    border: 1px solid rgba(84, 216, 238, 0.18);
+    background: rgba(5, 3, 8, 0.62);
+  }
+
+  .character-read-grid img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .character-read-grid div {
+    padding: 16px;
+  }
+
+  .character-read-grid h3 {
+    color: var(--cyan);
+    font-family: var(--font-body);
+    font-size: 18px;
+  }
+
+  .character-read-grid h3 a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: rgba(246, 184, 62, 0.42);
+    text-underline-offset: 4px;
+  }
+
+  .character-read-grid h3 a:hover {
+    color: var(--gold);
+  }
+
+  .character-read-grid p {
+    margin-top: 8px;
+    color: rgba(248, 240, 231, 0.66);
+    font-size: 14px;
+  }
+
+  .recipe-section,
+  .choice-faq-section {
+    display: grid;
+    gap: 18px;
+  }
+
+  .recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .recipe-grid article,
+  .choice-faq-list details {
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background: rgba(248, 240, 231, 0.05);
+    padding: 22px;
+  }
+
+  .recipe-grid h3 {
+    color: var(--cyan);
+    font-family: var(--font-body);
+    font-size: 19px;
+  }
+
+  .recipe-grid ul {
+    display: grid;
+    gap: 8px;
+    margin-top: 12px;
+    padding-left: 18px;
+  }
+
+  .choice-faq-list {
+    display: grid;
+    gap: 10px;
+    max-width: 980px;
+  }
+
+  .choice-faq-list summary {
+    color: var(--ink);
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .choices-toc {
+    position: sticky;
+    top: 96px;
+    display: grid;
+    gap: 10px;
+    padding: 18px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background:
+      radial-gradient(circle at 100% 0, rgba(84, 216, 238, 0.12), transparent 12rem),
+      rgba(248, 240, 231, 0.045);
+  }
+
+  .choices-toc p {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .choices-toc a {
+    padding: 10px 12px;
+    border: 1px solid rgba(246, 184, 62, 0.14);
+    color: rgba(248, 240, 231, 0.76);
+    font-size: 13px;
+    font-weight: 900;
+  }
+
+  .choices-toc a:hover {
+    border-color: rgba(84, 216, 238, 0.42);
+    color: var(--cyan);
+  }
+
+  .choices-toc div {
+    display: grid;
+    gap: 6px;
+    margin-top: 10px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(246, 184, 62, 0.16);
+  }
+
+  .choices-toc strong {
+    color: var(--ink);
+  }
+
+  .choices-toc span {
+    color: rgba(248, 240, 231, 0.62);
+    font-size: 13px;
+  }
+
+  @media (max-width: 1024px) {
+    .choices-hero-content {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .choices-hero-content::after {
+      display: none;
+    }
+
+    .choices-content {
+      grid-template-columns: 1fr;
+    }
+
+    .choices-toc {
+      position: static;
+      order: -1;
+    }
+
+    .choice-row,
+    .choice-method-grid,
+    .choice-notes,
+    .recipe-grid,
+    .mood-meter-section,
+    .caine-pressure-section,
+    .caine-signal-grid,
+    .character-read-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .choice-row.is-head {
+      display: none;
+    }
+  }
+</style>

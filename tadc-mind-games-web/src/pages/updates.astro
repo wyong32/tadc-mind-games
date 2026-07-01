@@ -1,0 +1,757 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { pageSeo } from "../seo/pages";
+
+const updates = [
+  { date: "June 2026", title: "First public build is playable", text: "The current build lets players enter the horror visual novel setup and meet the visible cast: Caine, Pomni, and Kinger." },
+  { date: "June 2026", title: "Five endings to chase", text: "TADC Mind Games has five ending paths, making replay choices the main reason to return after a first clear." },
+  { date: "June 2026", title: "Browser and download options", text: "Players can use the browser build for quick play, while Windows and macOS downloads are useful when browser audio or visuals feel unstable." },
+];
+
+const buildSnapshot = [
+  { label: "Status", value: "In development" },
+  { label: "Build", value: "First public build" },
+  { label: "Platforms", value: "HTML5, Windows, macOS" },
+  { label: "Genre", value: "Horror visual novel" },
+  { label: "Endings", value: "5 known endings" },
+  { label: "Cast focus", value: "Caine, Pomni, Kinger" },
+];
+
+const nextSteps = [
+  { title: "Replay for Caine pressure", text: "Choose trust or defiance repeatedly and watch how the route changes when Caine controls the scene." },
+  { title: "Replay for Pomni panic", text: "Pick emotional, escape-focused, or supportive choices to see how fear shapes the next branch." },
+  { title: "Replay for Kinger clues", text: "Follow strange hints and slower answers when the obvious route feels too direct." },
+];
+
+const officialLinks = [
+  { title: "Official game page", text: "Use this for browser play, downloads, build notes, and creator posts.", href: "https://pitchbox-studios.itch.io/tadc-mind-games" },
+  { title: "Play online", text: "Return to the browser player and test a new route immediately.", href: "/#play" },
+  { title: "TADC official hub", text: "Use this for the original The Amazing Digital Circus series context.", href: "https://www.glitchprod.com/digital-circus" },
+];
+
+const playerNotes = [
+  { title: "Sound effects may change", text: "The current build uses early sound effects, so future builds may feel different even when the route structure is familiar." },
+  { title: "Browser play is convenient", text: "The web build is the fastest way to test a route, but downloads are better for long sessions if the browser stutters." },
+  { title: "Expect route revisions", text: "Because the game is still in development, endings and choice behavior may shift as new builds arrive." },
+  { title: "Fan-made context matters", text: "The game is an unofficial fan project, so route pages focus on player help without presenting it as canon." },
+];
+
+const updateMethod = [
+  { label: "Game page first", text: "Build notes should match the official game page before this site treats them as current." },
+  { label: "Player impact", text: "Updates are organized around what changes for players: routes, endings, browser stability, downloads, or visible cast." },
+  { label: "Clean changelog", text: "The timeline stays focused on useful game changes instead of padding the page with uncertain claims." },
+];
+
+const tocItems = [
+  { label: "Build Snapshot", href: "#snapshot-heading" },
+  { label: "Update Notes", href: "#update-method-heading" },
+  { label: "Timeline", href: "#update-timeline" },
+  { label: "Player Notes", href: "#player-notes-heading" },
+  { label: "Official Links", href: "#watch-heading" },
+  { label: "Run Ideas", href: "#next-steps-heading" },
+  { label: "FAQ", href: "#updates-faq-heading" },
+];
+
+const updateFaqs = [
+  { q: "Is TADC Mind Games finished?", a: "Not yet. The current public build is playable, and replay value comes from choices, route changes, and endings." },
+  { q: "Where should returning players start?", a: "Start with the endings page if you already finished one run, or the choices page if you are stuck before an ending." },
+  { q: "What if the browser build has problems?", a: "Try fullscreen, refresh once, or use the downloadable build for a smoother session." },
+];
+
+const jsonLd = {
+  "@type": "Article",
+  headline: "TADC Mind Games Updates - Build Status and Ending Notes",
+  description: pageSeo.updates.description,
+  dateModified: "2026-07-01",
+  author: { "@type": "Organization", name: "TADC Mind Games Editorial Team" },
+};
+---
+
+<BaseLayout
+  title={pageSeo.updates.title}
+  description={pageSeo.updates.description}
+  keywords={pageSeo.updates.keywords}
+  jsonLd={jsonLd}
+>
+  <section class="updates-hero-section">
+    <div class="container">
+      <div class="updates-hero-content">
+        <div class="inner-hero-copy">
+          <p>Game Updates</p>
+          <h1>TADC Mind Games Updates - Build Status and Ending Notes</h1>
+          <span>Quick notes for players who want to know what is playable now and what to try next.</span>
+          <div class="inner-hero-tags" aria-label="Update page topics">
+            <strong>Build status</strong>
+            <strong>Known endings</strong>
+            <strong>Play notes</strong>
+          </div>
+        </div>
+        <div class="inner-hero-board" aria-label="Build status preview">
+          <img src="/images/page-06.webp" alt="Build status board for TADC Mind Games" width="520" height="292" loading="eager" />
+          <div class="inner-hero-overlay">
+            <small>Status Desk</small>
+            <b>Playable Build</b>
+            <span>Browser / Windows / macOS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="updates-section">
+    <div class="container">
+      <div class="updates-content">
+        <main class="updates-main">
+          <section class="snapshot-section" aria-labelledby="snapshot-heading">
+            <div>
+              <p>Current Build Snapshot</p>
+              <h2 id="snapshot-heading">What players can expect from the current build</h2>
+              <span>The current public build is a short horror visual novel with replay-focused <a href="/endings">endings</a>, a small <a href="/characters">visible cast</a>, <a href="/choices">choice pressure</a>, and browser/download play options.</span>
+            </div>
+            <dl>
+              {buildSnapshot.map((item) => (
+                <div>
+                  <dt>{item.label}</dt>
+                  <dd>{item.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+
+          <section class="update-method-section" aria-labelledby="update-method-heading">
+            <div class="section-head">
+              <p>Update Notes</p>
+              <h2 id="update-method-heading">How build updates affect players</h2>
+            </div>
+            <div class="update-method-grid">
+              {updateMethod.map((item) => (
+                <article>
+                  <h3>{item.label}</h3>
+                  <p>{item.text}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <div class="timeline" id="update-timeline">
+            {updates.map((item) => (
+              <article>
+                <time>{item.date}</time>
+                <h2>{item.title}</h2>
+                <p>{item.text}</p>
+              </article>
+            ))}
+          </div>
+
+          <section class="player-notes-section" aria-labelledby="player-notes-heading">
+            <div class="section-head">
+              <p>Player Notes</p>
+              <h2 id="player-notes-heading">Small build details that affect how you play</h2>
+            </div>
+            <div class="player-notes-grid">
+              {playerNotes.map((note) => (
+                <article>
+                  <h3>{note.title}</h3>
+                  <p>{note.text}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section class="watch-section" aria-labelledby="watch-heading">
+            <div>
+            <p>Official Links</p>
+            <h2 id="watch-heading">Useful places to check before your next route sweep</h2>
+            <span>Use the game page for play/download updates, player impressions for atmosphere notes, and the original TADC hub for series background. After checking updates, return to the <a href="/walkthrough">walkthrough</a> for route order.</span>
+          </div>
+            <div class="watch-grid">
+              {officialLinks.map((item) => (
+                <a href={item.href} target="_blank" rel="nofollow noopener">
+                  <strong>{item.title}</strong>
+                  <span>{item.text}</span>
+                </a>
+              ))}
+            </div>
+          </section>
+
+          <section class="next-steps-section" aria-labelledby="next-steps-heading">
+            <h2 id="next-steps-heading">New run ideas</h2>
+            <div class="next-steps-grid">
+              {nextSteps.map((step) => (
+                <article>
+                  <h3>{step.title}</h3>
+                  <p>{step.text}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section class="updates-faq-section" aria-labelledby="updates-faq-heading">
+            <h2 id="updates-faq-heading">Updates FAQ</h2>
+            <div class="updates-faq-list">
+              {updateFaqs.map((item) => (
+                <details>
+                  <summary>{item.q}</summary>
+                  <p>{item.a}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        </main>
+
+        <aside class="updates-toc" aria-label="Updates page directory">
+          <p>On this page</p>
+          {tocItems.map((item) => <a href={item.href}>{item.label}</a>)}
+          <div>
+            <strong>Best next stop</strong>
+            <span>Play one route, then open <a href="/endings">endings</a> after your first clear.</span>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .updates-hero-section {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: clamp(46px, 5.4vw, 78px);
+    background:
+      radial-gradient(circle at 82% 8%, rgba(84, 216, 238, 0.14), transparent 22rem),
+      radial-gradient(circle at 14% 0%, rgba(214, 77, 100, 0.16), transparent 20rem),
+      linear-gradient(115deg, rgba(9, 6, 12, 0.98), rgba(24, 8, 24, 0.86), rgba(9, 6, 12, 0.94)),
+      url("/images/bg-02.webp") center / cover no-repeat;
+    border-bottom: 1px solid rgba(246, 184, 62, 0.18);
+  }
+
+  .updates-hero-section::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: "";
+    background:
+      linear-gradient(90deg, rgba(214, 77, 100, 0.08), transparent 20%, transparent 78%, rgba(84, 216, 238, 0.08)),
+      repeating-linear-gradient(90deg, rgba(248, 240, 231, 0.035) 0 1px, transparent 1px 80px),
+      repeating-linear-gradient(0deg, rgba(248, 240, 231, 0.024) 0 1px, transparent 1px 44px);
+    mask-image: linear-gradient(180deg, #000, rgba(0, 0, 0, 0.84), transparent 98%);
+    pointer-events: none;
+  }
+
+  .updates-hero-section::after {
+    position: absolute;
+    right: clamp(18px, 7vw, 118px);
+    top: 26px;
+    z-index: -1;
+    width: clamp(150px, 17vw, 260px);
+    height: clamp(82px, 10vw, 150px);
+    border: 1px solid rgba(246, 184, 62, 0.16);
+    content: "";
+    background:
+      linear-gradient(135deg, rgba(246, 184, 62, 0.13), transparent 42%),
+      repeating-linear-gradient(90deg, rgba(84, 216, 238, 0.12) 0 2px, transparent 2px 34px),
+      rgba(122, 36, 56, 0.2);
+    clip-path: polygon(0 0, 88% 0, 100% 28%, 100% 100%, 12% 100%, 0 72%);
+    transform: rotate(2deg);
+    opacity: 0.72;
+    filter: drop-shadow(0 0 28px rgba(246, 184, 62, 0.12));
+  }
+
+  .updates-hero-content,
+  .updates-content {
+    display: grid;
+    gap: 16px;
+  }
+
+  .updates-hero-content {
+    position: relative;
+    grid-template-columns: minmax(0, 0.74fr) minmax(240px, 0.26fr);
+    align-items: center;
+    min-height: 188px;
+    max-width: none;
+  }
+
+  .updates-hero-content p {
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .updates-hero-content h1 {
+    grid-column: 1;
+    max-width: 900px;
+    font-size: clamp(30px, 4.2vw, 52px);
+    line-height: 0.96;
+    text-transform: uppercase;
+    text-shadow: 0 0 22px rgba(246, 184, 62, 0.22), 0 2px 0 rgba(122, 36, 56, 0.48);
+  }
+
+  .updates-hero-content span {
+    grid-column: 1;
+    max-width: 720px;
+    color: rgba(248, 240, 231, 0.78);
+    font-size: 15px;
+  }
+
+  .updates-hero-content > p {
+    grid-column: 1;
+  }
+
+  .updates-hero-content::after {
+    display: none;
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    justify-self: end;
+    width: min(100%, 286px);
+    min-height: 152px;
+    padding: 16px 18px;
+    border: 1px solid rgba(84, 216, 238, 0.22);
+    content: "BUILD STATUS\A Public Build\A 5 Endings Known\A Browser Build\A Windows + macOS";
+    white-space: pre-line;
+    color: rgba(248, 240, 231, 0.78);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    line-height: 1.75;
+    background:
+      linear-gradient(135deg, rgba(246, 184, 62, 0.08), rgba(84, 216, 238, 0.08)),
+      rgba(5, 3, 8, 0.76);
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%);
+    box-shadow: inset 0 0 28px rgba(246, 184, 62, 0.05), 0 0 30px rgba(84, 216, 238, 0.1);
+  }
+
+  .inner-hero-copy {
+    display: grid;
+    gap: 12px;
+    align-content: center;
+    min-width: 0;
+  }
+
+  .inner-hero-copy p {
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .inner-hero-copy h1 {
+    max-width: 820px;
+    font-size: clamp(30px, 4.2vw, 52px);
+    line-height: 0.96;
+    text-transform: uppercase;
+    text-shadow: 0 0 22px rgba(246, 184, 62, 0.22), 0 2px 0 rgba(122, 36, 56, 0.48);
+  }
+
+  .inner-hero-copy > span {
+    max-width: 630px;
+    color: rgba(248, 240, 231, 0.78);
+    font-size: 15px;
+  }
+
+  .inner-hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .inner-hero-tags strong {
+    padding: 8px 10px;
+    border: 1px solid rgba(246, 184, 62, 0.22);
+    color: rgba(248, 240, 231, 0.82);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(248, 240, 231, 0.045);
+  }
+
+  .inner-hero-board {
+    position: relative;
+    align-self: stretch;
+    min-height: 210px;
+    overflow: hidden;
+    border: 1px solid rgba(246, 184, 62, 0.2);
+    background: rgba(5, 3, 8, 0.72);
+    clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.36), inset 0 0 40px rgba(84, 216, 238, 0.06);
+  }
+
+  .inner-hero-board img {
+    width: 100%;
+    height: 100%;
+    min-height: 210px;
+    object-fit: cover;
+    opacity: 0.46;
+    filter: saturate(1.1) contrast(1.08);
+  }
+
+  .inner-hero-board::before {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background:
+      linear-gradient(90deg, rgba(5, 3, 8, 0.92), rgba(5, 3, 8, 0.2) 46%, rgba(122, 36, 56, 0.18)),
+      repeating-linear-gradient(0deg, rgba(248, 240, 231, 0.04) 0 1px, transparent 1px 18px);
+  }
+
+  .inner-hero-overlay {
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+    display: grid;
+    gap: 5px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(84, 216, 238, 0.28);
+  }
+
+  .inner-hero-overlay small {
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .inner-hero-overlay b {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .inner-hero-overlay span {
+    color: rgba(248, 240, 231, 0.72);
+    font-size: 12px;
+  }
+.updates-section {
+    padding-block: 76px;
+    background: linear-gradient(135deg, #09060c, #130817 48%, #09060c);
+  }
+
+  .updates-content {
+    grid-template-columns: minmax(0, 1fr) 280px;
+    align-items: start;
+  }
+
+  .updates-main {
+    display: grid;
+    gap: 26px;
+    min-width: 0;
+  }
+
+  .snapshot-section,
+  .update-method-section,
+  .player-notes-section,
+  .watch-section {
+    display: grid;
+    gap: 18px;
+    padding: 24px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background:
+      radial-gradient(circle at 82% 18%, rgba(84, 216, 238, 0.12), transparent 24rem),
+      rgba(248, 240, 231, 0.045);
+  }
+
+  .snapshot-section {
+    grid-template-columns: minmax(0, 0.8fr) minmax(320px, 1.2fr);
+    align-items: center;
+  }
+
+  .update-method-section {
+    gap: 16px;
+  }
+
+  .update-method-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .update-method-grid article {
+    padding: 20px;
+    border: 1px solid rgba(84, 216, 238, 0.18);
+    background: rgba(5, 3, 8, 0.3);
+  }
+
+  .update-method-grid h3 {
+    color: var(--cyan);
+    font-family: var(--font-body);
+    font-size: 18px;
+  }
+
+  .update-method-grid p {
+    margin-top: 10px;
+    color: rgba(248, 240, 231, 0.68);
+  }
+
+  .snapshot-section p,
+  .section-head p,
+  .watch-section p {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .snapshot-section h2,
+  .section-head h2,
+  .watch-section h2 {
+    margin-top: 8px;
+    font-size: clamp(25px, 3vw, 40px);
+  }
+
+  .snapshot-section span,
+  .watch-section span {
+    display: block;
+    margin-top: 10px;
+    color: rgba(248, 240, 231, 0.68);
+  }
+
+  .snapshot-section dl {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0;
+  }
+
+  .snapshot-section dl div {
+    padding: 14px;
+    border: 1px solid rgba(246, 184, 62, 0.16);
+    background: rgba(5, 3, 8, 0.54);
+  }
+
+  .snapshot-section dt {
+    color: rgba(248, 240, 231, 0.5);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .snapshot-section dd {
+    margin: 5px 0 0;
+    color: var(--ink);
+    font-weight: 900;
+  }
+
+  .timeline {
+    display: grid;
+    gap: 14px;
+  }
+
+  .timeline article,
+  .updates-toc {
+    border: 1px solid rgba(246, 184, 62, 0.2);
+    background: rgba(248, 240, 231, 0.05);
+    padding: 24px;
+  }
+
+  .timeline time {
+    color: var(--gold);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .timeline h2 {
+    margin-top: 10px;
+    font-size: 28px;
+  }
+
+  .timeline p {
+    margin-top: 10px;
+    color: rgba(248, 240, 231, 0.68);
+  }
+
+  .updates-toc {
+    position: sticky;
+    top: 96px;
+    display: grid;
+    gap: 10px;
+  }
+
+  .updates-toc p {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .updates-toc a {
+    padding: 10px 12px;
+    border: 1px solid rgba(246, 184, 62, 0.14);
+    color: rgba(248, 240, 231, 0.76);
+    font-size: 13px;
+    font-weight: 900;
+  }
+
+  .updates-toc a:hover {
+    border-color: rgba(84, 216, 238, 0.42);
+    color: var(--cyan);
+  }
+
+  .updates-toc div {
+    display: grid;
+    gap: 6px;
+    margin-top: 10px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(246, 184, 62, 0.16);
+  }
+
+  .updates-toc strong {
+    color: var(--ink);
+  }
+
+  .updates-toc span {
+    color: rgba(248, 240, 231, 0.62);
+    font-size: 13px;
+  }
+
+  .player-notes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .player-notes-grid article,
+  .watch-grid a {
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background: rgba(5, 3, 8, 0.54);
+    padding: 18px;
+  }
+
+  .player-notes-grid h3 {
+    color: var(--cyan);
+    font-family: var(--font-body);
+    font-size: 18px;
+  }
+
+  .player-notes-grid p {
+    margin-top: 10px;
+    color: rgba(248, 240, 231, 0.66);
+    font-size: 14px;
+  }
+
+  .watch-section {
+    grid-template-columns: minmax(0, 0.8fr) minmax(320px, 1.2fr);
+    align-items: start;
+  }
+
+  .watch-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .watch-grid a {
+    display: grid;
+    gap: 8px;
+    transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+
+  .watch-grid a:hover {
+    transform: translateY(-2px);
+    border-color: rgba(84, 216, 238, 0.46);
+  }
+
+  .watch-grid strong {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 20px;
+  }
+
+  .watch-grid span {
+    margin: 0;
+    color: rgba(248, 240, 231, 0.66);
+    font-size: 14px;
+  }
+
+  .next-steps-section,
+  .updates-faq-section {
+    display: grid;
+    gap: 18px;
+    margin-top: 12px;
+  }
+
+  .next-steps-section h2,
+  .updates-faq-section h2 {
+    font-size: clamp(26px, 3vw, 40px);
+  }
+
+  .next-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .next-steps-grid article,
+  .updates-faq-list details {
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background: rgba(248, 240, 231, 0.05);
+    padding: 22px;
+  }
+
+  .next-steps-grid h3 {
+    color: var(--cyan);
+    font-family: var(--font-body);
+    font-size: 19px;
+  }
+
+  .next-steps-grid p,
+  .updates-faq-list p {
+    margin-top: 10px;
+    color: rgba(248, 240, 231, 0.68);
+  }
+
+  .updates-faq-list {
+    display: grid;
+    gap: 10px;
+    max-width: 980px;
+  }
+
+  .updates-faq-list summary {
+    color: var(--ink);
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  @media (max-width: 1024px) {
+    .updates-hero-content {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .updates-hero-content::after {
+      display: none;
+    }
+
+    .updates-content {
+      grid-template-columns: 1fr;
+    }
+
+    .updates-toc {
+      position: static;
+      order: -1;
+    }
+
+    .next-steps-grid,
+    .update-method-grid,
+    .player-notes-grid,
+    .snapshot-section,
+    .snapshot-section dl,
+    .watch-section,
+    .watch-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

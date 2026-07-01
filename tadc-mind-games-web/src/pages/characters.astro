@@ -1,0 +1,728 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { pageSeo } from "../seo/pages";
+
+const characters = [
+  {
+    name: "Caine",
+    role: "Control pressure",
+    routeSignal: "Trust, doubt, refusal, silence",
+    endingPull: "Caine-heavy bad-ending pressure",
+    image: "/images/characters-01.webp",
+    alt: "Caine route pressure preview for TADC Mind Games",
+    routeText: "Caine is the game's strongest control signal. His scenes are useful for testing how obedience, suspicion, and refusal change the pressure of a route.",
+    playerRead: "Start with Caine when you want the clearest route feedback. Trust and defiance should be tested as separate moods instead of mixed on the same first replay.",
+  },
+  {
+    name: "Pomni",
+    role: "Panic and escape response",
+    routeSignal: "Help, comfort, fear, escape",
+    endingPull: "Emotion-driven danger and panic routes",
+    image: "/images/characters-02.webp",
+    alt: "Pomni panic route atmosphere for TADC Mind Games",
+    routeText: "Pomni choices feel emotional before they feel mechanical. Comfort, fear, and escape can all move a route, even when the answer sounds kind.",
+    playerRead: "Use Pomni-focused replays when you want to test whether support lowers pressure or pulls you closer to the character's panic.",
+  },
+  {
+    name: "Kinger",
+    role: "Clue and detour signal",
+    routeSignal: "Follow hints, wait, observe, choose the strange answer",
+    endingPull: "Hidden-route movement and slower discoveries",
+    image: "/images/characters-03.webp",
+    alt: "Kinger clue route preview for TADC Mind Games",
+    routeText: "Kinger is best read as the game's clue path. His choices can feel less urgent than Caine or Pomni, but they are useful for odd scene movement.",
+    playerRead: "Use Kinger routes after one direct Caine or Pomni run. Slower answers, strange hints, and curiosity are more useful than rushing to a clean exit.",
+  },
+];
+
+const routeMatrix = [
+  { character: "Caine", test: "Trust Caine repeatedly", watch: "Whether the room feels more controlled", use: "Good first pressure test" },
+  { character: "Caine", test: "Question Caine repeatedly", watch: "Whether danger arrives faster", use: "Useful for bad-ending hunting" },
+  { character: "Pomni", test: "Choose fear, comfort, or escape", watch: "Whether panic becomes the route focus", use: "Best for emotional branches" },
+  { character: "Kinger", test: "Follow odd hints and slower answers", watch: "Whether clue scenes change later choices", use: "Best after obvious routes" },
+  { character: "Mixed", test: "Blend one character signal with delay", watch: "Whether the path stops matching a clean route", use: "Useful for hidden-route attempts" },
+];
+
+const routePriority = [
+  { step: "01", title: "Start with Caine", text: "Caine gives the clearest route feedback because trust and defiance change the tone quickly. Use him first if you want to understand how pressure works." },
+  { step: "02", title: "Move to Pomni", text: "Pomni is better after one Caine run because her choices ask whether comfort, fear, or escape is shaping the scene." },
+  { step: "03", title: "Follow Kinger", text: "Kinger is strongest once you are ready to slow down, read the room, and test strange hints instead of obvious answers." },
+];
+
+const endingConnections = [
+  { character: "Caine", route: "Compliance / Defiance", ending: "Bad-ending pressure", next: "Open the endings page after testing both trust and doubt." },
+  { character: "Pomni", route: "Support / Panic", ending: "Escape-flavored danger", next: "Use the choices page to separate comfort from panic." },
+  { character: "Kinger", route: "Clue / Detour", ending: "Hidden or mixed movement", next: "Replay slower scenes and note every odd hint." },
+];
+
+const tocItems = [
+  { label: "Current Cast", href: "#current-cast" },
+  { label: "Route Matrix", href: "#route-matrix" },
+  { label: "Character Notes", href: "#character-notes" },
+  { label: "Route Order", href: "#route-order" },
+  { label: "Ending Links", href: "#ending-links" },
+  { label: "FAQ", href: "#characters-faq" },
+];
+
+const characterFaqs = [
+  { q: "Which characters appear in TADC Mind Games?", a: "The current character page focuses on Caine, Pomni, and Kinger because they are the visible cast with route behavior players can track right now." },
+  { q: "Is Jax in TADC Mind Games?", a: "Jax is not covered as a current route character on this page. If a future public build adds more character routes, the site can expand with new route notes." },
+  { q: "Which character route should I try first?", a: "Start with Caine if you want the clearest pressure shift, Pomni if you want emotion and escape pressure, or Kinger if you already cleared an obvious route and want clue-focused movement." },
+  { q: "Are these character routes official canon?", a: "No. TADC Mind Games is a fan-made horror visual novel, and this page describes player-facing route behavior rather than official The Amazing Digital Circus canon." },
+];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "TADC Mind Games Characters - Caine, Pomni and Kinger",
+  dateModified: "2026-07-01",
+  author: { "@type": "Organization", name: "TADC Mind Games Editorial Team" },
+};
+---
+
+<BaseLayout
+  title={pageSeo.characters.title}
+  description={pageSeo.characters.description}
+  keywords={pageSeo.characters.keywords}
+  jsonLd={jsonLd}
+>
+  <section class="characters-hero-section">
+    <div class="container">
+      <div class="characters-hero-content">
+        <div class="inner-hero-copy">
+          <p>Current Cast</p>
+          <h1>TADC Mind Games Characters - Caine, Pomni and Kinger</h1>
+          <span>Read the current cast by route pressure, choice behavior, ending direction, and the order that makes each replay easier to understand.</span>
+          <div class="inner-hero-tags" aria-label="Character guide topics">
+            <strong>Caine pressure</strong>
+            <strong>Pomni panic</strong>
+            <strong>Kinger clues</strong>
+          </div>
+        </div>
+        <div class="inner-hero-board" aria-label="TADC Mind Games character route preview">
+          <img src="/images/page-04.webp" alt="TADC Mind Games character route preview" width="520" height="292" loading="eager" />
+          <div class="inner-hero-overlay">
+            <small>Cast File</small>
+            <b>Visible Routes</b>
+            <span>Caine / Pomni / Kinger</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="characters-section">
+    <div class="container">
+      <div class="characters-content">
+        <main class="characters-main">
+          <section class="cast-snapshot-section" id="current-cast" aria-labelledby="current-cast-heading">
+            <div class="section-title-block">
+              <p>Current Cast Snapshot</p>
+              <h2 id="current-cast-heading">The current character page focuses on three playable-route signals</h2>
+              <span>The current build is compact enough that a character page should stay focused. This page covers the characters with meaningful route behavior now, then leaves room for future cast <a href="/updates">updates</a> when the game expands.</span>
+            </div>
+            <div class="character-card-grid">
+              {characters.map((character) => (
+                <article>
+                  <img src={character.image} alt={character.alt} width="420" height="236" loading="lazy" />
+                  <div>
+                    <p>{character.role}</p>
+                    <h3>{character.name}</h3>
+                    <span>{character.routeText}</span>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section class="route-matrix-section" id="route-matrix" aria-labelledby="route-matrix-heading">
+            <div>
+              <p>Character Route Matrix</p>
+              <h2 id="route-matrix-heading">How each character changes your next replay</h2>
+              <span>Use the matrix to decide what to test before you replay. A character route is most useful when you change one signal at a time, then compare the result on the <a href="/choices">choices page</a>.</span>
+            </div>
+            <div class="route-matrix-table" role="table" aria-label="TADC Mind Games character route matrix">
+              <div class="route-matrix-row is-head" role="row">
+                <span role="columnheader">Character</span>
+                <span role="columnheader">Choice test</span>
+                <span role="columnheader">Watch for</span>
+                <span role="columnheader">Best use</span>
+              </div>
+              {routeMatrix.map((row) => (
+                <div class="route-matrix-row" role="row">
+                  <span role="cell">{row.character}</span>
+                  <span role="cell">{row.test}</span>
+                  <span role="cell">{row.watch}</span>
+                  <span role="cell">{row.use}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section class="character-notes-section" id="character-notes" aria-labelledby="character-notes-heading">
+            <div class="section-title-block">
+              <p>Character Notes</p>
+              <h2 id="character-notes-heading">Route behavior for Caine, Pomni, and Kinger</h2>
+            </div>
+            <div class="character-note-list">
+              {characters.map((character) => (
+                <article>
+                  <div>
+                    <strong>{character.name}</strong>
+                    <span>{character.routeSignal}</span>
+                  </div>
+                  <p>{character.playerRead}</p>
+                  <dl>
+                    <div><dt>Route signal</dt><dd>{character.routeSignal}</dd></div>
+                    <div><dt>Ending pull</dt><dd>{character.endingPull}</dd></div>
+                  </dl>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section class="route-order-section" id="route-order" aria-labelledby="route-order-heading">
+            <div>
+              <p>Recommended Character Order</p>
+              <h2 id="route-order-heading">The cleanest order for testing character routes</h2>
+              <span>Start with the character who gives the clearest pressure shift, then move toward emotional routes and clue routes once you understand the game's <a href="/walkthrough">rhythm</a>.</span>
+            </div>
+            <div class="route-order-grid">
+              {routePriority.map((item) => (
+                <article>
+                  <span>{item.step}</span>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section class="ending-links-section" id="ending-links" aria-labelledby="ending-links-heading">
+            <div>
+              <p>Character Ending Links</p>
+              <h2 id="ending-links-heading">Where each character route usually leads next</h2>
+              <span>Use this section after one clear to decide whether your next replay belongs on the <a href="/endings">endings page</a>, the <a href="/choices">choices page</a>, or another character path.</span>
+            </div>
+            <div class="ending-link-grid">
+              {endingConnections.map((item) => (
+                <article>
+                  <strong>{item.character}</strong>
+                  <span>{item.route}</span>
+                  <p>{item.ending}</p>
+                  <small>{item.next}</small>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section class="characters-faq-section" id="characters-faq" aria-labelledby="characters-faq-heading">
+            <h2 id="characters-faq-heading">TADC Mind Games Characters FAQ</h2>
+            <div class="characters-faq-list">
+              {characterFaqs.map((item) => (
+                <details>
+                  <summary>{item.q}</summary>
+                  <p>{item.a}</p>
+                </details>
+              ))}
+            </div>
+          </section>
+        </main>
+
+        <aside class="characters-toc" aria-label="Characters page directory">
+          <p>On this page</p>
+          {tocItems.map((item) => <a href={item.href}>{item.label}</a>)}
+          <div>
+            <strong>Current scope</strong>
+            <span>Caine, Pomni, and Kinger only for now. Start with the <a href="/walkthrough">walkthrough</a>.</span>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .characters-hero-section {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: clamp(46px, 5.4vw, 78px);
+    background:
+      radial-gradient(circle at 82% 8%, rgba(84, 216, 238, 0.15), transparent 22rem),
+      radial-gradient(circle at 14% 0%, rgba(246, 184, 62, 0.1), transparent 18rem),
+      linear-gradient(115deg, rgba(9, 6, 12, 0.98), rgba(32, 8, 24, 0.86), rgba(9, 6, 12, 0.94)),
+      url("/images/bg-02.webp") center / cover no-repeat;
+    border-bottom: 1px solid rgba(246, 184, 62, 0.18);
+  }
+
+  .characters-hero-section::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: "";
+    background:
+      conic-gradient(from 210deg at 76% 12%, rgba(246, 184, 62, 0.1), transparent 12%, rgba(84, 216, 238, 0.1), transparent 24%),
+      repeating-linear-gradient(90deg, rgba(248, 240, 231, 0.035) 0 1px, transparent 1px 80px),
+      repeating-linear-gradient(0deg, rgba(248, 240, 231, 0.024) 0 1px, transparent 1px 44px);
+    mask-image: linear-gradient(180deg, #000, rgba(0, 0, 0, 0.84), transparent 98%);
+    pointer-events: none;
+  }
+
+  .characters-hero-content {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 0.74fr) minmax(260px, 0.26fr);
+    gap: 16px;
+    align-items: center;
+    min-height: 188px;
+  }
+
+  .inner-hero-copy {
+    display: grid;
+    gap: 12px;
+    align-content: center;
+    min-width: 0;
+  }
+
+  .inner-hero-copy p,
+  .section-title-block p,
+  .route-matrix-section > div:first-child p,
+  .route-order-section p,
+  .ending-links-section p,
+  .characters-toc p {
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .inner-hero-copy h1 {
+    max-width: 860px;
+    font-size: clamp(30px, 4.2vw, 52px);
+    line-height: 0.96;
+    text-transform: uppercase;
+    text-shadow: 0 0 22px rgba(84, 216, 238, 0.24), 0 2px 0 rgba(122, 36, 56, 0.48);
+  }
+
+  .inner-hero-copy > span,
+  .section-title-block span,
+  .route-matrix-section > div:first-child span,
+  .route-order-section > div:first-child span,
+  .ending-links-section > div:first-child span {
+    max-width: 720px;
+    color: rgba(248, 240, 231, 0.72);
+    font-size: 15px;
+  }
+
+  .inner-hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .inner-hero-tags strong {
+    padding: 8px 10px;
+    border: 1px solid rgba(246, 184, 62, 0.22);
+    color: rgba(248, 240, 231, 0.82);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(248, 240, 231, 0.045);
+  }
+
+  .inner-hero-board {
+    position: relative;
+    align-self: stretch;
+    min-height: 210px;
+    overflow: hidden;
+    border: 1px solid rgba(246, 184, 62, 0.2);
+    background: rgba(5, 3, 8, 0.72);
+    clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.36), inset 0 0 40px rgba(84, 216, 238, 0.06);
+  }
+
+  .inner-hero-board img {
+    width: 100%;
+    height: 100%;
+    min-height: 210px;
+    object-fit: cover;
+    opacity: 0.46;
+    filter: saturate(1.1) contrast(1.08);
+  }
+
+  .inner-hero-board::before {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background:
+      linear-gradient(90deg, rgba(5, 3, 8, 0.92), rgba(5, 3, 8, 0.2) 46%, rgba(122, 36, 56, 0.18)),
+      repeating-linear-gradient(0deg, rgba(248, 240, 231, 0.04) 0 1px, transparent 1px 18px);
+  }
+
+  .inner-hero-overlay {
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+    display: grid;
+    gap: 5px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(84, 216, 238, 0.28);
+  }
+
+  .inner-hero-overlay small {
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .inner-hero-overlay b {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .inner-hero-overlay span {
+    color: rgba(248, 240, 231, 0.72);
+    font-size: 12px;
+  }
+.characters-section {
+    padding-block: 76px;
+    background: linear-gradient(135deg, #09060c, #12101c 48%, #160817);
+  }
+
+  .characters-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 26px;
+    align-items: start;
+  }
+
+  .characters-main {
+    display: grid;
+    gap: 28px;
+    min-width: 0;
+  }
+
+  .cast-snapshot-section,
+  .character-notes-section,
+  .characters-faq-section {
+    display: grid;
+    gap: 18px;
+  }
+
+  .section-title-block {
+    display: grid;
+    gap: 8px;
+  }
+
+  .section-title-block h2,
+  .route-matrix-section h2,
+  .route-order-section h2,
+  .ending-links-section h2,
+  .characters-faq-section h2 {
+    font-size: clamp(25px, 3vw, 40px);
+  }
+
+  .character-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .character-card-grid article {
+    overflow: hidden;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background:
+      linear-gradient(160deg, rgba(84, 216, 238, 0.08), rgba(214, 77, 100, 0.08)),
+      rgba(6, 3, 9, 0.72);
+  }
+
+  .character-card-grid img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .character-card-grid div {
+    padding: 18px;
+  }
+
+  .character-card-grid p {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .character-card-grid h3 {
+    margin-top: 8px;
+    font-size: 26px;
+  }
+
+  .character-card-grid span {
+    display: block;
+    margin-top: 10px;
+    color: rgba(248, 240, 231, 0.68);
+  }
+
+  .route-matrix-section,
+  .route-order-section,
+  .ending-links-section {
+    display: grid;
+    gap: 18px;
+    padding: 24px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background:
+      radial-gradient(circle at 82% 18%, rgba(84, 216, 238, 0.12), transparent 24rem),
+      rgba(248, 240, 231, 0.045);
+  }
+
+  .route-matrix-table {
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background: rgba(5, 3, 8, 0.48);
+  }
+
+  .route-matrix-row {
+    display: grid;
+    grid-template-columns: 0.72fr 1fr 1fr 0.9fr;
+    border-bottom: 1px solid rgba(246, 184, 62, 0.12);
+  }
+
+  .route-matrix-row:last-child {
+    border-bottom: 0;
+  }
+
+  .route-matrix-row span {
+    padding: 13px;
+    color: rgba(248, 240, 231, 0.7);
+    font-size: 14px;
+  }
+
+  .route-matrix-row span:first-child {
+    color: var(--cyan);
+    font-weight: 900;
+  }
+
+  .route-matrix-row.is-head {
+    background: rgba(246, 184, 62, 0.08);
+  }
+
+  .route-matrix-row.is-head span {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .character-note-list {
+    display: grid;
+    gap: 12px;
+  }
+
+  .character-note-list article {
+    display: grid;
+    grid-template-columns: minmax(170px, 0.42fr) minmax(0, 1fr) minmax(260px, 0.9fr);
+    gap: 18px;
+    align-items: start;
+    padding: 20px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background: rgba(248, 240, 231, 0.045);
+  }
+
+  .character-note-list strong {
+    display: block;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 24px;
+  }
+
+  .character-note-list div > span {
+    display: block;
+    margin-top: 6px;
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .character-note-list p,
+  .characters-faq-list p {
+    color: rgba(248, 240, 231, 0.68);
+  }
+
+  .character-note-list dl {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+  }
+
+  .character-note-list dl div {
+    padding: 12px;
+    border: 1px solid rgba(84, 216, 238, 0.18);
+    background: rgba(5, 3, 8, 0.3);
+  }
+
+  .character-note-list dt {
+    color: var(--cyan);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .character-note-list dd {
+    margin: 5px 0 0;
+    color: rgba(248, 240, 231, 0.78);
+    font-size: 14px;
+  }
+
+  .route-order-grid,
+  .ending-link-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .route-order-grid article,
+  .ending-link-grid article {
+    padding: 18px;
+    border: 1px solid rgba(84, 216, 238, 0.18);
+    background: rgba(5, 3, 8, 0.32);
+  }
+
+  .route-order-grid article > span,
+  .ending-link-grid article > span {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .route-order-grid h3,
+  .ending-link-grid strong {
+    display: block;
+    margin-top: 8px;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 22px;
+    line-height: 1.05;
+  }
+
+  .route-order-grid p,
+  .ending-link-grid p,
+  .ending-link-grid small {
+    display: block;
+    margin-top: 10px;
+    color: rgba(248, 240, 231, 0.68);
+  }
+
+  .ending-link-grid small {
+    font-size: 13px;
+  }
+
+  .characters-faq-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .characters-faq-list details {
+    padding: 20px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background: rgba(248, 240, 231, 0.05);
+  }
+
+  .characters-faq-list summary {
+    color: var(--ink);
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .characters-faq-list p {
+    margin-top: 10px;
+  }
+
+  .characters-toc {
+    position: sticky;
+    top: 96px;
+    display: grid;
+    gap: 10px;
+    padding: 18px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background:
+      radial-gradient(circle at 100% 0, rgba(84, 216, 238, 0.12), transparent 12rem),
+      rgba(248, 240, 231, 0.045);
+  }
+
+  .characters-toc a {
+    padding: 10px 12px;
+    border: 1px solid rgba(246, 184, 62, 0.14);
+    color: rgba(248, 240, 231, 0.76);
+    font-size: 13px;
+    font-weight: 900;
+  }
+
+  .characters-toc a:hover {
+    border-color: rgba(84, 216, 238, 0.42);
+    color: var(--cyan);
+  }
+
+  .characters-toc div {
+    display: grid;
+    gap: 6px;
+    margin-top: 10px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(246, 184, 62, 0.16);
+  }
+
+  .characters-toc strong {
+    color: var(--ink);
+  }
+
+  .characters-toc span {
+    color: rgba(248, 240, 231, 0.62);
+    font-size: 13px;
+  }
+
+  @media (max-width: 1024px) {
+    .character-card-grid,
+    .characters-content,
+    .route-order-grid,
+    .ending-link-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .characters-toc {
+      position: static;
+      order: -1;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .characters-hero-content,
+    .character-note-list article,
+    .route-matrix-row {
+      grid-template-columns: 1fr;
+    }
+
+    .inner-hero-board {
+      min-height: 190px;
+    }
+
+    .route-matrix-row.is-head {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,67 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { pageSeo } from "../../seo/pages";
+---
+
+<BaseLayout
+  title={pageSeo.terms.title}
+  description={pageSeo.terms.description}
+  keywords={pageSeo.terms.keywords}
+>
+  <section class="legal-page-section">
+    <div class="container">
+      <article>
+        <p class="legal-kicker">Legal</p>
+        <h1>TADC Mind Games Terms of Service</h1>
+        <p class="legal-updated">Last updated: June 30, 2026</p>
+
+        <h2>Acceptance of Terms</h2>
+        <p>By using TADC Mind Games, you agree to use the site in a reasonable and lawful way. If you do not agree with these terms, you should stop using the site.</p>
+        <p>These terms apply to all public pages on the site, including the homepage play section, <a href="/walkthrough">walkthrough</a>, <a href="/endings">endings page</a>, <a href="/choices">choices page</a>, <a href="/updates">updates page</a>, <a href="/related-games">related games pages</a>, and legal pages.</p>
+
+        <h2>Independent Fan Site</h2>
+        <p>This site is an independent fan site. It is not an official website for TADC Mind Games, PITCHBOX Studios, Glitch Productions, Gooseworx, or The Amazing Digital Circus. Game titles, character names, and related references are used for identification, commentary, and gameplay purposes.</p>
+        <p>The site does not claim to represent the creators, publishers, rights holders, or official teams connected to the game or the original series. Any official statements should be checked through official creator channels.</p>
+
+        <h2>Site Content</h2>
+        <p>The site provides walkthroughs, route explanations, ending notes, play help, related game listings, and general player information. Game builds can change, and route behavior may change over time. We try to keep content useful, but we do not guarantee that every page will remain accurate for every future build or release.</p>
+        <p>Route labels such as Caine pressure, Pomni panic, Kinger clues, trust, doubt, or hidden route are site terms used to help players understand choice patterns. They should not be treated as official route names unless the game itself confirms them.</p>
+
+        <h2>Permitted Use</h2>
+        <p>You may read the site, use the route information for personal gameplay, and share links to pages. You may not misuse the site, attempt to disrupt its availability, copy the entire site into another project, or present this fan site as an official source.</p>
+        <p>You may quote short portions of site text for discussion, commentary, or reference if you link back to the relevant page. Large-scale copying, automated scraping, or republishing full pages without permission is not allowed.</p>
+
+        <h2>User Conduct</h2>
+        <p>You agree not to use the site to attempt unauthorized access, interfere with server operation, inject malicious code, impersonate the site, mislead players about official status, or abuse contact channels. If misuse is detected, access may be limited or blocked where technically possible.</p>
+
+        <h2>Third-Party Sites and Embedded Content</h2>
+        <p>The site may link to or embed third-party pages, including playable games, related games, creator pages, or community pages. We do not control third-party websites and are not responsible for their content, policies, downloads, or technical behavior.</p>
+        <p>When you interact with an embedded game, external game page, or third-party website, you may be subject to that third party's own terms and privacy practices. You should review those terms and this site's <a href="/legal/privacy-policy">Privacy Policy</a> if you have questions before downloading files or interacting with external services.</p>
+
+        <h2>Changes to the Site</h2>
+        <p>We may update page content, navigation, related game listings, legal text, or site structure at any time. Pages may be revised when the game changes, when route information becomes clearer, or when site organization needs improvement.</p>
+
+        <h2>No Warranty</h2>
+        <p>The site is provided as a fan site on an as-is basis. We do not promise uninterrupted access, error-free pages, or complete accuracy for every route or ending after future updates.</p>
+        <p>Use the site at your own discretion. We are not responsible for missed endings, lost save progress, browser issues, third-party download problems, or changes made by game developers after a page was written.</p>
+
+        <h2>Limitation of Liability</h2>
+        <p>To the fullest extent permitted by applicable law, TADC Mind Games is not liable for indirect, incidental, consequential, or special damages related to use of the site, inability to access the site, reliance on route information, or interaction with third-party pages.</p>
+
+        <h2>Contact</h2>
+        <p>Questions about these terms can be sent to wyong@tadcmindgames.org, or you can review the <a href="/legal/contact-us">Contact Us page</a> for the best details to include.</p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-page-section { position: relative; isolation: isolate; overflow: hidden; padding-block: clamp(46px, 5.4vw, 78px); background: radial-gradient(circle at 82% 8%, rgba(84, 216, 238, 0.12), transparent 22rem), radial-gradient(circle at 10% 0%, rgba(214, 77, 100, 0.12), transparent 18rem), linear-gradient(135deg, #09060c, #130817 52%, #09060c); }
+  .legal-page-section::before { position: absolute; inset: 0; z-index: -1; content: ""; background: repeating-linear-gradient(90deg, rgba(248, 240, 231, 0.035) 0 1px, transparent 1px 80px), repeating-linear-gradient(0deg, rgba(248, 240, 231, 0.024) 0 1px, transparent 1px 44px); mask-image: linear-gradient(180deg, #000, rgba(0, 0, 0, 0.84), transparent 98%); pointer-events: none; }
+  .legal-page-section .container { position: relative; }
+  .legal-kicker, .legal-updated { color: var(--gold); font-size: 10px; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase; }
+  .legal-page-section h1 { margin-top: 10px; font-size: clamp(30px, 4.2vw, 52px); line-height: 0.96; text-transform: uppercase; text-shadow: 0 0 22px rgba(214, 77, 100, 0.26), 0 2px 0 rgba(122, 36, 56, 0.44); }
+  .legal-updated { margin-top: 14px; color: rgba(246, 184, 62, 0.76); }
+  .legal-page-section h2 { margin-top: 30px; font-size: clamp(24px, 3vw, 34px); }
+  .legal-page-section p { margin-top: 12px; color: rgba(248, 240, 231, 0.7); }
+</style>

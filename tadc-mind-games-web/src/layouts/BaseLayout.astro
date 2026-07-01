@@ -1,0 +1,109 @@
+---
+import AppHeader from "../components/AppHeader.astro";
+import AppFooter from "../components/AppFooter.astro";
+import { siteSeo } from "../seo/site";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  keywords?: string;
+  jsonLd?: Record<string, unknown>;
+  hideHeader?: boolean;
+}
+
+const {
+  title,
+  description,
+  keywords = siteSeo.defaultKeywords,
+  jsonLd,
+  hideHeader = false,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).toString();
+const pageJsonLd = jsonLd
+  ? Array.isArray((jsonLd as any)["@graph"])
+    ? (jsonLd as any)["@graph"]
+    : [jsonLd]
+  : [];
+const cleanPageJsonLd = pageJsonLd.map((item) => {
+  const { "@context": _context, ...rest } = item as Record<string, unknown>;
+  return rest;
+});
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${siteSeo.url}/#organization`,
+      name: siteSeo.name,
+      url: siteSeo.url,
+      logo: {
+        "@type": "ImageObject",
+        url: siteSeo.image,
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteSeo.url}/#website`,
+      name: siteSeo.name,
+      url: siteSeo.url,
+      publisher: { "@id": `${siteSeo.url}/#organization` },
+      inLanguage: "en",
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${canonical}#webpage`,
+      url: canonical,
+      name: title,
+      description,
+      isPartOf: { "@id": `${siteSeo.url}/#website` },
+      primaryImageOfPage: {
+        "@type": "ImageObject",
+        url: siteSeo.image,
+      },
+      inLanguage: "en",
+    },
+    ...cleanPageJsonLd,
+  ],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="author" content={siteSeo.author} />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#09060c" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.ico" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteSeo.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={siteSeo.image} />
+    <meta property="og:image:alt" content={siteSeo.imageAlt} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={siteSeo.image} />
+    <meta name="twitter:image:alt" content={siteSeo.imageAlt} />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  </head>
+  <body>
+    {!hideHeader && <AppHeader />}
+    <main>
+      <slot />
+    </main>
+    <AppFooter />
+  </body>
+</html>

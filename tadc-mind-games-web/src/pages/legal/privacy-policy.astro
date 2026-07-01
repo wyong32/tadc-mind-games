@@ -1,0 +1,121 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { pageSeo } from "../../seo/pages";
+---
+
+<BaseLayout
+  title={pageSeo.privacy.title}
+  description={pageSeo.privacy.description}
+  keywords={pageSeo.privacy.keywords}
+>
+  <section class="legal-page-section">
+    <div class="container">
+      <article>
+        <p class="legal-kicker">Legal</p>
+        <h1>TADC Mind Games Privacy Policy</h1>
+        <p class="legal-updated">Last updated: June 30, 2026</p>
+
+        <h2>Overview</h2>
+        <p>TADC Mind Games is an independent fan site created for players who want <a href="/walkthrough">walkthroughs</a>, route notes, <a href="/endings">ending information</a>, online play help, and <a href="/related-games">related game recommendations</a>. This Privacy Policy explains how this site approaches privacy in plain language.</p>
+        <p>We do not ask visitors to create accounts, submit passwords, or provide payment details. The site is designed as a public information page for players. If you contact us by email, we will only use your message and email address to read, respond to, and manage your inquiry.</p>
+
+        <h2>Information We May Receive</h2>
+        <p>When you browse the site, standard technical information may be processed by hosting, analytics, security, or browser technologies. This can include general device information, browser type, pages visited, approximate region, referring pages, and basic log data. This type of information helps keep the site available, readable, and secure.</p>
+        <p>If you email us at wyong@tadcmindgames.org, your email address, message content, and any information you choose to include may be stored in our email system so we can respond.</p>
+
+        <h2>Information We Do Not Request</h2>
+        <p>We do not require user accounts, passwords, billing information, government identification, real names, or profile pages to use this site. The site is meant to be read without registration. If you voluntarily include personal information in an email, please only send what is necessary for your request.</p>
+
+        <h2>How Information Is Used</h2>
+        <p>Information may be used to maintain the site, understand which pages are useful to players, improve page structure, respond to messages, prevent abuse, and fix technical issues. We do not sell personal information.</p>
+        <p>Examples of normal operational use include reviewing which pages need clearer structure, identifying broken pages, checking whether embedded game content loads correctly, and protecting the site from spam or automated abuse.</p>
+
+        <h2>Third-Party Links</h2>
+        <p>The site may link to third-party pages, including game pages, official creator pages, related coverage, or embedded game sources from the homepage play area and related game pages. Those third parties operate under their own policies. Visiting those pages may allow them to collect information according to their own privacy practices.</p>
+        <p>When you leave this site through an external link, your interaction is no longer controlled by this Privacy Policy. You should review the privacy information of any third-party site if you have questions about how it handles data.</p>
+
+        <h2>Cookies and Similar Technologies</h2>
+        <p>The site may use standard browser technologies that support performance, security, analytics, or embedded content. You can control cookies through your browser settings. Blocking some technologies may affect embedded games, media, or basic site behavior.</p>
+
+        <h2>Data Retention</h2>
+        <p>Server logs, analytics records, and security records may be retained for operational needs. Email messages may be retained while a request is being reviewed or while a record is useful for follow-up, legal, safety, or administrative reasons.</p>
+
+        <h2>Security</h2>
+        <p>We use reasonable site-management practices to keep the site stable and reduce misuse. No website can guarantee perfect security, so you should avoid sending sensitive personal information through email unless it is necessary for your request.</p>
+
+        <h2>Your Choices</h2>
+        <p>You can choose not to email us, disable certain browser storage features, block third-party scripts where your browser allows it, or leave external pages before interacting with them. If you have a privacy-related request about a message you sent to us, contact us from the same email address when possible.</p>
+
+        <h2>Children's Privacy</h2>
+        <p>This site is intended as a general fan site and is not designed to collect personal information from children. If you believe a child has sent personal information to us, contact us and we will review the request.</p>
+
+        <h2>Policy Updates</h2>
+        <p>We may update this Privacy Policy as the site changes. The updated date at the top of the page shows when the page was last revised, and major guide changes may also be reflected on the <a href="/updates">updates page</a>. Continued use of the site after changes means you accept the updated policy.</p>
+
+        <h2>Contact</h2>
+        <p>For privacy questions, email wyong@tadcmindgames.org or use the instructions on the <a href="/legal/contact-us">Contact Us page</a>.</p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-page-section {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: clamp(46px, 5.4vw, 78px);
+    background:
+      radial-gradient(circle at 82% 8%, rgba(84, 216, 238, 0.12), transparent 22rem),
+      radial-gradient(circle at 10% 0%, rgba(214, 77, 100, 0.12), transparent 18rem),
+      linear-gradient(135deg, #09060c, #130817 52%, #09060c);
+  }
+
+  .legal-page-section::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: "";
+    background:
+      repeating-linear-gradient(90deg, rgba(248, 240, 231, 0.035) 0 1px, transparent 1px 80px),
+      repeating-linear-gradient(0deg, rgba(248, 240, 231, 0.024) 0 1px, transparent 1px 44px);
+    mask-image: linear-gradient(180deg, #000, rgba(0, 0, 0, 0.84), transparent 98%);
+    pointer-events: none;
+  }
+
+  .legal-page-section .container {
+    position: relative;
+  }
+
+  .legal-kicker,
+  .legal-updated {
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .legal-page-section h1 {
+    margin-top: 10px;
+    font-size: clamp(30px, 4.2vw, 52px);
+    line-height: 0.96;
+    text-transform: uppercase;
+    text-shadow: 0 0 22px rgba(214, 77, 100, 0.26), 0 2px 0 rgba(122, 36, 56, 0.44);
+  }
+
+  .legal-updated {
+    margin-top: 14px;
+    color: rgba(246, 184, 62, 0.76);
+  }
+
+  .legal-page-section h2 {
+    margin-top: 30px;
+    font-size: clamp(24px, 3vw, 34px);
+  }
+
+  .legal-page-section p {
+    margin-top: 12px;
+    color: rgba(248, 240, 231, 0.7);
+  }
+</style>

@@ -1,0 +1,832 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { pageSeo } from "../seo/pages";
+
+const endings = [
+  { name: "Caine Compliance Ending", type: "Bad / Pressure", focus: "Trust Caine", mood: "Obedient", note: "Choose answers that accept Caine's rules, praise his control, and avoid pushing back when the scene turns uncomfortable." },
+  { name: "Caine Defiance Ending", type: "Bad / Collapse", focus: "Question Caine", mood: "Defiant", note: "Challenge Caine, refuse easy trust, and keep choosing doubt when the dialogue lets you resist his framing." },
+  { name: "Pomni Panic Ending", type: "Bad / Escape", focus: "Help Pomni", mood: "Anxious", note: "Lean into Pomni's fear, escape-focused options, and choices that make the room feel less stable." },
+  { name: "Kinger Clue Ending", type: "Neutral / Hidden", focus: "Follow Kinger", mood: "Curious", note: "Follow Kinger's odd hints, slow down when clues appear, and choose the answers that feel strange rather than direct." },
+  { name: "Unknown Route Ending", type: "Hidden / Mixed", focus: "Choice blend", mood: "Unstable", note: "Mix trust, doubt, delay, and character-focused choices if you are hunting for the path that does not fit the obvious routes." },
+];
+
+const trackerRows = [
+  { route: "Caine trust sweep", save: "Before the first major Caine pressure choice", change: "Keep agreeing even when the room feels wrong", payoff: "Fast route clarity" },
+  { route: "Caine defiance sweep", save: "Before Caine offers comfort or rules", change: "Pick suspicion, refusal, or direct questions", payoff: "Sharper bad-ending pressure" },
+  { route: "Pomni panic sweep", save: "Before a fear or escape-flavored answer", change: "Choose the emotional or escape-focused response", payoff: "Character-driven danger" },
+  { route: "Kinger clue sweep", save: "Before the scene slows down", change: "Follow the odd hint instead of the obvious exit", payoff: "Hidden-route movement" },
+  { route: "Mixed route sweep", save: "After clearing the obvious four moods", change: "Blend delay, silence, and one character signal", payoff: "Unknown ending hunt" },
+];
+
+const endingEvidence = [
+  { label: "Ending count", value: "Tracks the 5 known endings as a working checklist." },
+  { label: "Spoiler boundary", value: "Ending names and route moods are shown before detailed replay advice." },
+  { label: "Update handling", value: "If a future build changes routes, this page should be revised before adding new ending claims." },
+];
+
+const routeImages = [
+  { title: "Stage pressure", image: "/images/bg-01.webp", alt: "TADC Mind Games dark stage pressure route", text: "Use stage-heavy moments to test whether Caine is pushing the player toward obedience or collapse." },
+  { title: "Character panic", image: "/images/home-hero.webp", alt: "TADC Mind Games character panic route", text: "Pomni-focused choices often feel emotional first, then become route movement after the next scene changes tone." },
+  { title: "Ending review", image: "/images/play-game.webp", alt: "TADC Mind Games ending review thumbnail", text: "After one clear, compare your final route mood with the endings tracker before you replay." },
+];
+
+const tocItems = [
+  { label: "Ending Cards", href: "#ending-cards" },
+  { label: "Chase Order", href: "#chase-order" },
+  { label: "Replay Tracker", href: "#ending-tracker-heading" },
+  { label: "Visual Signals", href: "#ending-media-heading" },
+  { label: "FAQ", href: "#ending-faq-heading" },
+];
+
+const endingTips = [
+  { title: "Trust until it hurts", text: "If Caine is asking you to accept something too neatly, stay obedient for one replay and watch how quickly the scene tightens." },
+  { title: "Refuse the easy answer", text: "For a defiance path, choose suspicion even when the polite answer looks safer. Horror visual novels often punish comfort." },
+  { title: "Follow panic once", text: "Pomni-focused endings usually feel emotional first and mechanical second. Let fear guide one full replay." },
+  { title: "Take the strange detour", text: "Kinger routes can feel less urgent, but they are worth chasing when the obvious bad endings are already done." },
+];
+
+const endingFaqs = [
+  { q: "Can I unlock every ending in one sitting?", a: "Yes, if you keep replaying from important branches. The current build is short enough for focused ending hunting." },
+  { q: "Which ending should I chase first?", a: "Start with a Caine route. His choices create the clearest pressure and help you understand the rest of the game." },
+  { q: "Are all endings bad endings?", a: "TADC Mind Games leans heavily into horror and dangerous outcomes, but the paths differ by mood, character focus, and how direct the danger feels." },
+  { q: "Do I need a different save for every ending?", a: "No. Keep one save before a major branch, then change one route mood at a time. That makes it easier to see which choice moved the ending." },
+];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: "TADC Mind Games All Endings",
+  dateModified: "2026-06-30",
+};
+---
+
+<BaseLayout
+  title={pageSeo.endings.title}
+  description={pageSeo.endings.description}
+  keywords={pageSeo.endings.keywords}
+  jsonLd={jsonLd}
+>
+  <section class="endings-hero-section">
+    <div class="container">
+      <div class="endings-hero-content">
+        <div class="inner-hero-copy">
+          <p>All Endings Hub</p>
+          <h1>TADC Mind Games All Endings - Ending Route Guide</h1>
+          <span>Use this hub to chase bad endings, hidden turns, and character-focused paths.</span>
+          <div class="inner-hero-tags" aria-label="Ending guide topics">
+            <strong>5 endings</strong>
+            <strong>Major spoilers</strong>
+            <strong>Route focus</strong>
+          </div>
+        </div>
+        <div class="inner-hero-board" aria-label="Ending tracker preview">
+          <img src="/images/page-02.webp" alt="Ending route board for TADC Mind Games" width="520" height="292" loading="eager" />
+          <div class="inner-hero-overlay">
+            <small>Ending Board</small>
+            <b>Known Ending Paths</b>
+            <span>Caine / Pomni / Kinger / Hidden</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="endings-section">
+    <div class="container">
+      <div class="endings-content">
+        <main class="endings-main">
+        <div class="ending-warning">
+          <strong>Spoiler level: major</strong>
+          <p>This page discusses ending paths and route logic. If you have not finished one blind run, <a href="/#play">play first</a> and return with save files ready.</p>
+        </div>
+
+        <section class="ending-evidence-section" aria-labelledby="ending-evidence-heading">
+          <div>
+            <p>Ending Notes</p>
+            <h2 id="ending-evidence-heading">What this endings page is responsible for</h2>
+            <span>The page is built as a checklist for replay planning, not as a permanent canon archive. Route advice may change when <a href="/updates">new builds</a> arrive.</span>
+          </div>
+          <dl>
+            {endingEvidence.map((item) => (
+              <div>
+                <dt>{item.label}</dt>
+                <dd>{item.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        <div class="ending-grid" id="ending-cards">
+          {endings.map((ending, index) => (
+            <article class="ending-card">
+              <div>
+                <span>Ending {String(index + 1).padStart(2, "0")}</span>
+                <h2>{ending.name}</h2>
+              </div>
+              <dl>
+                <div><dt>Ending type</dt><dd>{ending.type}</dd></div>
+                <div><dt>Route focus</dt><dd>{ending.focus}</dd></div>
+                <div><dt>Route mood</dt><dd>{ending.mood}</dd></div>
+              </dl>
+              <p>{ending.note}</p>
+            </article>
+          ))}
+        </div>
+
+        <article class="ending-method" id="chase-order">
+          <h2>Fast ending chase order</h2>
+          <p>
+            Start with <a href="/characters">Caine</a> trust, then Caine defiance, then Pomni support, then Kinger curiosity. After those four moods, mix delay and exploration choices to hunt for the ending that feels less obvious.
+          </p>
+          <p>
+            If a scene feels like it is warning you, follow that warning once and ignore it once. The difference between those two <a href="/choices">choices</a> is usually where a new <a href="/walkthrough">ending path</a> begins.
+          </p>
+        </article>
+
+        <section class="ending-tracker-section" aria-labelledby="ending-tracker-heading">
+          <div class="ending-tracker-copy">
+            <p>Replay Tracker</p>
+            <h2 id="ending-tracker-heading">How to organize five ending attempts</h2>
+            <span>The current build is short, so the best tracker is not a huge spreadsheet. Keep one save before the <a href="/choices">branch</a>, then change only the mood that matters.</span>
+            <a href="/walkthrough">Use the walkthrough before tracking endings</a>
+          </div>
+          <div class="ending-tracker-table" role="table" aria-label="TADC Mind Games ending tracker">
+            <div class="ending-tracker-row is-head" role="row">
+              <span role="columnheader">Route sweep</span>
+              <span role="columnheader">Save point</span>
+              <span role="columnheader">Change</span>
+              <span role="columnheader">Payoff</span>
+            </div>
+            {trackerRows.map((row) => (
+              <div class="ending-tracker-row" role="row">
+                <span role="cell">{row.route}</span>
+                <span role="cell">{row.save}</span>
+                <span role="cell">{row.change}</span>
+                <span role="cell">{row.payoff}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section class="ending-media-section" aria-labelledby="ending-media-heading">
+          <div class="ending-media-head">
+            <p>Ending Clues</p>
+            <h2 id="ending-media-heading">Visual route signals to watch while replaying</h2>
+          </div>
+          <div class="ending-media-grid">
+            {routeImages.map((item) => (
+              <article>
+                <img src={item.image} alt={item.alt} width="420" height="236" loading="lazy" />
+                <div>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section class="ending-tips-section" aria-labelledby="ending-tips-heading">
+          <h2 id="ending-tips-heading">Ending hunter notes</h2>
+          <div class="ending-tip-grid">
+            {endingTips.map((tip) => (
+              <article>
+                <h3>{tip.title}</h3>
+                <p>{tip.text}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section class="ending-faq-section" aria-labelledby="ending-faq-heading">
+          <h2 id="ending-faq-heading">Endings FAQ</h2>
+          <div class="ending-faq-list">
+            {endingFaqs.map((item) => (
+              <details>
+                <summary>{item.q}</summary>
+                <p>{item.a}</p>
+              </details>
+            ))}
+            </div>
+          </section>
+        </main>
+
+        <aside class="endings-toc" aria-label="Endings page directory">
+          <p>On this page</p>
+          {tocItems.map((item) => <a href={item.href}>{item.label}</a>)}
+          <div>
+            <strong>Ending count</strong>
+            <span>5 known endings to track.</span>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .endings-hero-section {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block: clamp(46px, 5.4vw, 78px);
+    background:
+      radial-gradient(circle at 82% 8%, rgba(214, 77, 100, 0.18), transparent 24rem),
+      radial-gradient(circle at 12% 0%, rgba(246, 184, 62, 0.1), transparent 18rem),
+      linear-gradient(112deg, rgba(9, 6, 12, 0.98), rgba(38, 8, 26, 0.86) 48%, rgba(9, 6, 12, 0.94)),
+      url("/images/bg-02.webp") center / cover no-repeat;
+    border-bottom: 1px solid rgba(246, 184, 62, 0.18);
+  }
+
+  .endings-hero-section::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    content: "";
+    background:
+      linear-gradient(90deg, rgba(84, 216, 238, 0.08), transparent 24%, transparent 72%, rgba(246, 184, 62, 0.08)),
+      repeating-linear-gradient(90deg, rgba(248, 240, 231, 0.035) 0 1px, transparent 1px 80px),
+      repeating-linear-gradient(0deg, rgba(248, 240, 231, 0.024) 0 1px, transparent 1px 44px);
+    mask-image: linear-gradient(180deg, #000, rgba(0, 0, 0, 0.84), transparent 98%);
+    pointer-events: none;
+  }
+
+  .endings-hero-section::after {
+    position: absolute;
+    right: clamp(18px, 7vw, 118px);
+    top: 26px;
+    z-index: -1;
+    width: clamp(150px, 17vw, 260px);
+    height: clamp(82px, 10vw, 150px);
+    border: 1px solid rgba(246, 184, 62, 0.16);
+    content: "";
+    background:
+      linear-gradient(135deg, rgba(122, 36, 56, 0.38), rgba(84, 216, 238, 0.12)),
+      repeating-linear-gradient(90deg, rgba(248, 240, 231, 0.08) 0 1px, transparent 1px 28px);
+    clip-path: polygon(0 0, 88% 0, 100% 28%, 100% 100%, 12% 100%, 0 72%);
+    transform: rotate(-2deg);
+    opacity: 0.72;
+    filter: drop-shadow(0 0 28px rgba(214, 77, 100, 0.16));
+  }
+
+  .endings-hero-content,
+  .endings-content {
+    display: grid;
+    gap: 16px;
+  }
+
+  .endings-hero-content {
+    position: relative;
+    grid-template-columns: minmax(0, 0.74fr) minmax(240px, 0.26fr);
+    align-items: center;
+    min-height: 188px;
+    max-width: none;
+  }
+
+  .endings-hero-content p,
+  .ending-card span {
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .endings-hero-content h1 {
+    grid-column: 1;
+    max-width: 900px;
+    font-size: clamp(30px, 4.2vw, 52px);
+    line-height: 0.96;
+    text-transform: uppercase;
+    text-shadow: 0 0 22px rgba(214, 77, 100, 0.3), 0 2px 0 rgba(122, 36, 56, 0.48);
+  }
+
+  .endings-hero-content span {
+    grid-column: 1;
+    max-width: 720px;
+    color: rgba(248, 240, 231, 0.78);
+    font-size: 15px;
+  }
+
+  .endings-hero-content > p {
+    grid-column: 1;
+  }
+
+  .endings-hero-content::after {
+    display: none;
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    justify-self: end;
+    width: min(100%, 286px);
+    min-height: 152px;
+    padding: 16px 18px;
+    border: 1px solid rgba(84, 216, 238, 0.22);
+    content: "ENDING BOARD\A 5 Known Results\A Bad Pressure\A Panic Branch\A Hidden Signal\A Route Locked";
+    white-space: pre-line;
+    color: rgba(248, 240, 231, 0.78);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    line-height: 1.75;
+    background:
+      linear-gradient(135deg, rgba(84, 216, 238, 0.08), rgba(214, 77, 100, 0.1)),
+      rgba(5, 3, 8, 0.76);
+    clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%);
+    box-shadow: inset 0 0 28px rgba(84, 216, 238, 0.06), 0 0 30px rgba(214, 77, 100, 0.12);
+  }
+
+  .inner-hero-copy {
+    display: grid;
+    gap: 12px;
+    align-content: center;
+    min-width: 0;
+  }
+
+  .inner-hero-copy p {
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .inner-hero-copy h1 {
+    max-width: 820px;
+    font-size: clamp(30px, 4.2vw, 52px);
+    line-height: 0.96;
+    text-transform: uppercase;
+    text-shadow: 0 0 22px rgba(214, 77, 100, 0.3), 0 2px 0 rgba(122, 36, 56, 0.48);
+  }
+
+  .inner-hero-copy > span {
+    max-width: 630px;
+    color: rgba(248, 240, 231, 0.78);
+    font-size: 15px;
+  }
+
+  .inner-hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .inner-hero-tags strong {
+    padding: 8px 10px;
+    border: 1px solid rgba(246, 184, 62, 0.22);
+    color: rgba(248, 240, 231, 0.82);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(248, 240, 231, 0.045);
+  }
+
+  .inner-hero-board {
+    position: relative;
+    align-self: stretch;
+    min-height: 210px;
+    overflow: hidden;
+    border: 1px solid rgba(246, 184, 62, 0.2);
+    background: rgba(5, 3, 8, 0.72);
+    clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 0 100%);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.36), inset 0 0 40px rgba(84, 216, 238, 0.06);
+  }
+
+  .inner-hero-board img {
+    width: 100%;
+    height: 100%;
+    min-height: 210px;
+    object-fit: cover;
+    opacity: 0.46;
+    filter: saturate(1.1) contrast(1.08);
+  }
+
+  .inner-hero-board::before {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background:
+      linear-gradient(90deg, rgba(5, 3, 8, 0.92), rgba(5, 3, 8, 0.2) 46%, rgba(122, 36, 56, 0.18)),
+      repeating-linear-gradient(0deg, rgba(248, 240, 231, 0.04) 0 1px, transparent 1px 18px);
+  }
+
+  .inner-hero-overlay {
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+    display: grid;
+    gap: 5px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(84, 216, 238, 0.28);
+  }
+
+  .inner-hero-overlay small {
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .inner-hero-overlay b {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .inner-hero-overlay span {
+    color: rgba(248, 240, 231, 0.72);
+    font-size: 12px;
+  }
+.endings-section {
+    padding-block: 76px;
+    background: linear-gradient(135deg, #09060c, #180814 50%, #09060c);
+  }
+
+  .endings-content {
+    grid-template-columns: minmax(0, 1fr) 280px;
+    align-items: start;
+  }
+
+  .endings-main {
+    display: grid;
+    gap: 24px;
+  }
+
+  .ending-warning,
+  .ending-method {
+    border: 1px solid rgba(246, 184, 62, 0.22);
+    background: rgba(248, 240, 231, 0.05);
+    padding: 24px;
+  }
+
+  .ending-warning strong {
+    color: var(--cyan);
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .ending-warning p,
+  .ending-card p,
+  .ending-method p {
+    margin-top: 10px;
+    color: rgba(248, 240, 231, 0.68);
+  }
+
+  .ending-evidence-section {
+    display: grid;
+    grid-template-columns: minmax(0, 0.82fr) minmax(320px, 1.18fr);
+    gap: 18px;
+    align-items: start;
+    padding: 24px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background:
+      radial-gradient(circle at 92% 8%, rgba(84, 216, 238, 0.1), transparent 20rem),
+      rgba(248, 240, 231, 0.045);
+  }
+
+  .ending-evidence-section p {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .ending-evidence-section h2 {
+    margin-top: 8px;
+    font-size: clamp(24px, 3vw, 36px);
+  }
+
+  .ending-evidence-section span {
+    display: block;
+    margin-top: 10px;
+    color: rgba(248, 240, 231, 0.68);
+  }
+
+  .ending-evidence-section dl {
+    display: grid;
+    gap: 10px;
+    margin: 0;
+  }
+
+  .ending-evidence-section dl div {
+    padding: 14px;
+    border: 1px solid rgba(84, 216, 238, 0.18);
+    background: rgba(5, 3, 8, 0.3);
+  }
+
+  .ending-evidence-section dt {
+    color: var(--cyan);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .ending-evidence-section dd {
+    margin: 5px 0 0;
+    color: rgba(248, 240, 231, 0.78);
+    font-size: 14px;
+  }
+
+  .ending-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .ending-card {
+    display: grid;
+    align-content: start;
+    gap: 20px;
+    min-height: 390px;
+    padding: 22px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background:
+      linear-gradient(160deg, rgba(84, 216, 238, 0.08), rgba(214, 77, 100, 0.08)),
+      rgba(6, 3, 9, 0.72);
+  }
+
+  .ending-card h2 {
+    margin-top: 10px;
+    font-size: 24px;
+  }
+
+  .ending-card dl {
+    display: grid;
+    gap: 10px;
+  }
+
+  .ending-card dt {
+    color: rgba(248, 240, 231, 0.52);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .ending-card dd {
+    margin: 2px 0 0;
+    color: var(--ink);
+    font-weight: 800;
+  }
+
+  .ending-method {
+    max-width: 900px;
+  }
+
+  .ending-method h2 {
+    font-size: clamp(26px, 3vw, 40px);
+  }
+
+  .ending-tracker-section,
+  .ending-media-section {
+    display: grid;
+    gap: 18px;
+    padding: 24px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background:
+      radial-gradient(circle at 82% 12%, rgba(84, 216, 238, 0.12), transparent 22rem),
+      rgba(248, 240, 231, 0.045);
+  }
+
+  .ending-tracker-copy p,
+  .ending-media-head p {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .ending-tracker-copy h2,
+  .ending-media-head h2 {
+    margin-top: 8px;
+    font-size: clamp(25px, 3vw, 38px);
+  }
+
+  .ending-tracker-copy span {
+    display: block;
+    max-width: 780px;
+    margin-top: 10px;
+    color: rgba(248, 240, 231, 0.7);
+  }
+
+  .ending-tracker-table {
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background: rgba(5, 3, 8, 0.58);
+  }
+
+  .ending-tracker-row {
+    display: grid;
+    grid-template-columns: 0.85fr 1.1fr 1.25fr 0.8fr;
+    gap: 14px;
+    padding: 15px 16px;
+    border-bottom: 1px solid rgba(246, 184, 62, 0.12);
+  }
+
+  .ending-tracker-row:last-child {
+    border-bottom: 0;
+  }
+
+  .ending-tracker-row span {
+    color: rgba(248, 240, 231, 0.7);
+    font-size: 14px;
+  }
+
+  .ending-tracker-row span:first-child {
+    color: var(--ink);
+    font-weight: 900;
+  }
+
+  .ending-tracker-row.is-head {
+    background: linear-gradient(90deg, rgba(122, 36, 56, 0.62), rgba(84, 216, 238, 0.1));
+  }
+
+  .ending-tracker-row.is-head span {
+    color: var(--gold);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .ending-media-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .ending-media-grid article {
+    overflow: hidden;
+    border: 1px solid rgba(84, 216, 238, 0.18);
+    background: rgba(5, 3, 8, 0.62);
+  }
+
+  .ending-media-grid img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .ending-media-grid div {
+    padding: 16px;
+  }
+
+  .ending-media-grid h3 {
+    color: var(--cyan);
+    font-family: var(--font-body);
+    font-size: 18px;
+  }
+
+  .ending-media-grid p {
+    margin-top: 8px;
+    color: rgba(248, 240, 231, 0.66);
+    font-size: 14px;
+  }
+
+  .ending-tips-section,
+  .ending-faq-section {
+    display: grid;
+    gap: 18px;
+  }
+
+  .ending-tips-section h2,
+  .ending-faq-section h2 {
+    font-size: clamp(26px, 3vw, 40px);
+  }
+
+  .ending-tip-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .ending-tip-grid article,
+  .ending-faq-list details {
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background: rgba(248, 240, 231, 0.05);
+    padding: 22px;
+  }
+
+  .ending-tip-grid h3 {
+    color: var(--cyan);
+    font-family: var(--font-body);
+    font-size: 19px;
+  }
+
+  .ending-tip-grid p,
+  .ending-faq-list p {
+    margin-top: 10px;
+    color: rgba(248, 240, 231, 0.68);
+  }
+
+  .ending-faq-list {
+    display: grid;
+    gap: 10px;
+    max-width: 980px;
+  }
+
+  .ending-faq-list summary {
+    color: var(--ink);
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .endings-toc {
+    position: sticky;
+    top: 96px;
+    display: grid;
+    gap: 10px;
+    padding: 18px;
+    border: 1px solid rgba(246, 184, 62, 0.18);
+    background:
+      radial-gradient(circle at 100% 0, rgba(84, 216, 238, 0.12), transparent 12rem),
+      rgba(248, 240, 231, 0.045);
+  }
+
+  .endings-toc p {
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .endings-toc a {
+    padding: 10px 12px;
+    border: 1px solid rgba(246, 184, 62, 0.14);
+    color: rgba(248, 240, 231, 0.76);
+    font-size: 13px;
+    font-weight: 900;
+  }
+
+  .endings-toc a:hover {
+    border-color: rgba(84, 216, 238, 0.42);
+    color: var(--cyan);
+  }
+
+  .endings-toc div {
+    display: grid;
+    gap: 6px;
+    margin-top: 10px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(246, 184, 62, 0.16);
+  }
+
+  .endings-toc strong {
+    color: var(--ink);
+  }
+
+  .endings-toc span {
+    color: rgba(248, 240, 231, 0.62);
+    font-size: 13px;
+  }
+
+  @media (max-width: 1024px) {
+    .ending-grid,
+    .ending-tip-grid,
+    .ending-media-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .endings-hero-content {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .endings-hero-content::after {
+      display: none;
+    }
+
+    .endings-content {
+      grid-template-columns: 1fr;
+    }
+
+    .ending-evidence-section {
+      grid-template-columns: 1fr;
+    }
+
+    .endings-toc {
+      position: static;
+      order: -1;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .ending-grid,
+    .ending-tip-grid,
+    .ending-media-grid,
+    .ending-tracker-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
